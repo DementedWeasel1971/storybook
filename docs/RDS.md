@@ -397,7 +397,7 @@ graph TB
 This RDS serves as the foundation for architectural decisions and ensures the design system addresses real user needs across all stakeholder personas.
 ### Change Management, Security, and Governance Requirements
 
-These requirements aggregate insights from the persona files and additional repository documentation. They ensure that Storybook remains the single "solve" for interactive documentation while maintaining strict control over how changes are introduced and validated.
+These requirements aggregate insights from the persona files and additional repository documentation. They ensure that Storybook remains the single source for interactive documentation while maintaining strict control over how changes are introduced and validated.
 
 #### Governance and Audit
 - Automated audit trails recording who changed each component and when
