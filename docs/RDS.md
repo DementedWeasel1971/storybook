@@ -395,3 +395,42 @@ graph TB
 - Deployment success rate
 
 This RDS serves as the foundation for architectural decisions and ensures the design system addresses real user needs across all stakeholder personas.
+### Change Management, Security, and Governance Requirements
+
+These requirements aggregate insights from the persona files and additional repository documentation. They ensure that Storybook remains the single "solve" for interactive documentation while maintaining strict control over how changes are introduced and validated.
+
+#### Governance and Audit
+- Automated audit trails recording who changed each component and when
+- Approval workflows enforced through an MCP server for high–risk changes
+- Risk assessment and mitigation steps captured before merge
+- Regulatory compliance checks integrated with Storybook builds
+
+#### Security Controls
+- Continuous security scanning of components and dependencies
+- Secure development workflow with mandatory security checkpoints
+- Dependency risk management with automated alerts
+- Version rollback strategy for rapid mitigation of security issues
+
+#### Change & Version Management
+- Git-based source control with branch protection rules
+- Semantic versioning for both component library and Storybook site
+- Automated CI/CD pipeline publishing Storybook and npm packages
+- MCP server gates releases and maintains change history
+
+```mermaid
+flowchart TD
+    Req[New Requirement] --> Dev[Component Development]
+    Dev --> Git[Commit & Push]
+    Git --> PR[Pull Request]
+    PR --> MCP[MCP Server Review]
+    MCP --> CI[CI Pipeline]
+    CI --> SB[Build Storybook]
+    SB --> QA[Automated Tests]
+    QA --> Approve[Release Approval]
+    Approve --> Version[Semantic Version Tag]
+    Version --> Deploy[Deploy Storybook]
+    Deploy --> Audit[Audit Trail]
+    Audit --> Req
+```
+
+These governance and security practices keep the design system reliable while allowing the Storybook documentation to evolve safely over time.
