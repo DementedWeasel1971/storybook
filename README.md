@@ -217,6 +217,9 @@ This project implements the Architect Crew methodology and provides a complete f
 - **[SimPy-Pyomo-MCP Templates](templates/technology-specific/simpy-pyomo-mcp/)** - Simulation and optimization framework
 - **[Google Maps MCP Templates](templates/technology-specific/googlemaps-mcp/)** - Google Maps API with MCP integration
 - **[OpenAI Laravel MCP Templates](templates/technology-specific/openai-laravel-mcp/)** - OpenAI API with Laravel and MCP
+- **[Neo4j Python Templates](templates/technology-specific/neo4j-python/)** - Graph database integration with Python
+- **[Neo4j JavaScript Templates](templates/technology-specific/neo4j-javascript/)** - Graph database integration with Node.js/TypeScript
+- **[Neo4j MCP Templates](templates/technology-specific/neo4j-mcp/)** - LLM-assisted graph database operations via MCP
 - **Technology Adapters** - Automated generation for specific tech stacks
 
 ### **Methodology Capabilities**
@@ -231,6 +234,8 @@ The methodology supports diverse technology stacks and project types:
 - **Web frameworks**: Flask, Laravel, Django, ASP.NET, Express.js
 - **Machine Learning**: AutoGluon, TensorFlow, PyTorch, scikit-learn
 - **API Integration**: OpenAI, Google Maps, MCP services
+- **Graph Databases**: Neo4j with Python, JavaScript/Node.js, and MCP integration
+- **LLM Integration**: Model Context Protocol (MCP) services and AI-assisted development
 - **General Programming**: Python, JavaScript, Java, C#, Go, PHP
 - **Mobile frameworks**: React Native, Flutter, Swift, Kotlin
 - **Desktop applications**: Electron, Qt, WPF

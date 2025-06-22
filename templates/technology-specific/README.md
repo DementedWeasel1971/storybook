@@ -53,6 +53,32 @@ This directory contains complete Architect Crew methodology templates for differ
 
 **Best for**: AI-powered Laravel applications, OpenAI API integration, chat applications, content generation, LLM services
 
+### 🔗 Neo4j Graph Database Integration Templates
+
+#### 🐍 Neo4j Python Integration
+**Location**: `neo4j-python/`
+- **[CLAUDE.neo4j-python.md](neo4j-python/CLAUDE.neo4j-python.md)** - Neo4j Python architecture definition & AI collaboration guide
+- **[AGENTS.neo4j-python.md](neo4j-python/AGENTS.neo4j-python.md)** - AI agent constitution for Neo4j Python development
+- **FRS.neo4j-python.md** - Functional requirements specification for graph applications (planned)
+
+**Best for**: Graph-powered Python applications, social networks, recommendation systems, knowledge graphs, fraud detection
+
+#### 🟨 Neo4j JavaScript/Node.js Integration  
+**Location**: `neo4j-javascript/`
+- **[CLAUDE.neo4j-javascript.md](neo4j-javascript/CLAUDE.neo4j-javascript.md)** - Neo4j JavaScript/Node.js architecture definition & AI collaboration guide
+- **[AGENTS.neo4j-javascript.md](neo4j-javascript/AGENTS.neo4j-javascript.md)** - AI agent constitution for Neo4j JavaScript development
+- **FRS.neo4j-javascript.md** - Functional requirements specification for graph web applications (planned)
+
+**Best for**: Graph-powered web applications, real-time analytics, TypeScript graph services, GraphQL APIs, Node.js microservices
+
+#### 🤖 Neo4j MCP Service Integration
+**Location**: `neo4j-mcp/`
+- **[CLAUDE.neo4j-mcp.md](neo4j-mcp/CLAUDE.neo4j-mcp.md)** - Neo4j MCP service architecture definition & AI collaboration guide
+- **[AGENTS.neo4j-mcp.md](neo4j-mcp/AGENTS.neo4j-mcp.md)** - AI agent constitution for Neo4j MCP development
+- **FRS.neo4j-mcp.md** - Functional requirements specification for LLM-graph integration (planned)
+
+**Best for**: LLM-assisted graph exploration, conversational graph analytics, intelligent graph question-answering, knowledge graph reasoning
+
 ## How to Use These Templates
 
 ### 1. Choose Your Technology Stack
