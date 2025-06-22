@@ -4,50 +4,16 @@
 ### Project Overview
 This document defines the requirements for a comprehensive React-based Design System that addresses the needs of multiple personas across the development and design lifecycle. The system provides reusable components, design tokens, and documentation to ensure scalable UI consistency.
 
+**Note:** For detailed technical specifications, including UML diagrams and architecture flows, please refer to the [Functional Requirements Specification (FRS)](./FRS.md). This RDS focuses on the *what* and *why* (functional requirements and user needs), while the FRS details the *how* (technical implementation).
+
 ### Target Personas
 
-```mermaid
-graph TD
-    subgraph "Design System Ecosystem"
-        A[Design System Core] --> B{Persona Interactions}
-    end
-    
-    B --> C[Frontend Developer]
-    B --> D[UI/UX Designer] 
-    B --> E[Product Manager]
-    B --> F[QA Engineer]
-    B --> G[DevOps Engineer]
-    
-    subgraph "Development Workflow"
-        C --> H[Component Implementation]
-        D --> I[Design Specifications]
-        F --> J[Quality Assurance]
-        G --> K[Deployment Pipeline]
-        E --> L[Product Requirements]
-    end
-    
-    subgraph "Feedback Loop"
-        H --> M[Component Library]
-        I --> M
-        J --> N[Quality Metrics]
-        K --> O[Deployment Metrics]
-        L --> P[Product Metrics]
-    end
-    
-    M --> Q[Consumer Applications]
-    N --> R[Quality Reports]
-    O --> S[Performance Reports]
-    P --> T[Usage Analytics]
-    
-    R --> B
-    S --> B
-    T --> B
-```
+(High-level overview of personas. Detailed interaction models and technical flows are in [FRS.md](./FRS.md))
 
 #### 1. Frontend Developer (Primary User)
-**Name**: Sarah Chen  
-**Role**: Senior Frontend Developer  
-**Team**: Product Development  
+**Name**: Sarah Chen
+**Role**: Senior Frontend Developer
+**Team**: Product Development
 
 **Pain Points**:
 - Inconsistent UI components across different projects
@@ -72,9 +38,9 @@ graph TD
 - 100% component coverage in Storybook documentation
 
 #### 2. UI/UX Designer (Secondary User)
-**Name**: Marcus Rodriguez  
-**Role**: Lead UI/UX Designer  
-**Team**: Design Systems  
+**Name**: Marcus Rodriguez
+**Role**: Lead UI/UX Designer
+**Team**: Design Systems
 
 **Pain Points**:
 - Disconnect between design specifications and implemented components
@@ -98,9 +64,9 @@ graph TD
 - Visual regression testing prevents design drift
 
 #### 3. Product Manager (Stakeholder)
-**Name**: Jennifer Kim  
-**Role**: Senior Product Manager  
-**Team**: Platform Strategy  
+**Name**: Jennifer Kim
+**Role**: Senior Product Manager
+**Team**: Platform Strategy
 
 **Pain Points**:
 - Inconsistent user experience across products
@@ -124,9 +90,9 @@ graph TD
 - Clear ROI metrics for design system investment
 
 #### 4. Quality Assurance Engineer (Quality Gatekeeper)
-**Name**: David Park  
-**Role**: Senior QA Engineer  
-**Team**: Quality Engineering  
+**Name**: David Park
+**Role**: Senior QA Engineer
+**Team**: Quality Engineering
 
 **Pain Points**:
 - Inconsistent component behavior across different implementations
@@ -150,9 +116,9 @@ graph TD
 - 50% reduction in manual testing effort
 
 #### 5. DevOps Engineer (Infrastructure Support)
-**Name**: Alex Thompson  
-**Role**: Senior DevOps Engineer  
-**Team**: Platform Infrastructure  
+**Name**: Alex Thompson
+**Role**: Senior DevOps Engineer
+**Team**: Platform Infrastructure
 
 **Pain Points**:
 - Complex deployment pipeline for multiple component versions
@@ -177,53 +143,7 @@ graph TD
 
 ### System Requirements
 
-```mermaid
-flowchart TD
-    subgraph "Functional Requirements"
-        A[Component Library] --> B[Design Token System]
-        B --> C[Documentation Platform]
-        C --> D[Type Safety]
-        D --> E[Accessibility]
-        E --> F[Testing Suite]
-        F --> G[Build System]
-        G --> H[Version Management]
-    end
-    
-    subgraph "Non-Functional Requirements"
-        I[Performance] --> J[Compatibility]
-        J --> K[Scalability]
-        K --> L[Maintainability]
-        L --> M[Security]
-        M --> N[Reliability]
-        N --> O[Usability]
-    end
-    
-    subgraph "Quality Gates"
-        P[WCAG 2.1 AA Compliance]
-        Q[React 18+ Support]
-        R[100+ Component Capacity]
-        S[99.9% Uptime]
-        T[Semantic Versioning]
-    end
-    
-    E --> P
-    J --> Q
-    K --> R
-    N --> S
-    H --> T
-    
-    subgraph "Success Criteria"
-        U[Developer Experience KPIs]
-        V[Performance Metrics]
-        W[Quality Metrics]
-        X[Adoption Metrics]
-    end
-    
-    O --> U
-    I --> V
-    F --> W
-    A --> X
-```
+(High-level system requirements. Detailed diagrams and flows are in [FRS.md](./FRS.md))
 
 #### Functional Requirements
 1. **Component Library**: Comprehensive set of reusable React components
@@ -246,54 +166,7 @@ flowchart TD
 
 ### Technical Architecture
 
-```mermaid
-graph TB
-    subgraph "Design Layer"
-        A[Design Tokens] --> B[Color Palette]
-        A --> C[Typography Scale]
-        A --> D[Spacing System]
-        A --> E[Component Themes]
-    end
-    
-    subgraph "Component Layer"
-        F[Atomic Components] --> G[Button, Input, Icon]
-        H[Molecular Components] --> I[Form, Card, Navigation]
-        J[Organism Components] --> K[Header, Layout, Dashboard]
-        
-        B --> F
-        C --> F
-        D --> F
-        E --> F
-        
-        F --> H
-        H --> J
-    end
-    
-    subgraph "Development Infrastructure"
-        L[TypeScript] --> M[Component Development]
-        N[Storybook] --> O[Component Documentation]
-        P[Jest] --> Q[Unit Testing]
-        R[Chromatic] --> S[Visual Testing]
-        
-        M --> N
-        Q --> R
-    end
-    
-    subgraph "Build & Distribution"
-        T[Rollup] --> U[Library Bundle]
-        V[Vite] --> W[Development Server]
-        X[NPM] --> Y[Package Distribution]
-        Z[GitHub Pages] --> AA[Documentation Hosting]
-        
-        U --> X
-        O --> Z
-    end
-    
-    J --> L
-    S --> T
-    Y --> BB[Consumer Applications]
-    AA --> CC[Design Documentation]
-```
+(High-level overview. Detailed diagrams and component flows are in [FRS.md](./FRS.md))
 
 #### Component Development
 - React 18+ with TypeScript
@@ -321,54 +194,7 @@ graph TB
 
 ### Success Metrics
 
-```mermaid
-graph TB
-    subgraph "Measurement Categories"
-        A[Developer Experience] --> A1[Implementation Time]
-        A --> A2[Adoption Rate]
-        A --> A3[Satisfaction Scores]
-        A --> A4[Documentation Usage]
-        
-        B[Design Consistency] --> B1[Visual Audit Scores]
-        B --> B2[Brand Compliance]
-        B --> B3[Accessibility Results]
-        B --> B4[Cross-platform Consistency]
-        
-        C[System Performance] --> C1[Bundle Size Impact]
-        C --> C2[Render Performance]
-        C --> C3[Build Time]
-        C --> C4[Documentation Performance]
-        
-        D[Quality Metrics] --> D1[Test Coverage]
-        D --> D2[Bug Frequency]
-        D --> D3[Security Vulnerabilities]
-        D --> D4[Deployment Success]
-    end
-    
-    subgraph "KPI Targets"
-        E[80% Time Reduction] --> A1
-        F[95% Team Adoption] --> A2
-        G[100% Brand Consistency] --> B2
-        H[WCAG 2.1 AA Compliance] --> B3
-        I[<5% Bundle Impact] --> C1
-        J[100% Test Coverage] --> D1
-        K[99.9% Deploy Success] --> D4
-    end
-    
-    subgraph "Reporting Dashboard"
-        L[Real-time Metrics]
-        M[Monthly Reports]
-        N[Quarterly Reviews]
-        O[Annual Assessment]
-    end
-    
-    A1 --> L
-    A2 --> L
-    B1 --> M
-    C1 --> M
-    D1 --> N
-    N --> O
-```
+(High-level success metrics. Detailed framework and KPI diagrams are in [FRS.md](./FRS.md))
 
 #### Developer Experience
 - Time to implement new features using design system
@@ -395,7 +221,10 @@ graph TB
 - Deployment success rate
 
 This RDS serves as the foundation for architectural decisions and ensures the design system addresses real user needs across all stakeholder personas.
+
 ### Change Management, Security, and Governance Requirements
+
+(High-level overview. Detailed process flow diagrams are in [FRS.md](./FRS.md))
 
 These requirements aggregate insights from the persona files and additional repository documentation. They ensure that Storybook remains the single source for interactive documentation while maintaining strict control over how changes are introduced and validated.
 
@@ -416,21 +245,5 @@ These requirements aggregate insights from the persona files and additional repo
 - Semantic versioning for both component library and Storybook site
 - Automated CI/CD pipeline publishing Storybook and npm packages
 - MCP server gates releases and maintains change history
-
-```mermaid
-flowchart TD
-    Req[New Requirement] --> Dev[Component Development]
-    Dev --> Git[Commit & Push]
-    Git --> PR[Pull Request]
-    PR --> MCP[MCP Server Review]
-    MCP --> CI[CI Pipeline]
-    CI --> SB[Build Storybook]
-    SB --> QA[Automated Tests]
-    QA --> Approve[Release Approval]
-    Approve --> Version[Semantic Version Tag]
-    Version --> Deploy[Deploy Storybook]
-    Deploy --> Audit[Audit Trail]
-    Audit --> Req
-```
 
 These governance and security practices keep the design system reliable while allowing the Storybook documentation to evolve safely over time.
