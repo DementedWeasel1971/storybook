@@ -1,0 +1,134 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "simpy-pyomo-mcp-system"
+version = "1.0.0"
+description = "Discrete Event Simulation with Optimization and LLM Integration via Model Context Protocol"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Deon Bands", email = "deon@example.com"}
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "simpy>=4.1.0",
+    "pyomo>=6.9.0",
+    "fastapi>=0.100.0",
+    "fastapi-mcp>=0.1.0",
+    "uvicorn[standard]>=0.23.0",
+    "pydantic>=2.0.0",
+    "numpy>=1.24.0",
+    "pandas>=2.0.0",
+    "matplotlib>=3.7.0",
+    "plotly>=5.15.0",
+    "pyyaml>=6.0",
+    "redis>=4.5.0",
+    "psutil>=5.9.0",
+    "jwt>=1.3.1",
+    "python-multipart>=0.0.6",
+    "jinja2>=3.1.0",
+    "aiofiles>=23.0.0",
+    "httpx>=0.24.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+    "mypy>=1.0.0",
+    "pre-commit>=3.0.0"
+]
+solvers = [
+    "pulp>=2.7.0",  # Includes CBC solver
+    "pyomo[optional]>=6.9.0"  # Additional solver interfaces
+]
+visualization = [
+    "streamlit>=1.28.0",
+    "dash>=2.14.0",
+    "bokeh>=3.2.0",
+    "seaborn>=0.12.0"
+]
+docs = [
+    "sphinx>=7.0.0",
+    "sphinx-rtd-theme>=1.3.0",
+    "myst-parser>=2.0.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/DementedWeasel1971/storybook"
+Documentation = "https://github.com/DementedWeasel1971/storybook/tree/main/implementations/simpy-pyomo-mcp-system"
+Repository = "https://github.com/DementedWeasel1971/storybook.git"
+Issues = "https://github.com/DementedWeasel1971/storybook/issues"
+
+[project.scripts]
+simpy-pyomo-mcp = "simpy_pyomo_mcp.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38', 'py39', 'py310', 'py311']
+include = '\.pyi?$'
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q --strict-markers --strict-config"
+testpaths = [
+    "tests",
+]
+markers = [
+    "unit: Unit tests",
+    "integration: Integration tests", 
+    "performance: Performance benchmark tests",
+    "slow: Slow running tests"
+]
+
+[tool.coverage.run]
+source = ["src"]
+omit = ["*/tests/*", "*/test_*.py"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:"
+]

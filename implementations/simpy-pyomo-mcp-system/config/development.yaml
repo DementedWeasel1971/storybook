@@ -1,0 +1,80 @@
+# Development Configuration for SimPy-Pyomo-MCP System
+
+system:
+  max_concurrent_simulations: 5
+  max_concurrent_optimizations: 10
+  default_simulation_timeout: 1800.0  # 30 minutes
+  default_optimization_timeout: 300.0  # 5 minutes
+  enable_real_time_simulation: false
+  enable_distributed_processing: false
+  logging_level: "DEBUG"
+  data_retention_days: 7
+  auto_cleanup_enabled: true
+
+database:
+  url: "sqlite:///./dev_simpy_pyomo_mcp.db"
+  echo: true
+  pool_size: 5
+  max_overflow: 10
+
+redis:
+  url: "redis://localhost:6379/0"
+  max_connections: 10
+  socket_timeout: 30
+  socket_connect_timeout: 30
+  health_check_interval: 30
+
+api:
+  host: "0.0.0.0"
+  port: 8000
+  reload: true
+  debug: true
+  workers: 1
+  
+mcp:
+  enabled: true
+  mount_path: "/mcp"
+  cors_origins: ["*"]
+  
+auth:
+  secret_key: "dev-secret-key-change-in-production"
+  algorithm: "HS256"
+  access_token_expire_minutes: 1440  # 24 hours
+  require_auth: false  # Disabled for development
+
+logging:
+  level: "DEBUG"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(funcName)s:%(lineno)d - %(message)s"
+  file: "logs/simpy_pyomo_mcp_dev.log"
+  max_bytes: 10485760  # 10MB
+  backup_count: 5
+
+solvers:
+  default: "glpk"
+  available: ["glpk", "cbc"]
+  timeouts:
+    glpk: 300
+    cbc: 600
+  paths:
+    glpk: "glpsol"
+    cbc: "cbc"
+
+cache:
+  enabled: true
+  default_ttl: 3600  # 1 hour
+  simulation_ttl: 7200  # 2 hours
+  optimization_ttl: 1800  # 30 minutes
+
+monitoring:
+  enabled: true
+  metrics_interval: 10  # seconds
+  health_check_interval: 30  # seconds
+  performance_sampling: true
+
+features:
+  enable_checkpointing: true
+  enable_real_time_optimization: true
+  enable_stochastic_models: true
+  enable_multi_objective: true
+  enable_sensitivity_analysis: true
+  enable_visualization: true

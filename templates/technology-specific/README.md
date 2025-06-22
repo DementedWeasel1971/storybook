@@ -28,6 +28,14 @@ This directory contains complete Architect Crew methodology templates for differ
 
 **Best for**: AutoML pipelines, machine learning applications, data science projects, MLOps
 
+### 🔬 SimPy-Pyomo-MCP Integration
+**Location**: `simpy-pyomo-mcp/`
+- **[CLAUDE.simpy-pyomo-mcp.md](simpy-pyomo-mcp/CLAUDE.simpy-pyomo-mcp.md)** - SimPy-Pyomo-MCP architecture definition & AI collaboration guide
+- **[AGENTS.simpy-pyomo-mcp.md](simpy-pyomo-mcp/AGENTS.simpy-pyomo-mcp.md)** - AI agent constitution for simulation-optimization development
+- **[FRS.simpy-pyomo-mcp.md](simpy-pyomo-mcp/FRS.simpy-pyomo-mcp.md)** - Functional requirements specification for integrated planning systems
+
+**Best for**: Discrete event simulation with optimization, LLM-assisted planning, operations research, smart manufacturing
+
 ## How to Use These Templates
 
 ### 1. Choose Your Technology Stack

@@ -1,0 +1,139 @@
+# Production Configuration for SimPy-Pyomo-MCP System
+
+system:
+  max_concurrent_simulations: 20
+  max_concurrent_optimizations: 50
+  default_simulation_timeout: 3600.0  # 1 hour
+  default_optimization_timeout: 600.0  # 10 minutes
+  enable_real_time_simulation: true
+  enable_distributed_processing: true
+  logging_level: "INFO"
+  data_retention_days: 30
+  auto_cleanup_enabled: true
+
+database:
+  url: "${DATABASE_URL}"
+  echo: false
+  pool_size: 20
+  max_overflow: 30
+  pool_pre_ping: true
+  pool_recycle: 3600
+
+redis:
+  url: "${REDIS_URL}"
+  max_connections: 50
+  socket_timeout: 30
+  socket_connect_timeout: 10
+  health_check_interval: 30
+  retry_on_timeout: true
+
+api:
+  host: "0.0.0.0"
+  port: 8000
+  reload: false
+  debug: false
+  workers: 4
+  
+mcp:
+  enabled: true
+  mount_path: "/mcp"
+  cors_origins: ["https://yourdomain.com"]
+  
+auth:
+  secret_key: "${JWT_SECRET_KEY}"
+  algorithm: "HS256"
+  access_token_expire_minutes: 480  # 8 hours
+  require_auth: true
+
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "/var/log/simpy_pyomo_mcp/app.log"
+  max_bytes: 104857600  # 100MB
+  backup_count: 10
+  
+syslog:
+  enabled: true
+  address: ("localhost", 514)
+  facility: "local0"
+
+solvers:
+  default: "cbc"
+  available: ["glpk", "cbc", "gurobi", "cplex"]
+  timeouts:
+    glpk: 300
+    cbc: 1800
+    gurobi: 3600
+    cplex: 3600
+  paths:
+    glpk: "/usr/bin/glpsol"
+    cbc: "/usr/bin/cbc"
+    gurobi: "${GUROBI_HOME}/bin/gurobi_cl"
+    cplex: "${CPLEX_HOME}/bin/cplex"
+
+cache:
+  enabled: true
+  default_ttl: 3600  # 1 hour
+  simulation_ttl: 86400  # 24 hours
+  optimization_ttl: 7200  # 2 hours
+  max_memory: "1GB"
+
+monitoring:
+  enabled: true
+  metrics_interval: 30  # seconds
+  health_check_interval: 60  # seconds
+  performance_sampling: true
+  
+prometheus:
+  enabled: true
+  port: 9090
+  path: "/metrics"
+
+alerting:
+  enabled: true
+  email:
+    smtp_server: "${SMTP_SERVER}"
+    smtp_port: 587
+    username: "${SMTP_USERNAME}"
+    password: "${SMTP_PASSWORD}"
+    recipients: ["admin@yourdomain.com"]
+  
+slack:
+  enabled: false
+  webhook_url: "${SLACK_WEBHOOK_URL}"
+
+security:
+  rate_limiting:
+    enabled: true
+    requests_per_minute: 100
+    burst_limit: 200
+  
+  cors:
+    allow_origins: ["https://yourdomain.com"]
+    allow_methods: ["GET", "POST", "PUT", "DELETE"]
+    allow_headers: ["*"]
+    expose_headers: ["X-Request-ID"]
+  
+  headers:
+    x_frame_options: "DENY"
+    x_content_type_options: "nosniff"
+    x_xss_protection: "1; mode=block"
+    strict_transport_security: "max-age=31536000; includeSubDomains"
+
+features:
+  enable_checkpointing: true
+  enable_real_time_optimization: true
+  enable_stochastic_models: true
+  enable_multi_objective: true
+  enable_sensitivity_analysis: true
+  enable_visualization: true
+  enable_distributed_processing: true
+  enable_auto_scaling: true
+
+scaling:
+  auto_scale_simulations: true
+  auto_scale_optimizations: true
+  scale_up_threshold: 0.8  # CPU utilization
+  scale_down_threshold: 0.3
+  min_instances: 2
+  max_instances: 10
