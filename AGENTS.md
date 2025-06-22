@@ -335,6 +335,865 @@ The design system uses these primary technologies (confirm versions in `docs/FRS
 
 Components in this design system follow a consistent structure within the main design system project at `../design-system/`. **The canonical definition of this structure is in `docs/FRS.md`.**
 
+## Automated Component Creation Guide
+
+### Component Creation Requirements
+
+When creating a new component for the design system, AI agents MUST follow this exact structure and process:
+
+#### 1. Component Directory Structure
+
+Every component MUST have the following file structure:
+```
+src/components/ComponentName/
+├── ComponentName.tsx      # Main component implementation
+├── ComponentName.css      # Component-specific styles
+├── ComponentName.stories.tsx  # Storybook stories
+├── ComponentName.test.tsx # Unit tests
+└── index.ts              # Export file
+```
+
+#### 2. Component Implementation Template
+
+**ComponentName.tsx** - Use this exact template, replacing `ComponentName` with your component:
+
+```typescript
+import React from 'react';
+import './ComponentName.css';
+
+export interface ComponentNameProps {
+  // Required props first
+  children?: React.ReactNode;
+  
+  // Variant props (if applicable)
+  variant?: 'primary' | 'secondary' | 'tertiary';
+  size?: 'small' | 'medium' | 'large';
+  
+  // State props
+  disabled?: boolean;
+  loading?: boolean;
+  
+  // Style props
+  className?: string;
+  style?: React.CSSProperties;
+  
+  // Event handlers
+  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
+  onChange?: (value: any) => void;
+  
+  // Accessibility props
+  'aria-label'?: string;
+  'aria-describedby'?: string;
+  role?: string;
+  
+  // Other specific props for the component
+}
+
+export const ComponentName: React.FC<ComponentNameProps> = ({
+  children,
+  variant = 'primary',
+  size = 'medium',
+  disabled = false,
+  loading = false,
+  className = '',
+  style,
+  onClick,
+  onChange,
+  'aria-label': ariaLabel,
+  'aria-describedby': ariaDescribedBy,
+  role,
+  ...rest
+}) => {
+  // Component logic here
+  const baseClassName = 'component-name';
+  
+  const classNames = [
+    baseClassName,
+    `${baseClassName}--${variant}`,
+    `${baseClassName}--${size}`,
+    disabled && `${baseClassName}--disabled`,
+    loading && `${baseClassName}--loading`,
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  // Event handlers
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    if (!disabled && !loading && onClick) {
+      onClick(event);
+    }
+  };
+
+  return (
+    <div
+      className={classNames}
+      style={style}
+      onClick={handleClick}
+      aria-label={ariaLabel}
+      aria-describedby={ariaDescribedBy}
+      aria-disabled={disabled}
+      role={role}
+      {...rest}
+    >
+      {loading ? (
+        <span className={`${baseClassName}__loader`}>Loading...</span>
+      ) : (
+        children
+      )}
+    </div>
+  );
+};
+```
+
+#### 3. Component Styles Template
+
+**ComponentName.css** - Use BEM methodology with design tokens:
+
+```css
+/* Import design tokens */
+@import '../../tokens/colors.css';
+@import '../../tokens/spacing.css';
+@import '../../tokens/typography.css';
+
+/* Base component styles */
+.component-name {
+  /* Layout */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Spacing */
+  padding: var(--spacing-md);
+  margin: 0;
+  
+  /* Typography */
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  
+  /* Colors */
+  background-color: var(--color-background);
+  color: var(--color-text);
+  
+  /* Borders */
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  
+  /* Transitions */
+  transition: all 0.2s ease-in-out;
+  
+  /* Cursor */
+  cursor: pointer;
+}
+
+/* Variants */
+.component-name--primary {
+  background-color: var(--color-primary);
+  color: var(--color-primary-text);
+  border-color: var(--color-primary);
+}
+
+.component-name--secondary {
+  background-color: var(--color-secondary);
+  color: var(--color-secondary-text);
+  border-color: var(--color-secondary);
+}
+
+.component-name--tertiary {
+  background-color: transparent;
+  color: var(--color-primary);
+  border-color: transparent;
+}
+
+/* Sizes */
+.component-name--small {
+  padding: var(--spacing-sm);
+  font-size: var(--font-size-sm);
+}
+
+.component-name--medium {
+  padding: var(--spacing-md);
+  font-size: var(--font-size-base);
+}
+
+.component-name--large {
+  padding: var(--spacing-lg);
+  font-size: var(--font-size-lg);
+}
+
+/* States */
+.component-name--disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.component-name--loading {
+  position: relative;
+  color: transparent;
+}
+
+.component-name__loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: currentColor;
+}
+
+/* Hover states */
+.component-name:hover:not(.component-name--disabled):not(.component-name--loading) {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Focus states */
+.component-name:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .component-name {
+    background-color: var(--color-background-dark);
+    color: var(--color-text-dark);
+    border-color: var(--color-border-dark);
+  }
+}
+```
+
+#### 4. Storybook Stories Template
+
+**ComponentName.stories.tsx** - Comprehensive stories with all variants:
+
+```typescript
+import type { Meta, StoryObj } from '@storybook/react';
+import { ComponentName } from './ComponentName';
+
+const meta: Meta<typeof ComponentName> = {
+  title: 'Components/ComponentName',
+  component: ComponentName,
+  parameters: {
+    layout: 'centered',
+    docs: {
+      description: {
+        component: 'A versatile component that... [Add detailed description]',
+      },
+    },
+  },
+  tags: ['autodocs'],
+  argTypes: {
+    variant: {
+      control: 'select',
+      options: ['primary', 'secondary', 'tertiary'],
+      description: 'The visual style variant of the component',
+    },
+    size: {
+      control: 'select',
+      options: ['small', 'medium', 'large'],
+      description: 'The size of the component',
+    },
+    disabled: {
+      control: 'boolean',
+      description: 'Whether the component is disabled',
+    },
+    loading: {
+      control: 'boolean',
+      description: 'Whether the component is in a loading state',
+    },
+    onClick: {
+      action: 'clicked',
+      description: 'Handler called when the component is clicked',
+    },
+  },
+};
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+// Default story
+export const Default: Story = {
+  args: {
+    children: 'Component Content',
+  },
+};
+
+// Variant stories
+export const Primary: Story = {
+  args: {
+    children: 'Primary Variant',
+    variant: 'primary',
+  },
+};
+
+export const Secondary: Story = {
+  args: {
+    children: 'Secondary Variant',
+    variant: 'secondary',
+  },
+};
+
+export const Tertiary: Story = {
+  args: {
+    children: 'Tertiary Variant',
+    variant: 'tertiary',
+  },
+};
+
+// Size stories
+export const Small: Story = {
+  args: {
+    children: 'Small Size',
+    size: 'small',
+  },
+};
+
+export const Medium: Story = {
+  args: {
+    children: 'Medium Size',
+    size: 'medium',
+  },
+};
+
+export const Large: Story = {
+  args: {
+    children: 'Large Size',
+    size: 'large',
+  },
+};
+
+// State stories
+export const Disabled: Story = {
+  args: {
+    children: 'Disabled State',
+    disabled: true,
+  },
+};
+
+export const Loading: Story = {
+  args: {
+    children: 'Loading State',
+    loading: true,
+  },
+};
+
+// Complex example
+export const ComplexExample: Story = {
+  args: {
+    children: 'Complex Component',
+    variant: 'primary',
+    size: 'large',
+    className: 'custom-class',
+  },
+};
+
+// Playground story for testing all props
+export const Playground: Story = {
+  args: {
+    children: 'Playground - Try different props!',
+  },
+};
+```
+
+#### 5. Unit Test Template
+
+**ComponentName.test.tsx** - Comprehensive test coverage:
+
+```typescript
+import React from 'react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { ComponentName } from './ComponentName';
+
+describe('ComponentName', () => {
+  // Basic rendering tests
+  describe('Rendering', () => {
+    it('renders with children', () => {
+      render(<ComponentName>Test Content</ComponentName>);
+      expect(screen.getByText('Test Content')).toBeInTheDocument();
+    });
+
+    it('renders with custom className', () => {
+      render(<ComponentName className="custom-class">Content</ComponentName>);
+      expect(screen.getByText('Content')).toHaveClass('custom-class');
+    });
+
+    it('renders with custom style', () => {
+      render(<ComponentName style={{ color: 'red' }}>Content</ComponentName>);
+      expect(screen.getByText('Content')).toHaveStyle({ color: 'red' });
+    });
+  });
+
+  // Variant tests
+  describe('Variants', () => {
+    it.each(['primary', 'secondary', 'tertiary'] as const)(
+      'renders with %s variant',
+      (variant) => {
+        render(<ComponentName variant={variant}>Content</ComponentName>);
+        expect(screen.getByText('Content')).toHaveClass(`component-name--${variant}`);
+      }
+    );
+  });
+
+  // Size tests
+  describe('Sizes', () => {
+    it.each(['small', 'medium', 'large'] as const)(
+      'renders with %s size',
+      (size) => {
+        render(<ComponentName size={size}>Content</ComponentName>);
+        expect(screen.getByText('Content')).toHaveClass(`component-name--${size}`);
+      }
+    );
+  });
+
+  // State tests
+  describe('States', () => {
+    it('renders in disabled state', () => {
+      render(<ComponentName disabled>Disabled</ComponentName>);
+      const element = screen.getByText('Disabled');
+      expect(element).toHaveClass('component-name--disabled');
+      expect(element).toHaveAttribute('aria-disabled', 'true');
+    });
+
+    it('renders in loading state', () => {
+      render(<ComponentName loading>Content</ComponentName>);
+      expect(screen.getByText('Loading...')).toBeInTheDocument();
+      expect(screen.queryByText('Content')).not.toBeInTheDocument();
+    });
+  });
+
+  // Interaction tests
+  describe('Interactions', () => {
+    it('calls onClick when clicked', async () => {
+      const handleClick = jest.fn();
+      render(<ComponentName onClick={handleClick}>Click me</ComponentName>);
+      
+      await userEvent.click(screen.getByText('Click me'));
+      expect(handleClick).toHaveBeenCalledTimes(1);
+    });
+
+    it('does not call onClick when disabled', async () => {
+      const handleClick = jest.fn();
+      render(<ComponentName disabled onClick={handleClick}>Click me</ComponentName>);
+      
+      await userEvent.click(screen.getByText('Click me'));
+      expect(handleClick).not.toHaveBeenCalled();
+    });
+
+    it('does not call onClick when loading', async () => {
+      const handleClick = jest.fn();
+      render(<ComponentName loading onClick={handleClick}>Click me</ComponentName>);
+      
+      await userEvent.click(screen.getByText('Loading...'));
+      expect(handleClick).not.toHaveBeenCalled();
+    });
+  });
+
+  // Accessibility tests
+  describe('Accessibility', () => {
+    it('supports aria-label', () => {
+      render(<ComponentName aria-label="Custom label">Content</ComponentName>);
+      expect(screen.getByText('Content')).toHaveAttribute('aria-label', 'Custom label');
+    });
+
+    it('supports aria-describedby', () => {
+      render(<ComponentName aria-describedby="description">Content</ComponentName>);
+      expect(screen.getByText('Content')).toHaveAttribute('aria-describedby', 'description');
+    });
+
+    it('supports custom role', () => {
+      render(<ComponentName role="button">Content</ComponentName>);
+      expect(screen.getByRole('button')).toBeInTheDocument();
+    });
+
+    it('is keyboard accessible', async () => {
+      const handleClick = jest.fn();
+      render(<ComponentName onClick={handleClick}>Content</ComponentName>);
+      
+      const element = screen.getByText('Content');
+      element.focus();
+      expect(element).toHaveFocus();
+    });
+  });
+});
+```
+
+#### 6. Export File Template
+
+**index.ts** - Clean exports:
+
+```typescript
+export { ComponentName } from './ComponentName';
+export type { ComponentNameProps } from './ComponentName';
+```
+
+#### 7. Integration Steps
+
+After creating all component files, AI agents MUST:
+
+1. **Update the main components index file** (`src/components/index.ts`):
+```typescript
+export { ComponentName } from './ComponentName';
+export type { ComponentNameProps } from './ComponentName';
+```
+
+2. **Run quality checks**:
+```bash
+# Type checking
+cd ../design-system && npm run type-check
+
+# Linting
+cd ../design-system && npm run lint:fix
+
+# Format code
+cd ../design-system && npm run format
+
+# Run tests
+cd ../design-system && npm test
+
+# Build Storybook to verify
+cd ../design-system && npm run build-storybook
+```
+
+3. **Verify component in Storybook**:
+```bash
+cd ../design-system && npm run dev
+# Navigate to http://localhost:6006 and check the component
+```
+
+### Component Categories and Patterns
+
+AI agents should categorize components appropriately:
+
+1. **Primitives** (atoms): Button, Input, Icon, Text, Badge
+2. **Compositions** (molecules): Card, FormField, Alert, Toast
+3. **Complex** (organisms): Modal, Table, Navigation, Form
+4. **Layouts**: Grid, Stack, Container, Sidebar
+5. **Patterns**: Dashboard, DataTable, SearchBar, FileUpload
+
+### Design Token Usage
+
+Always use design tokens from `src/tokens/`:
+- Colors: `var(--color-primary)`, `var(--color-text)`
+- Spacing: `var(--spacing-sm)`, `var(--spacing-md)`
+- Typography: `var(--font-size-base)`, `var(--line-height-base)`
+- Borders: `var(--border-radius-sm)`, `var(--border-width)`
+- Shadows: `var(--shadow-sm)`, `var(--shadow-md)`
+
+### Common Props Pattern
+
+All components should support these common props when applicable:
+- `className`: Custom CSS class
+- `style`: Inline styles
+- `children`: React children
+- `id`: HTML id attribute
+- `data-testid`: For testing
+- `ref`: React ref forwarding
+
+### Component-Specific Templates
+
+#### Form Input Components
+For input-type components (TextInput, Select, Checkbox, Radio, etc.), include:
+- `value` and `onChange` for controlled components
+- `defaultValue` for uncontrolled components
+- `name` for form integration
+- `required`, `disabled`, `readOnly` states
+- `error` and `helperText` for validation
+- `placeholder` for text inputs
+- Proper `label` association
+
+#### Layout Components
+For layout components (Grid, Stack, Container), include:
+- `gap` or `spacing` props
+- `align` and `justify` for alignment
+- `wrap` for flex wrapping
+- `direction` for flow direction
+- Responsive props (e.g., `columns={{ mobile: 1, tablet: 2, desktop: 3 }}`)
+
+#### Feedback Components
+For feedback components (Alert, Toast, Notification), include:
+- `type` or `severity` (success, warning, error, info)
+- `title` and `message`
+- `onClose` for dismissible components
+- `autoHideDuration` for auto-dismiss
+- `action` for action buttons
+
+### Accessibility Checklist
+
+Every component MUST meet these accessibility requirements:
+
+1. **Keyboard Navigation**
+   - Component is reachable via Tab key
+   - Interactive elements respond to Enter/Space
+   - Escape key closes overlays/modals
+   - Arrow keys for navigation where appropriate
+
+2. **Screen Reader Support**
+   - Proper semantic HTML elements
+   - ARIA labels for icon-only buttons
+   - ARIA live regions for dynamic content
+   - Descriptive text for complex interactions
+
+3. **Visual Accessibility**
+   - Color contrast ratio of at least 4.5:1
+   - Focus indicators clearly visible
+   - No color-only information
+   - Respects prefers-reduced-motion
+
+4. **Form Accessibility**
+   - Labels associated with inputs
+   - Error messages linked via aria-describedby
+   - Required fields marked appropriately
+   - Fieldsets for grouped inputs
+
+### Component Documentation
+
+Each component MUST include comprehensive documentation:
+
+1. **Component Description**: Clear explanation of purpose and use cases
+2. **Props Table**: All props with types, defaults, and descriptions
+3. **Usage Examples**: Common implementation patterns
+4. **Accessibility Notes**: Special considerations for a11y
+5. **Design Tokens Used**: List of tokens the component uses
+6. **Related Components**: Links to similar or complementary components
+
+### Error Handling
+
+Components should handle errors gracefully:
+
+```typescript
+// Example error boundary usage
+try {
+  // Component logic
+} catch (error) {
+  console.error(`ComponentName error:`, error);
+  // Return fallback UI or error state
+}
+
+// Prop validation
+if (!isValidProp(prop)) {
+  console.warn(`ComponentName: Invalid prop value for ${propName}`);
+}
+```
+
+### Performance Considerations
+
+1. **Use React.memo** for expensive components
+2. **Implement useMemo/useCallback** where appropriate
+3. **Lazy load heavy components**
+4. **Avoid inline function definitions in render**
+5. **Use CSS for animations when possible**
+
+### Testing Requirements
+
+Every component MUST have:
+- **90%+ code coverage** for unit tests
+- **Visual regression tests** via Storybook
+- **Accessibility tests** using jest-axe
+- **Integration tests** for complex interactions
+- **Performance tests** for heavy components
+
+### Version Control
+
+When modifying existing components:
+1. **Non-breaking changes**: Minor version bump
+2. **New features**: Minor version bump
+3. **Breaking changes**: Major version bump with migration guide
+4. **Bug fixes**: Patch version bump
+
+### Component Naming Conventions
+
+- **Component files**: PascalCase (e.g., `ButtonGroup.tsx`)
+- **Story files**: Component.stories.tsx
+- **Test files**: Component.test.tsx
+- **CSS classes**: kebab-case with BEM (e.g., `button-group__item--active`)
+- **Props interfaces**: ComponentNameProps
+- **Event handlers**: onEventName (e.g., `onSelectionChange`)
+
+### CSS Architecture
+
+1. **Use CSS Modules** or **CSS-in-JS** for scoping
+2. **Follow BEM methodology** for class naming
+3. **Use design tokens** for all values
+4. **Mobile-first responsive design**
+5. **Support RTL layouts**
+6. **Include print styles** where appropriate
+
+### Build Optimization
+
+Components should be optimized for production:
+1. **Tree-shaking friendly** exports
+2. **Minimal bundle size** impact
+3. **No unnecessary dependencies**
+4. **Proper code splitting** boundaries
+5. **CSS extraction** for critical styles
+
+## Automated Component Generation Workflow
+
+### Step-by-Step Component Creation Process
+
+When asked to create a new component, AI agents MUST follow this exact workflow:
+
+1. **Analyze Requirements**
+   - Identify component type (primitive, composition, complex, layout, pattern)
+   - Determine required props and variants
+   - Plan accessibility features
+   - List design tokens needed
+
+2. **Create Component Structure**
+   ```bash
+   # Create component directory
+   mkdir -p ../design-system/src/components/ComponentName
+   
+   # Create all required files
+   touch ../design-system/src/components/ComponentName/ComponentName.tsx
+   touch ../design-system/src/components/ComponentName/ComponentName.css
+   touch ../design-system/src/components/ComponentName/ComponentName.stories.tsx
+   touch ../design-system/src/components/ComponentName/ComponentName.test.tsx
+   touch ../design-system/src/components/ComponentName/index.ts
+   ```
+
+3. **Implement Component Files**
+   - Use the templates provided above
+   - Adapt templates to specific component requirements
+   - Ensure all props are properly typed
+   - Include all necessary variants and states
+
+4. **Update Exports**
+   - Add component to `src/components/index.ts`
+   - Ensure proper TypeScript exports
+
+5. **Run Quality Checks**
+   - TypeScript compilation
+   - ESLint fixes
+   - Prettier formatting
+   - Unit tests
+   - Build verification
+
+6. **Verify in Storybook**
+   - Start Storybook dev server
+   - Check all stories render correctly
+   - Test interactive controls
+   - Verify accessibility
+
+### Example: Creating a Badge Component
+
+Here's a complete example of creating a Badge component:
+
+```typescript
+// Badge.tsx
+import React from 'react';
+import './Badge.css';
+
+export interface BadgeProps {
+  children: React.ReactNode;
+  variant?: 'default' | 'primary' | 'success' | 'warning' | 'error';
+  size?: 'small' | 'medium';
+  dot?: boolean;
+  className?: string;
+  style?: React.CSSProperties;
+}
+
+export const Badge: React.FC<BadgeProps> = ({
+  children,
+  variant = 'default',
+  size = 'medium',
+  dot = false,
+  className = '',
+  style,
+}) => {
+  const classNames = [
+    'badge',
+    `badge--${variant}`,
+    `badge--${size}`,
+    dot && 'badge--dot',
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  return (
+    <span className={classNames} style={style}>
+      {dot ? <span className="badge__dot" aria-hidden="true" /> : children}
+    </span>
+  );
+};
+```
+
+### Component Request Response Pattern
+
+When a user requests a new component, AI agents should:
+
+1. **Acknowledge the request** with component details
+2. **Create all five required files** (implementation, styles, stories, tests, index)
+3. **Update the main exports** file
+4. **Provide usage instructions** for the new component
+5. **List any additional setup** needed (new dependencies, tokens, etc.)
+
+### Quality Assurance Workflow
+
+After creating a component:
+
+1. **Self-Review Checklist**
+   - [ ] TypeScript interfaces complete
+   - [ ] All variants implemented
+   - [ ] Accessibility features included
+   - [ ] Design tokens used consistently
+   - [ ] Tests cover all functionality
+   - [ ] Stories demonstrate all states
+
+2. **Automated Checks**
+   - [ ] `npm run type-check` passes
+   - [ ] `npm run lint` has no errors
+   - [ ] `npm run test` passes
+   - [ ] `npm run build-storybook` succeeds
+
+3. **Manual Verification**
+   - [ ] Component renders in Storybook
+   - [ ] Interactive features work
+   - [ ] Keyboard navigation functions
+   - [ ] Screen reader friendly
+
+### Common Pitfalls to Avoid
+
+1. **Don't forget to export** from index files
+2. **Don't use hardcoded values** - use design tokens
+3. **Don't skip accessibility** attributes
+4. **Don't omit loading/error states** where applicable
+5. **Don't forget dark mode** support
+6. **Don't use inline styles** except via style prop
+7. **Don't skip unit tests** for any functionality
+
+### Component Variations Guide
+
+Different component types require different considerations:
+
+**Data Display Components** (Table, List, DataGrid):
+- Sorting and filtering props
+- Pagination support
+- Loading states
+- Empty states
+- Column configuration
+
+**Navigation Components** (Tabs, Breadcrumb, Menu):
+- Active state management
+- Router integration props
+- Keyboard navigation
+- ARIA navigation patterns
+
+**Overlay Components** (Tooltip, Popover, Dropdown):
+- Positioning logic
+- Portal rendering
+- Click outside handling
+- Escape key support
+
+**Form Components** (Form, FormField, ValidationMessage):
+- Form state management
+- Validation integration
+- Error display
+- Submit handling
+
 ## Deployment Process
 
 **All deployment processes MUST align with the specifications in `docs/FRS.md`.**
