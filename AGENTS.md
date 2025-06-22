@@ -1,482 +1,1119 @@
 ---
-template: claude.md
-version: 1.0.0
-lastUpdated: 2025-01-22
-templateOwner: executor-crew
+template: agents.md
+version: 2.0.0
+lastUpdated: 2025-06-22
+sourceTemplate: templates/AGENTS.template.md
+generatedBy: executor-crew
 generationTriggers: 
-  - docs/RDS.md changes
-  - docs/FRS.md changes
-  - merge to main branch
+  - CLAUDE.md architecture changes
+  - Implementation requirements updates
+chainedGeneration:
+  - FRS.md (from AGENTS.md implementation)
 ---
 
 # AGENTS.md: AI Agent Constitution for React Design System Development
+
+**Version**: 2.0.0  
+**Generated from**: CLAUDE.md architectural specification  
+**Date**: 2025-06-22
 
 This document provides the **official guidelines and mandatory protocols** for any AI agent contributing to this project. **You MUST adhere to all instructions herein.**
 
 ## Project Overview
 
-This is a **React-based Design System project** that uses Storybook for component development and documentation. The project provides a comprehensive collection of reusable React components, design tokens, and documentation to ensure scalable UI consistency across applications. The main design system is located at `../design-system/`, while this `storybook` directory serves as a deployment and management workspace for Storybook-related tasks.
+This is a React Design System project following the Architect Crew methodology. The architecture is defined in CLAUDE.md and must be implemented exactly as specified.
 
-**Crucially, all AI agents MUST refer to `docs/FRS.md` (Functional Requirements Specification) for detailed technical specifications, UML diagrams, and implementation blueprints for any development task.**
+**Project Goals:**
+- Create a scalable, accessible React component library
+- Implement design tokens for consistent styling
+- Provide comprehensive Storybook documentation
+- Ensure WCAG 2.1 AA accessibility compliance
+- Support TypeScript for type safety
+- Enable tree-shaking for optimal bundle sizes
 
-## Critical Architecture Constraints
+**Technology Stack:**
+- React 18+ with TypeScript 5+
+- Storybook 8.3+ for documentation
+- Vite for development, Rollup for bundling
+- Jest + React Testing Library for testing
+- CSS Modules for component styling
+
+**Crucially, all AI agents MUST implement the architecture defined in `CLAUDE.md` and document technical specifications in `docs/FRS.md` as implementation proceeds.**
+
+## Architectural Implementation Requirements
+
+Based on the architecture defined in CLAUDE.md, the following implementation requirements are mandatory:
+
+### Mandatory Architecture Implementation
+
+**Layer Implementation Order:**
+1. **Foundation Layer**: Design tokens, CSS variables, base styles
+2. **Primitive Layer**: Atomic components (Button, Input, Text)
+3. **Component Layer**: Molecular components (Form, Card, Modal)
+4. **Pattern Layer**: Organism-level compositions
+5. **Documentation Layer**: Storybook stories and examples
+
+**Implementation Requirements:**
+- All components MUST use design tokens
+- TypeScript interfaces required for all props
+- Accessibility testing mandatory for each component
+- Storybook stories required for documentation
+- Unit tests with 90%+ coverage
 
 ### React Component Development Standards
-- **ALL COMPONENTS MUST BE REACT 18+ COMPATIBLE**
-- Use TypeScript for all component development
-- Follow consistent component structure with implementation, styles, and stories
-- Ensure components are fully documented in Storybook
-- Components must be reusable and follow design system principles
+### React Implementation Standards
+
+**Component Structure:**
+```typescript
+interface ComponentProps {
+  variant?: 'primary' | 'secondary' | 'outline';
+  size?: 'sm' | 'md' | 'lg';
+  disabled?: boolean;
+  children: React.ReactNode;
+  className?: string;
+  onClick?: (event: React.MouseEvent) => void;
+}
+
+export const Component: React.FC<ComponentProps> = ({
+  variant = 'primary',
+  size = 'md',
+  disabled = false,
+  children,
+  className = '',
+  onClick,
+  ...props
+}) => {
+  // Implementation
+};
+```
+
+**Requirements:**
+- Functional components with TypeScript
+- Props interface with JSDoc documentation
+- Default values for optional props
+- Forward refs for DOM access
+- Consistent prop naming conventions
 
 ### Storybook Integration Requirements
-- Every component must have corresponding Storybook stories
-- Stories should demonstrate all component variants and states
-- Use Storybook 8.3+ features and best practices
-- Build static documentation site for deployment
-- Maintain component playground and testing environment
+### Storybook Implementation Requirements
+
+**Story Structure:**
+```typescript
+import type { Meta, StoryObj } from '@storybook/react';
+import { Component } from './Component';
+
+const meta: Meta<typeof Component> = {
+  title: 'Components/Component',
+  component: Component,
+  parameters: {
+    docs: {
+      description: {
+        component: 'Component description here'
+      }
+    }
+  },
+  argTypes: {
+    variant: {
+      control: { type: 'select' },
+      options: ['primary', 'secondary', 'outline']
+    }
+  }
+};
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  args: {
+    children: 'Button Text'
+  }
+};
+```
+
+**Requirements:**
+- Stories for all component variants
+- Accessibility addon integration
+- Controls for interactive props
+- Documentation descriptions
 
 ### Design System Standards
-- Use design tokens for consistent styling (colors, spacing, typography)
-- Follow atomic design principles (tokens → components → patterns)
-- Implement CSS-in-JS or CSS modules for component styling
-- Ensure accessibility compliance (WCAG 2.1 AA minimum)
-- Support both light and dark theme variations
+### Design System Implementation Standards
 
-## Folder Structure
-
-```
-/storybook/ (current directory)
-├── apps/                       # Application directories
-│   └── design-system/         # Design system deployment scripts
-├── AGENTS.md                   # This file - AI agent constitution
-├── CLAUDE.md                   # Claude-specific instructions
-└── README.md                   # Project overview and setup
-
-/design-system/ (main project at ../design-system/)
-├── src/
-│   ├── components/            # React component library
-│   ├── tokens/               # Design tokens
-│   ├── stories/              # Additional Storybook stories
-│   └── styles/               # Global styles and utilities
-├── dist/                     # Build output for library distribution
-├── storybook-static/         # Built Storybook documentation site
-├── package.json              # Dependencies and scripts
-├── .storybook/              # Storybook configuration
-└── README.md                # Main project documentation
+**Design Token Usage:**
+```css
+.component {
+  color: var(--color-primary-500);
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius-md);
+  font-size: var(--font-size-base);
+}
 ```
 
-## Development Workflow
+**Component API Consistency:**
+- `variant` prop for visual variations
+- `size` prop for sizing options
+- `disabled` prop for interaction states
+- `className` prop for custom styling
+- Event handlers with `on` prefix
 
-**Refer to `docs/FRS.md` for specific technical workflows related to component development and architecture.**
+## Implementation Workflow
 
-### Initial Setup
+**Refer to `CLAUDE.md` for architectural guidance and document all technical decisions in `docs/FRS.md`.**
 
+### Architecture-Driven Development Process
+
+### Architecture-Driven Development Process
+
+**Implementation Workflow:**
+1. **Architecture Review**: Verify CLAUDE.md requirements
+2. **Design Token Setup**: Define required tokens
+3. **Component Interface**: Create TypeScript interface
+4. **Implementation**: Build component with accessibility
+5. **Testing**: Unit tests and accessibility validation
+6. **Stories**: Create Storybook documentation
+7. **Integration**: Test with other components
+8. **FRS Update**: Document technical specifications
+9. **Review**: Code review and approval
+10. **Release**: Version and deploy
+
+**Quality Gates:**
+- TypeScript compilation success
+- All tests passing (90%+ coverage)
+- Accessibility audit passing
+- Storybook builds without errors
+- Performance budget compliance
+
+### Implementation Commands
+
+### Essential Implementation Commands
+
+**Development Commands:**
 ```bash
-# Navigate to the main design system directory
+# Navigate to design system directory
 cd ../design-system
 
 # Install dependencies
 npm install
 
-# Start Storybook development server
+# Start development server
 npm run dev
-```
-
-### Development Commands
-
-```bash
-# Start Storybook development server (port 6006)
-cd ../design-system && npm run dev
-
-# Build component library for distribution
-cd ../design-system && npm run build-lib
-
-# Build Storybook static site for deployment
-cd ../design-system && npm run build-storybook
 
 # Run tests
-cd ../design-system && npm test
+npm run test
 
-# Run linting
-cd ../design-system && npm run lint
+# Build library
+npm run build-lib
+
+# Build Storybook
+npm run build-storybook
+
+# Run accessibility tests
+npm run test:a11y
+
+# Lint code
+npm run lint
+
+# Type check
+npm run type-check
 ```
 
-## Code Style & Conventions
-
-**All code MUST adhere to the styles and conventions detailed in `docs/FRS.md`.**
-
-### General Rules
-
-- **ALL COMPONENTS MUST BE REACT 18+ COMPATIBLE**
-- Use TypeScript for type safety and developer experience
-- Follow atomic design principles for component structure
-- Ensure accessibility compliance (WCAG 2.1 AA minimum)
-- Use semantic HTML elements and proper ARIA labels
-
-### React/TypeScript Standards
-
-- **Formatting**: Use Prettier with default settings (details in `docs/FRS.md`)
-- **Linting**: ESLint with React and TypeScript configurations (details in `docs/FRS.md`)
-- **Component Structure**:
-  ```typescript
-  // Component implementation pattern (refer to docs/FRS.md for specifics)
-  import React from 'react';
-  import './ComponentName.css';
-
-  interface ComponentNameProps {
-    variant?: 'primary' | 'secondary';
-    size?: 'small' | 'medium' | 'large';
-    children: React.ReactNode;
-  }
-
-  export const ComponentName: React.FC<ComponentNameProps> = ({
-    variant = 'primary',
-    size = 'medium',
-    children,
-    ...props
-  }) => {
-    return (
-      <div className={`component-name component-name--${variant} component-name--${size}`} {...props}>
-        {children}
-      </div>
-    );
-  };
-  ```
-
-### CSS Styling Standards
-
-- **Methodology**: BEM (Block Element Modifier) naming convention (details in `docs/FRS.md`)
-- **Organization**: Component-scoped CSS files
-- **Design Tokens**: Use CSS custom properties for consistent theming
-- **Responsive Design**: Mobile-first approach with breakpoint tokens
-
-### Storybook Story Conventions
-
-- **Story Structure**: Demonstrate all component variants and states (as per `docs/FRS.md`)
-- **Documentation**: Include comprehensive controls and documentation
-- **Naming**: Use descriptive story names that explain the use case
-- **Example Story Pattern**:
-  ```typescript
-  import type { Meta, StoryObj } from '@storybook/react';
-  import { ComponentName } from './ComponentName';
-
-  const meta: Meta<typeof ComponentName> = {
-    title: 'Components/ComponentName',
-    component: ComponentName,
-    parameters: {
-      docs: {
-        description: {
-          component: 'A reusable component for...' // Detailed descriptions in docs/FRS.md
-        }
-      }
-    },
-    argTypes: {
-      variant: {
-        control: { type: 'select' },
-        options: ['primary', 'secondary']
-      }
-    }
-  };
-
-  export default meta;
-  type Story = StoryObj<typeof meta>;
-
-  export const Primary: Story = {
-    args: {
-      variant: 'primary',
-      children: 'Button Text'
-    }
-  };
-  ```
-
-### File Organization
-
-- **Component Files**: Organize in component-specific directories (structure defined in `docs/FRS.md`)
-- **Design Tokens**: Centralize in `src/tokens/` directory
-- **Global Styles**: Place in `src/styles/` directory
-- **Export Pattern**: Use index.ts files for clean imports
-
-## Testing Protocols
-
-**All testing MUST follow the protocols and requirements outlined in `docs/FRS.md`. The following expands on key testing expectations, particularly for unit testing, as mandated by `CLAUDE.md` and detailed in `docs/FRS.md`.**
-
-### Core Testing Principles
-- **Test-Driven Development (TDD) Approach**: Write tests alongside or even before component code. Components should be designed for testability.
-- **Comprehensive Coverage**: Aim for high test coverage for all components. Specific coverage targets (e.g., 95% for unit tests) are defined in `docs/FRS.md`.
-
-### Unit Testing
-- **Framework**: Utilize **Jest** and **React Testing Library (RTL)** for unit tests, as specified in `docs/FRS.md`.
-- **Focus**: Test individual components in isolation, covering their props, states, interactions, and basic accessibility.
-- **Requirement**: All new components and significant modifications to existing components **MUST** include comprehensive unit tests.
-- **Execution**: Unit tests are expected to be run locally during development and will be enforced by pre-commit hooks and CI pipeline checks (details in `docs/FRS.md`).
-
-### Testing Requirements
-
-After code modifications, run relevant tests:
-
+**Component Generation:**
 ```bash
-# Run component tests (if configured)
-cd ../design-system && npm test
+# Create new component
+npm run create:component ComponentName
 
-# Build Storybook to verify all stories compile
-cd ../design-system && npm run build-storybook
+# Run full test suite
+npm run test:all
 
-# Run TypeScript compilation check
-cd ../design-system && npm run type-check
-
-# Run linting
-cd ../design-system && npm run lint
+# Validate implementation
+npm run validate
 ```
 
-### Pre-Deployment Checklist
+## Code Implementation Standards
 
-- [ ] All component tests pass (as per `docs/FRS.md` criteria)
-- [ ] All Storybook stories compile and display correctly
-- [ ] TypeScript compilation successful
-- [ ] Linting passes without errors
-- [ ] Accessibility guidelines followed (WCAG 2.1 AA, details in `docs/FRS.md`)
-- [ ] Components work in different themes (light/dark)
-- [ ] Design tokens properly implemented
+**All code MUST implement the architecture specified in `CLAUDE.md` and document technical details in `docs/FRS.md`.**
 
-### Testing Protocol Sequence Diagram
+### Implementation Rules
 
-```mermaid
-sequenceDiagram
-    participant Dev as Developer
-    participant Local as Local Environment
-    participant Jest as Jest Runner
-    participant RTL as React Testing Library
-    participant Axe as Axe Accessibility
-    participant Chromatic as Visual Testing
-    participant CI as CI Pipeline
+### Mandatory Implementation Rules
 
-    Dev->>Local: npm test
-    Local->>Jest: Run unit tests
-    Jest->>RTL: Component rendering tests
-    RTL->>Jest: Test results
-    Jest->>Local: Unit test results
-    Local->>Axe: Run accessibility tests
-    Axe->>Local: A11y test results
-    Dev->>CI: Push to repository
-    CI->>Jest: Run full test suite
-    CI->>Chromatic: Visual regression tests
-    Chromatic->>CI: Visual test results
-    CI->>CI: Generate test report
-    CI->>Dev: Test results notification
-```
-*(Refer to `docs/FRS.md` for detailed diagrams and testing flows.)*
+**Code Quality Rules:**
+1. All code MUST be TypeScript with strict type checking
+2. All components MUST have comprehensive prop interfaces
+3. All components MUST include accessibility attributes
+4. All components MUST have unit tests with 90%+ coverage
+5. All components MUST have Storybook stories
+6. All styling MUST use design tokens
+7. All components MUST support className prop
+8. All interactive components MUST handle keyboard navigation
 
-### Component Quality Gates Flow
+**File Naming Rules:**
+- Components: PascalCase (e.g., `Button.tsx`)
+- Tests: `ComponentName.test.tsx`
+- Stories: `ComponentName.stories.tsx`
+- Styles: `ComponentName.module.css`
+- Types: `ComponentName.types.ts`
 
-```mermaid
-flowchart LR
-    A[Component Code] --> B{Linting Pass?}
-    B -->|No| B1[ESLint Errors]
-    B -->|Yes| C{TypeScript Valid?}
-    C -->|No| C1[Type Errors]
-    C -->|Yes| D{Unit Tests Pass?}
-    D -->|No| D1[Test Failures]
-    D -->|Yes| E{A11y Tests Pass?}
-    E -->|No| E1[Accessibility Issues]
-    E -->|Yes| F{Visual Tests Pass?}
-    F -->|No| F1[Visual Regressions]
-    F -->|Yes| G{Performance OK?}
-    G -->|No| G1[Performance Issues]
-    G -->|Yes| H[Ready for Release]
+**Import/Export Rules:**
+- Named exports only (no default exports)
+- Barrel exports in index.ts files
+- Explicit imports (no `import *`)
 
-    B1 --> I[Fix Issues]
-    C1 --> I
-    D1 --> I
-    E1 --> I
-    F1 --> I
-    G1 --> I
-    I --> A
-```
-*(Refer to `docs/FRS.md` for specific quality gate definitions.)*
+### React/TypeScript Implementation
 
-## Technology Stack Management
+### React + TypeScript Implementation Standards
 
-**Consult `docs/FRS.md` for approved technologies and dependency management policies.**
-
-### Core Dependencies
-
-The design system uses these primary technologies (confirm versions in `docs/FRS.md`):
-
-```json
-{
-  "dependencies": {
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
-  },
-  "devDependencies": {
-    "@storybook/react": "^8.3.0",
-    "@storybook/react-vite": "^8.3.0",
-    "typescript": "^5.0.0",
-    "vite": "^5.0.0",
-    "rollup": "^4.0.0"
-  }
-}
-```
-
-### Adding New Dependencies
-
-1. **Evaluate Necessity**: Ensure the dependency aligns with design system goals (criteria in `docs/FRS.md`)
-2. **Check Bundle Size**: Consider impact on final bundle size
-3. **Verify React Compatibility**: Must work with React 18+
-4. **Update Documentation**: Add to dependency list and usage guidelines in `docs/FRS.md`
-5. **Test Integration**: Verify compatibility with Storybook and build process
-
-### Approved Component Libraries (for reference/inspiration)
-
-- **Headless UI**: For unstyled, accessible components
-- **Radix UI**: For low-level UI primitives
-- **React Aria**: For accessibility utilities
-- **Framer Motion**: For animations (if needed)
-*(Refer to `docs/FRS.md` for an up-to-date list and usage guidelines.)*
-
-### Build Tool Configuration
-
-- **Vite**: Development server and build tool for Storybook
-- **Rollup**: Library bundling for distribution
-- **TypeScript**: Type checking and compilation
-- **ESLint + Prettier**: Code quality and formatting
-*(Detailed configurations are in `docs/FRS.md`.)*
-
-## Component Library Structure
-
-Components in this design system follow a consistent structure within the main design system project at `../design-system/`. **The canonical definition of this structure is in `docs/FRS.md`.**
-
-## Automated Component Creation Guide
-
-### Component Creation Requirements
-
-When creating a new component for the design system, AI agents MUST follow this exact structure and process:
-
-#### 1. Component Directory Structure
-
-Every component MUST have the following file structure:
-```
-src/components/ComponentName/
-├── ComponentName.tsx      # Main component implementation
-├── ComponentName.css      # Component-specific styles
-├── ComponentName.stories.tsx  # Storybook stories
-├── ComponentName.test.tsx # Unit tests
-└── index.ts              # Export file
-```
-
-#### 2. Component Implementation Template
-
-**ComponentName.tsx** - Use this exact template, replacing `ComponentName` with your component:
-
+**Component Template:**
 ```typescript
 import React from 'react';
-import './ComponentName.css';
+import { clsx } from 'clsx';
+import styles from './Component.module.css';
 
-export interface ComponentNameProps {
-  // Required props first
-  children?: React.ReactNode;
+export interface ComponentProps {
+  /**
+   * Visual variant of the component
+   * @default 'primary'
+   */
+  variant?: 'primary' | 'secondary' | 'outline';
   
-  // Variant props (if applicable)
-  variant?: 'primary' | 'secondary' | 'tertiary';
-  size?: 'small' | 'medium' | 'large';
+  /**
+   * Size of the component
+   * @default 'md'
+   */
+  size?: 'sm' | 'md' | 'lg';
   
-  // State props
+  /**
+   * Whether the component is disabled
+   * @default false
+   */
   disabled?: boolean;
-  loading?: boolean;
   
-  // Style props
+  /**
+   * Additional CSS classes
+   */
   className?: string;
-  style?: React.CSSProperties;
   
-  // Event handlers
-  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
-  onChange?: (value: any) => void;
-  
-  // Accessibility props
-  'aria-label'?: string;
-  'aria-describedby'?: string;
-  role?: string;
-  
-  // Other specific props for the component
+  /**
+   * Component children
+   */
+  children: React.ReactNode;
 }
 
-export const ComponentName: React.FC<ComponentNameProps> = ({
-  children,
+export const Component = React.forwardRef<
+  HTMLElement,
+  ComponentProps
+>(({
   variant = 'primary',
-  size = 'medium',
+  size = 'md',
   disabled = false,
-  loading = false,
-  className = '',
-  style,
-  onClick,
-  onChange,
-  'aria-label': ariaLabel,
-  'aria-describedby': ariaDescribedBy,
-  role,
-  ...rest
-}) => {
-  // Component logic here
-  const baseClassName = 'component-name';
-  
-  const classNames = [
-    baseClassName,
-    `${baseClassName}--${variant}`,
-    `${baseClassName}--${size}`,
-    disabled && `${baseClassName}--disabled`,
-    loading && `${baseClassName}--loading`,
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
-
-  // Event handlers
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    if (!disabled && !loading && onClick) {
-      onClick(event);
-    }
-  };
+  className,
+  children,
+  ...props
+}, ref) => {
+  const componentClasses = clsx(
+    styles.component,
+    styles[`variant-${variant}`],
+    styles[`size-${size}`],
+    {
+      [styles.disabled]: disabled,
+    },
+    className
+  );
 
   return (
-    <div
-      className={classNames}
-      style={style}
-      onClick={handleClick}
-      aria-label={ariaLabel}
-      aria-describedby={ariaDescribedBy}
-      aria-disabled={disabled}
-      role={role}
-      {...rest}
+    <element
+      ref={ref}
+      className={componentClasses}
+      disabled={disabled}
+      {...props}
     >
-      {loading ? (
-        <span className={`${baseClassName}__loader`}>Loading...</span>
-      ) : (
-        children
-      )}
-    </div>
+      {children}
+    </element>
   );
-};
+});
+
+Component.displayName = 'Component';
 ```
 
-#### 3. Component Styles Template
+### CSS Implementation Standards
 
-**ComponentName.css** - Use BEM methodology with design tokens:
+### CSS Implementation Standards
 
+**CSS Module Structure:**
 ```css
-/* Import design tokens */
-@import '../../tokens/colors.css';
-@import '../../tokens/spacing.css';
-@import '../../tokens/typography.css';
-
-/* Base component styles */
-.component-name {
+/* Component.module.css */
+.component {
+  /* Base styles using design tokens */
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  
   /* Layout */
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   
   /* Spacing */
-  padding: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-lg);
   margin: 0;
+  
+  /* Appearance */
+  border: 1px solid transparent;
+  border-radius: var(--border-radius-md);
+  background-color: transparent;
+  
+  /* Transitions */
+  transition: all var(--transition-duration-fast) var(--transition-easing-ease);
+  
+  /* Accessibility */
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Variants */
+.variant-primary {
+  background-color: var(--color-primary-500);
+  color: var(--color-white);
+  border-color: var(--color-primary-500);
+}
+
+.variant-primary:hover {
+  background-color: var(--color-primary-600);
+  border-color: var(--color-primary-600);
+}
+
+.variant-primary:focus {
+  outline: 2px solid var(--color-primary-200);
+  outline-offset: 2px;
+}
+
+/* Sizes */
+.size-sm {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-sm);
+}
+
+.size-lg {
+  padding: var(--spacing-lg) var(--spacing-xl);
+  font-size: var(--font-size-lg);
+}
+
+/* States */
+.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Responsive design */
+@media (min-width: 768px) {
+  .component {
+    /* Tablet styles */
+  }
+}
+
+@media (min-width: 1024px) {
+  .component {
+    /* Desktop styles */
+  }
+}
+```
+
+**CSS Requirements:**
+- Use CSS custom properties for all values
+- Follow BEM-like naming within modules
+- Include focus states for accessibility
+- Support responsive design
+- Use logical properties where possible
+
+### Storybook Implementation
+
+### Storybook Implementation Requirements
+
+**Complete Story Example:**
+```typescript
+import type { Meta, StoryObj } from '@storybook/react';
+import { Component } from './Component';
+
+const meta: Meta<typeof Component> = {
+  title: 'Foundation/Component',
+  component: Component,
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Component description with usage guidelines.
+
+## When to use
+- Use case 1
+- Use case 2
+
+## When not to use
+- Avoid case 1
+- Avoid case 2
+        `
+      }
+    },
+    a11y: {
+      config: {
+        rules: [
+          {
+            id: 'color-contrast',
+            enabled: true
+          }
+        ]
+      }
+    }
+  },
+  argTypes: {
+    variant: {
+      control: { type: 'select' },
+      options: ['primary', 'secondary', 'outline'],
+      description: 'Visual variant of the component'
+    },
+    size: {
+      control: { type: 'select' },
+      options: ['sm', 'md', 'lg'],
+      description: 'Size of the component'
+    },
+    disabled: {
+      control: { type: 'boolean' },
+      description: 'Whether the component is disabled'
+    }
+  }
+};
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  args: {
+    children: 'Component Content'
+  }
+};
+
+export const AllVariants: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+      <Component variant="primary">Primary</Component>
+      <Component variant="secondary">Secondary</Component>
+      <Component variant="outline">Outline</Component>
+    </div>
+  )
+};
+
+export const AllSizes: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+      <Component size="sm">Small</Component>
+      <Component size="md">Medium</Component>
+      <Component size="lg">Large</Component>
+    </div>
+  )
+};
+
+export const Disabled: Story = {
+  args: {
+    disabled: true,
+    children: 'Disabled'
+  }
+};
+```
+
+**Story Requirements:**
+- Default story with common usage
+- Variant showcase stories
+- Size demonstration stories
+- Disabled/edge case stories
+- Accessibility testing integration
+- Comprehensive documentation
+
+### File Organization Implementation
+
+### File Organization Implementation
+
+**Component Directory Structure:**
+```
+src/
+├── components/
+│   └── ComponentName/
+│       ├── index.ts                 # Public exports
+│       ├── ComponentName.tsx        # Main component
+│       ├── ComponentName.types.ts   # Type definitions
+│       ├── ComponentName.module.css # Component styles
+│       ├── ComponentName.test.tsx   # Unit tests
+│       ├── ComponentName.stories.tsx # Storybook stories
+│       └── README.md               # Component documentation
+├── tokens/
+│   ├── colors.ts
+│   ├── spacing.ts
+│   ├── typography.ts
+│   └── index.ts
+├── utils/
+│   ├── classNames.ts
+│   ├── accessibility.ts
+│   └── index.ts
+└── types/
+    ├── common.ts
+    └── index.ts
+```
+
+**Index File Pattern:**
+```typescript
+// components/ComponentName/index.ts
+export { ComponentName } from './ComponentName';
+export type { ComponentNameProps } from './ComponentName.types';
+
+// components/index.ts
+export { ComponentName } from './ComponentName';
+// ... other exports
+```
+
+## Testing Implementation Protocols
+
+**All testing MUST implement the testing strategy defined in `CLAUDE.md` and document test specifications in `docs/FRS.md`.**
+
+### Testing Implementation Principles
+### Testing Implementation Principles
+
+**Testing Strategy:**
+1. **Unit Tests**: Test component behavior in isolation
+2. **Integration Tests**: Test component interactions
+3. **Accessibility Tests**: Automated a11y validation
+4. **Visual Tests**: Screenshot comparison (when available)
+
+**Test Coverage Requirements:**
+- 90%+ line coverage
+- 100% branch coverage for critical paths
+- All prop combinations tested
+- All event handlers tested
+- All accessibility features tested
+
+**Testing Philosophy:**
+- Test behavior, not implementation
+- Focus on user interactions
+- Validate accessibility features
+- Test edge cases and error states
+- Mock external dependencies
+
+### Unit Testing Implementation
+### Unit Testing Implementation
+
+**Test Template:**
+```typescript
+import React from 'react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { ComponentName } from './ComponentName';
+
+describe('ComponentName', () => {
+  it('renders with default props', () => {
+    render(<ComponentName>Test Content</ComponentName>);
+    
+    const component = screen.getByRole('button');
+    expect(component).toBeInTheDocument();
+    expect(component).toHaveTextContent('Test Content');
+  });
+
+  it('applies variant classes correctly', () => {
+    render(<ComponentName variant="secondary">Test</ComponentName>);
+    
+    const component = screen.getByRole('button');
+    expect(component).toHaveClass('variant-secondary');
+  });
+
+  it('handles click events', () => {
+    const handleClick = jest.fn();
+    render(<ComponentName onClick={handleClick}>Test</ComponentName>);
+    
+    const component = screen.getByRole('button');
+    fireEvent.click(component);
+    
+    expect(handleClick).toHaveBeenCalledTimes(1);
+  });
+
+  it('respects disabled state', () => {
+    const handleClick = jest.fn();
+    render(
+      <ComponentName disabled onClick={handleClick}>
+        Test
+      </ComponentName>
+    );
+    
+    const component = screen.getByRole('button');
+    expect(component).toBeDisabled();
+    
+    fireEvent.click(component);
+    expect(handleClick).not.toHaveBeenCalled();
+  });
+
+  it('meets accessibility requirements', async () => {
+    const { container } = render(<ComponentName>Test</ComponentName>);
+    
+    // Test keyboard navigation
+    const component = screen.getByRole('button');
+    component.focus();
+    expect(component).toHaveFocus();
+    
+    // Test ARIA attributes
+    expect(component).toHaveAttribute('type', 'button');
+    
+    // Run accessibility audit
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
+});
+```
+
+**Test Requirements:**
+- Test all prop variations
+- Test all user interactions
+- Test accessibility features
+- Test error boundaries
+- Test responsive behavior
+- Mock external dependencies properly
+
+### Testing Implementation Requirements
+
+### Testing Implementation Requirements
+
+**Required Test Types:**
+1. **Render Tests**: Component renders correctly
+2. **Prop Tests**: All props work as expected
+3. **Event Tests**: User interactions function properly
+4. **Accessibility Tests**: WCAG compliance validation
+5. **Edge Case Tests**: Error states and boundaries
+6. **Integration Tests**: Component composition testing
+
+**Accessibility Testing Requirements:**
+```typescript
+import { axe, toHaveNoViolations } from 'jest-axe';
+
+expect.extend(toHaveNoViolations);
+
+// In every component test file
+it('has no accessibility violations', async () => {
+  const { container } = render(<Component>Test</Component>);
+  const results = await axe(container);
+  expect(results).toHaveNoViolations();
+});
+```
+
+**Performance Testing:**
+```typescript
+it('renders within performance budget', () => {
+  const startTime = performance.now();
+  render(<Component>Test</Component>);
+  const endTime = performance.now();
+  
+  expect(endTime - startTime).toBeLessThan(16); // 60fps threshold
+});
+```
+
+### Implementation Quality Gates
+
+### Implementation Quality Gates
+
+**Pre-commit Quality Gates:**
+1. TypeScript compilation successful
+2. ESLint passes with zero warnings
+3. Prettier formatting applied
+4. All unit tests pass
+5. Test coverage ≥ 90%
+6. No accessibility violations
+7. Bundle size within budget
+
+**Pre-merge Quality Gates:**
+1. All pre-commit gates pass
+2. Storybook builds successfully
+3. Visual regression tests pass
+4. Integration tests pass
+5. Performance budget maintained
+6. Documentation updated
+7. Code review approved
+
+**Release Quality Gates:**
+1. All pre-merge gates pass
+2. End-to-end tests pass
+3. Cross-browser testing complete
+4. Accessibility audit complete
+5. Security scan passes
+6. Changelog updated
+7. Version bumped appropriately
+
+**Automated Checks:**
+```bash
+# Run all quality checks
+npm run check:all
+
+# Individual checks
+npm run check:types
+npm run check:lint
+npm run check:test
+npm run check:a11y
+npm run check:build
+npm run check:bundle-size
+```
+
+## Technology Implementation
+
+**Implement the technology stack specified in `CLAUDE.md` and document configurations in `docs/FRS.md`.**
+
+### Core Technology Implementation
+
+### Core Technology Implementation
+
+**React 18+ Implementation:**
+```typescript
+// Use React 18 features appropriately
+import React, { Suspense, lazy } from 'react';
+
+// Concurrent features for better UX
+const LazyComponent = lazy(() => import('./LazyComponent'));
+
+function App() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <LazyComponent />
+    </Suspense>
+  );
+}
+```
+
+**TypeScript 5+ Configuration:**
+```json
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx"
+  }
+}
+```
+
+**Development Dependencies:**
+```json
+{
+  "react": "^18.2.0",
+  "react-dom": "^18.2.0",
+  "typescript": "^5.0.0",
+  "@types/react": "^18.2.0",
+  "@types/react-dom": "^18.2.0"
+}
+```
+
+### Build System Implementation
+
+### Build System Implementation
+
+**Vite Configuration (vite.config.ts):**
+```typescript
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { resolve } from 'path';
+
+export default defineConfig({
+  plugins: [react()],
+  build: {
+    lib: {
+      entry: resolve(__dirname, 'src/index.ts'),
+      name: 'DesignSystem',
+      formats: ['es', 'umd'],
+      fileName: (format) => `design-system.${format}.js`
+    },
+    rollupOptions: {
+      external: ['react', 'react-dom'],
+      output: {
+        globals: {
+          react: 'React',
+          'react-dom': 'ReactDOM'
+        }
+      }
+    }
+  },
+  css: {
+    modules: {
+      localsConvention: 'camelCaseOnly'
+    }
+  }
+});
+```
+
+**Package.json Scripts:**
+```json
+{
+  "scripts": {
+    "dev": "storybook dev -p 6006",
+    "build": "npm run build-lib && npm run build-storybook",
+    "build-lib": "vite build",
+    "build-storybook": "storybook build",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint src/**/*.{ts,tsx}",
+    "lint:fix": "eslint src/**/*.{ts,tsx} --fix",
+    "type-check": "tsc --noEmit",
+    "check:all": "npm run type-check && npm run lint && npm run test && npm run build"
+  }
+}
+```
+
+### Deployment Implementation
+
+### Deployment Implementation
+
+**GitHub Actions Workflow:**
+```yaml
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - run: npm ci
+      - run: npm run type-check
+      - run: npm run lint
+      - run: npm run test:coverage
+      - run: npm run build
+      
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v3
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - run: npm ci
+      - run: npm run build-storybook
+      
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v2.0
+        with:
+          publish-dir: './storybook-static'
+          production-branch: main
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+```
+
+**NPM Publishing:**
+```json
+{
+  "name": "@company/design-system",
+  "version": "1.0.0",
+  "main": "dist/design-system.umd.js",
+  "module": "dist/design-system.es.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}
+```
+
+## Component Implementation Guide
+
+### Component Implementation Requirements
+
+When implementing components per the architecture in CLAUDE.md, AI agents MUST follow this process:
+
+### Component Implementation Requirements
+
+**Implementation Checklist:**
+- [ ] Architecture compliance verified against CLAUDE.md
+- [ ] TypeScript interface defined with JSDoc
+- [ ] Design tokens integrated for all styling
+- [ ] Accessibility attributes implemented
+- [ ] Keyboard navigation support added
+- [ ] Focus management implemented
+- [ ] Unit tests written (90%+ coverage)
+- [ ] Accessibility tests included
+- [ ] Storybook stories created
+- [ ] Component documented in README
+- [ ] Integration tests written
+- [ ] Performance validated
+- [ ] FRS.md updated with implementation details
+
+**Pre-Implementation Review:**
+1. Verify component exists in CLAUDE.md architecture
+2. Check design token requirements
+3. Identify accessibility needs
+4. Plan testing strategy
+5. Review integration points
+
+#### 1. Architecture Compliance Check
+
+### Architecture Compliance Check
+
+**Before implementing any component, verify:**
+
+1. **CLAUDE.md Alignment:**
+   - Component is defined in architectural specification
+   - Design pattern matches architectural decisions
+   - Technology choices align with stack decisions
+   - Quality requirements are understood
+
+2. **Design Token Usage:**
+   - All colors use design token variables
+   - Spacing follows token scale
+   - Typography uses token system
+   - Border radius uses token values
+
+3. **Accessibility Requirements:**
+   - WCAG 2.1 AA compliance planned
+   - Keyboard navigation designed
+   - Screen reader support considered
+   - Color contrast verified
+
+4. **Performance Considerations:**
+   - Bundle size impact assessed
+   - Tree-shaking compatibility ensured
+   - Runtime performance optimized
+   - Memory usage minimized
+
+**Compliance Validation:**
+```bash
+# Run architecture compliance check
+npm run check:architecture ComponentName
+```
+
+#### 2. Component Implementation Template
+
+### Component Implementation Template
+
+**Step 1: Create Component Structure**
+```bash
+mkdir src/components/ComponentName
+cd src/components/ComponentName
+
+# Create required files
+touch index.ts
+touch ComponentName.tsx
+touch ComponentName.types.ts
+touch ComponentName.module.css
+touch ComponentName.test.tsx
+touch ComponentName.stories.tsx
+touch README.md
+```
+
+**Step 2: Implement TypeScript Interface**
+```typescript
+// ComponentName.types.ts
+export interface ComponentNameProps {
+  /**
+   * Description of the prop
+   * @default defaultValue
+   */
+  propName?: PropType;
+  
+  /**
+   * Required prop description
+   */
+  requiredProp: RequiredType;
+  
+  /**
+   * Event handler description
+   */
+  onEvent?: (event: EventType) => void;
+  
+  /**
+   * Children content
+   */
+  children?: React.ReactNode;
+  
+  /**
+   * Additional CSS classes
+   */
+  className?: string;
+}
+```
+
+**Step 3: Implement Component**
+```typescript
+// ComponentName.tsx
+import React from 'react';
+import { clsx } from 'clsx';
+import styles from './ComponentName.module.css';
+import type { ComponentNameProps } from './ComponentName.types';
+
+export const ComponentName = React.forwardRef<
+  HTMLElement,
+  ComponentNameProps
+>(({
+  propName = 'defaultValue',
+  requiredProp,
+  onEvent,
+  children,
+  className,
+  ...props
+}, ref) => {
+  // Component logic here
+
+  return (
+    <element
+      ref={ref}
+      className={clsx(styles.component, className)}
+      {...props}
+    >
+      {children}
+    </element>
+  );
+});
+
+ComponentName.displayName = 'ComponentName';
+```
+
+**Step 4: Export Component**
+```typescript
+// index.ts
+export { ComponentName } from './ComponentName';
+export type { ComponentNameProps } from './ComponentName.types';
+```
+
+#### 3. Styling Implementation
+
+### Component Styling Implementation
+
+**CSS Module Template:**
+```css
+/* ComponentName.module.css */
+
+/* Base component styles */
+.component {
+  /* Layout */
+  display: flex;
   
   /* Typography */
   font-family: var(--font-family-base);
@@ -484,101 +1121,119 @@ export const ComponentName: React.FC<ComponentNameProps> = ({
   line-height: var(--line-height-base);
   
   /* Colors */
-  background-color: var(--color-background);
-  color: var(--color-text);
+  color: var(--color-text-primary);
+  background-color: var(--color-background-primary);
   
-  /* Borders */
-  border: 1px solid var(--color-border);
+  /* Spacing */
+  padding: var(--spacing-md);
+  margin: 0;
+  
+  /* Border */
+  border: 1px solid var(--color-border-primary);
   border-radius: var(--border-radius-md);
   
   /* Transitions */
-  transition: all 0.2s ease-in-out;
-  
-  /* Cursor */
-  cursor: pointer;
-}
-
-/* Variants */
-.component-name--primary {
-  background-color: var(--color-primary);
-  color: var(--color-primary-text);
-  border-color: var(--color-primary);
-}
-
-.component-name--secondary {
-  background-color: var(--color-secondary);
-  color: var(--color-secondary-text);
-  border-color: var(--color-secondary);
-}
-
-.component-name--tertiary {
-  background-color: transparent;
-  color: var(--color-primary);
-  border-color: transparent;
-}
-
-/* Sizes */
-.component-name--small {
-  padding: var(--spacing-sm);
-  font-size: var(--font-size-sm);
-}
-
-.component-name--medium {
-  padding: var(--spacing-md);
-  font-size: var(--font-size-base);
-}
-
-.component-name--large {
-  padding: var(--spacing-lg);
-  font-size: var(--font-size-lg);
-}
-
-/* States */
-.component-name--disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.component-name--loading {
-  position: relative;
-  color: transparent;
-}
-
-.component-name__loader {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: currentColor;
+  transition: all var(--transition-duration-fast) var(--transition-easing-ease);
 }
 
 /* Hover states */
-.component-name:hover:not(.component-name--disabled):not(.component-name--loading) {
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.component:hover {
+  background-color: var(--color-background-primary-hover);
+  border-color: var(--color-border-primary-hover);
 }
 
 /* Focus states */
-.component-name:focus-visible {
-  outline: 2px solid var(--color-focus);
+.component:focus,
+.component:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
   outline-offset: 2px;
 }
 
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  .component-name {
-    background-color: var(--color-background-dark);
-    color: var(--color-text-dark);
-    border-color: var(--color-border-dark);
+/* Active states */
+.component:active {
+  background-color: var(--color-background-primary-active);
+}
+
+/* Disabled states */
+.component:disabled,
+.component[aria-disabled="true"] {
+  opacity: var(--opacity-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Variants */
+.variant-primary {
+  background-color: var(--color-primary-500);
+  color: var(--color-white);
+  border-color: var(--color-primary-500);
+}
+
+.variant-secondary {
+  background-color: var(--color-secondary-500);
+  color: var(--color-white);
+  border-color: var(--color-secondary-500);
+}
+
+/* Sizes */
+.size-sm {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-sm);
+}
+
+.size-lg {
+  padding: var(--spacing-lg) var(--spacing-xl);
+  font-size: var(--font-size-lg);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .component {
+    /* Mobile styles */
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .component {
+    /* Tablet styles */
+  }
+}
+
+@media (min-width: 1025px) {
+  .component {
+    /* Desktop styles */
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .component {
+    transition: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .component {
+    border-width: 2px;
   }
 }
 ```
 
-#### 4. Storybook Stories Template
+**Styling Requirements:**
+- Use design tokens for all values
+- Include all interaction states
+- Support responsive design
+- Implement accessibility features
+- Follow consistent naming patterns
 
-**ComponentName.stories.tsx** - Comprehensive stories with all variants:
+#### 4. Storybook Implementation
 
+### Storybook Component Implementation
+
+**Complete Stories File:**
 ```typescript
+// ComponentName.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react';
 import { ComponentName } from './ComponentName';
 
@@ -586,38 +1241,71 @@ const meta: Meta<typeof ComponentName> = {
   title: 'Components/ComponentName',
   component: ComponentName,
   parameters: {
-    layout: 'centered',
     docs: {
       description: {
-        component: 'A versatile component that... [Add detailed description]',
-      },
+        component: `
+# ComponentName
+
+Description of the component and its purpose.
+
+## Usage Guidelines
+
+### When to use
+- Use case 1
+- Use case 2
+
+### When not to use
+- Avoid case 1
+- Avoid case 2
+
+## Accessibility
+
+This component follows WCAG 2.1 AA guidelines:
+- Proper ARIA labels and roles
+- Keyboard navigation support
+- Screen reader compatibility
+- Color contrast compliance
+
+## Performance
+
+- Tree-shakable
+- Minimal runtime overhead
+- Optimized for modern browsers
+        `
+      }
     },
+    a11y: {
+      config: {
+        rules: [
+          {
+            id: 'color-contrast',
+            enabled: true
+          },
+          {
+            id: 'keyboard-navigation',
+            enabled: true
+          }
+        ]
+      }
+    }
   },
-  tags: ['autodocs'],
   argTypes: {
     variant: {
-      control: 'select',
-      options: ['primary', 'secondary', 'tertiary'],
-      description: 'The visual style variant of the component',
+      control: { type: 'select' },
+      options: ['primary', 'secondary', 'outline'],
+      description: 'Visual variant of the component'
     },
     size: {
-      control: 'select',
-      options: ['small', 'medium', 'large'],
-      description: 'The size of the component',
+      control: { type: 'select' },
+      options: ['sm', 'md', 'lg'],
+      description: 'Size of the component'
     },
     disabled: {
-      control: 'boolean',
-      description: 'Whether the component is disabled',
-    },
-    loading: {
-      control: 'boolean',
-      description: 'Whether the component is in a loading state',
-    },
-    onClick: {
-      action: 'clicked',
-      description: 'Handler called when the component is clicked',
-    },
+      control: { type: 'boolean' },
+      description: 'Whether the component is disabled'
+    }
   },
+  tags: ['autodocs']
 };
 
 export default meta;
@@ -626,1290 +1314,1567 @@ type Story = StoryObj<typeof meta>;
 // Default story
 export const Default: Story = {
   args: {
-    children: 'Component Content',
-  },
+    children: 'Component Content'
+  }
 };
 
-// Variant stories
-export const Primary: Story = {
-  args: {
-    children: 'Primary Variant',
-    variant: 'primary',
-  },
+// Variant showcase
+export const Variants: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+      <ComponentName variant="primary">Primary</ComponentName>
+      <ComponentName variant="secondary">Secondary</ComponentName>
+      <ComponentName variant="outline">Outline</ComponentName>
+    </div>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story: 'Different visual variants of the component.'
+      }
+    }
+  }
 };
 
-export const Secondary: Story = {
-  args: {
-    children: 'Secondary Variant',
-    variant: 'secondary',
-  },
+// Size showcase
+export const Sizes: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+      <ComponentName size="sm">Small</ComponentName>
+      <ComponentName size="md">Medium</ComponentName>
+      <ComponentName size="lg">Large</ComponentName>
+    </div>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story: 'Different sizes of the component.'
+      }
+    }
+  }
 };
 
-export const Tertiary: Story = {
-  args: {
-    children: 'Tertiary Variant',
-    variant: 'tertiary',
-  },
-};
-
-// Size stories
-export const Small: Story = {
-  args: {
-    children: 'Small Size',
-    size: 'small',
-  },
-};
-
-export const Medium: Story = {
-  args: {
-    children: 'Medium Size',
-    size: 'medium',
-  },
-};
-
-export const Large: Story = {
-  args: {
-    children: 'Large Size',
-    size: 'large',
-  },
-};
-
-// State stories
+// Disabled state
 export const Disabled: Story = {
   args: {
-    children: 'Disabled State',
     disabled: true,
+    children: 'Disabled Component'
   },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Component in disabled state.'
+      }
+    }
+  }
 };
 
-export const Loading: Story = {
+// Interactive example
+export const Interactive: Story = {
   args: {
-    children: 'Loading State',
-    loading: true,
+    children: 'Click me',
+    onClick: () => alert('Component clicked!')
   },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Interactive example with event handling.'
+      }
+    }
+  }
 };
 
-// Complex example
-export const ComplexExample: Story = {
-  args: {
-    children: 'Complex Component',
-    variant: 'primary',
-    size: 'large',
-    className: 'custom-class',
-  },
-};
-
-// Playground story for testing all props
-export const Playground: Story = {
-  args: {
-    children: 'Playground - Try different props!',
-  },
+// Accessibility demonstration
+export const AccessibilityDemo: Story = {
+  render: () => (
+    <div>
+      <p>Use Tab to navigate between components:</p>
+      <div style={{ display: 'flex', gap: '1rem' }}>
+        <ComponentName>First</ComponentName>
+        <ComponentName>Second</ComponentName>
+        <ComponentName disabled>Disabled (skipped)</ComponentName>
+        <ComponentName>Third</ComponentName>
+      </div>
+    </div>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story: 'Demonstration of keyboard navigation and accessibility features.'
+      }
+    }
+  }
 };
 ```
 
-#### 5. Unit Test Template
+**Story Requirements:**
+- Include all component variants
+- Demonstrate all prop combinations
+- Show accessibility features
+- Provide usage examples
+- Include performance notes
 
-**ComponentName.test.tsx** - Comprehensive test coverage:
+#### 5. Testing Implementation
 
+### Component Testing Implementation
+
+**Complete Test Suite:**
 ```typescript
+// ComponentName.test.tsx
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { axe, toHaveNoViolations } from 'jest-axe';
 import { ComponentName } from './ComponentName';
+import type { ComponentNameProps } from './ComponentName.types';
+
+expect.extend(toHaveNoViolations);
+
+// Test utilities
+const defaultProps: ComponentNameProps = {
+  children: 'Test Content'
+};
+
+const renderComponent = (props: Partial<ComponentNameProps> = {}) => {
+  return render(<ComponentName {...defaultProps} {...props} />);
+};
 
 describe('ComponentName', () => {
-  // Basic rendering tests
   describe('Rendering', () => {
-    it('renders with children', () => {
-      render(<ComponentName>Test Content</ComponentName>);
-      expect(screen.getByText('Test Content')).toBeInTheDocument();
+    it('renders with default props', () => {
+      renderComponent();
+      
+      const component = screen.getByRole('button');
+      expect(component).toBeInTheDocument();
+      expect(component).toHaveTextContent('Test Content');
     });
 
     it('renders with custom className', () => {
-      render(<ComponentName className="custom-class">Content</ComponentName>);
-      expect(screen.getByText('Content')).toHaveClass('custom-class');
-    });
-
-    it('renders with custom style', () => {
-      render(<ComponentName style={{ color: 'red' }}>Content</ComponentName>);
-      expect(screen.getByText('Content')).toHaveStyle({ color: 'red' });
-    });
-  });
-
-  // Variant tests
-  describe('Variants', () => {
-    it.each(['primary', 'secondary', 'tertiary'] as const)(
-      'renders with %s variant',
-      (variant) => {
-        render(<ComponentName variant={variant}>Content</ComponentName>);
-        expect(screen.getByText('Content')).toHaveClass(`component-name--${variant}`);
-      }
-    );
-  });
-
-  // Size tests
-  describe('Sizes', () => {
-    it.each(['small', 'medium', 'large'] as const)(
-      'renders with %s size',
-      (size) => {
-        render(<ComponentName size={size}>Content</ComponentName>);
-        expect(screen.getByText('Content')).toHaveClass(`component-name--${size}`);
-      }
-    );
-  });
-
-  // State tests
-  describe('States', () => {
-    it('renders in disabled state', () => {
-      render(<ComponentName disabled>Disabled</ComponentName>);
-      const element = screen.getByText('Disabled');
-      expect(element).toHaveClass('component-name--disabled');
-      expect(element).toHaveAttribute('aria-disabled', 'true');
-    });
-
-    it('renders in loading state', () => {
-      render(<ComponentName loading>Content</ComponentName>);
-      expect(screen.getByText('Loading...')).toBeInTheDocument();
-      expect(screen.queryByText('Content')).not.toBeInTheDocument();
-    });
-  });
-
-  // Interaction tests
-  describe('Interactions', () => {
-    it('calls onClick when clicked', async () => {
-      const handleClick = jest.fn();
-      render(<ComponentName onClick={handleClick}>Click me</ComponentName>);
+      renderComponent({ className: 'custom-class' });
       
-      await userEvent.click(screen.getByText('Click me'));
+      const component = screen.getByRole('button');
+      expect(component).toHaveClass('custom-class');
+    });
+
+    it('forwards ref correctly', () => {
+      const ref = React.createRef<HTMLButtonElement>();
+      render(<ComponentName ref={ref}>Test</ComponentName>);
+      
+      expect(ref.current).toBeInstanceOf(HTMLButtonElement);
+    });
+  });
+
+  describe('Variants', () => {
+    it('applies primary variant class', () => {
+      renderComponent({ variant: 'primary' });
+      
+      const component = screen.getByRole('button');
+      expect(component).toHaveClass('variant-primary');
+    });
+
+    it('applies secondary variant class', () => {
+      renderComponent({ variant: 'secondary' });
+      
+      const component = screen.getByRole('button');
+      expect(component).toHaveClass('variant-secondary');
+    });
+  });
+
+  describe('Sizes', () => {
+    it('applies small size class', () => {
+      renderComponent({ size: 'sm' });
+      
+      const component = screen.getByRole('button');
+      expect(component).toHaveClass('size-sm');
+    });
+
+    it('applies large size class', () => {
+      renderComponent({ size: 'lg' });
+      
+      const component = screen.getByRole('button');
+      expect(component).toHaveClass('size-lg');
+    });
+  });
+
+  describe('States', () => {
+    it('handles disabled state', () => {
+      renderComponent({ disabled: true });
+      
+      const component = screen.getByRole('button');
+      expect(component).toBeDisabled();
+      expect(component).toHaveClass('disabled');
+    });
+
+    it('prevents click when disabled', () => {
+      const handleClick = jest.fn();
+      renderComponent({ disabled: true, onClick: handleClick });
+      
+      const component = screen.getByRole('button');
+      fireEvent.click(component);
+      
+      expect(handleClick).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('Events', () => {
+    it('handles click events', async () => {
+      const user = userEvent.setup();
+      const handleClick = jest.fn();
+      renderComponent({ onClick: handleClick });
+      
+      const component = screen.getByRole('button');
+      await user.click(component);
+      
       expect(handleClick).toHaveBeenCalledTimes(1);
     });
 
-    it('does not call onClick when disabled', async () => {
+    it('handles keyboard events', async () => {
+      const user = userEvent.setup();
       const handleClick = jest.fn();
-      render(<ComponentName disabled onClick={handleClick}>Click me</ComponentName>);
+      renderComponent({ onClick: handleClick });
       
-      await userEvent.click(screen.getByText('Click me'));
-      expect(handleClick).not.toHaveBeenCalled();
-    });
-
-    it('does not call onClick when loading', async () => {
-      const handleClick = jest.fn();
-      render(<ComponentName loading onClick={handleClick}>Click me</ComponentName>);
+      const component = screen.getByRole('button');
+      component.focus();
+      await user.keyboard('{Enter}');
       
-      await userEvent.click(screen.getByText('Loading...'));
-      expect(handleClick).not.toHaveBeenCalled();
+      expect(handleClick).toHaveBeenCalledTimes(1);
     });
   });
 
-  // Accessibility tests
   describe('Accessibility', () => {
-    it('supports aria-label', () => {
-      render(<ComponentName aria-label="Custom label">Content</ComponentName>);
-      expect(screen.getByText('Content')).toHaveAttribute('aria-label', 'Custom label');
+    it('has no accessibility violations', async () => {
+      const { container } = renderComponent();
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
     });
 
-    it('supports aria-describedby', () => {
-      render(<ComponentName aria-describedby="description">Content</ComponentName>);
-      expect(screen.getByText('Content')).toHaveAttribute('aria-describedby', 'description');
-    });
-
-    it('supports custom role', () => {
-      render(<ComponentName role="button">Content</ComponentName>);
-      expect(screen.getByRole('button')).toBeInTheDocument();
-    });
-
-    it('is keyboard accessible', async () => {
-      const handleClick = jest.fn();
-      render(<ComponentName onClick={handleClick}>Content</ComponentName>);
+    it('supports keyboard navigation', async () => {
+      const user = userEvent.setup();
+      renderComponent();
       
-      const element = screen.getByText('Content');
-      element.focus();
-      expect(element).toHaveFocus();
+      const component = screen.getByRole('button');
+      await user.tab();
+      
+      expect(component).toHaveFocus();
+    });
+
+    it('has correct ARIA attributes', () => {
+      renderComponent({ disabled: true });
+      
+      const component = screen.getByRole('button');
+      expect(component).toHaveAttribute('aria-disabled', 'true');
+    });
+
+    it('supports screen readers', () => {
+      renderComponent({ 'aria-label': 'Custom label' });
+      
+      const component = screen.getByRole('button');
+      expect(component).toHaveAccessibleName('Custom label');
+    });
+  });
+
+  describe('Performance', () => {
+    it('renders within performance budget', () => {
+      const startTime = performance.now();
+      renderComponent();
+      const endTime = performance.now();
+      
+      // Should render within 16ms (60fps)
+      expect(endTime - startTime).toBeLessThan(16);
+    });
+
+    it('does not cause memory leaks', () => {
+      const { unmount } = renderComponent();
+      
+      // Verify component unmounts cleanly
+      expect(() => unmount()).not.toThrow();
+    });
+  });
+
+  describe('Integration', () => {
+    it('works with form elements', () => {
+      render(
+        <form>
+          <ComponentName type="submit">Submit</ComponentName>
+        </form>
+      );
+      
+      const component = screen.getByRole('button');
+      expect(component).toHaveAttribute('type', 'submit');
+    });
+
+    it('integrates with other components', () => {
+      render(
+        <div>
+          <ComponentName>First</ComponentName>
+          <ComponentName>Second</ComponentName>
+        </div>
+      );
+      
+      const components = screen.getAllByRole('button');
+      expect(components).toHaveLength(2);
+    });
+  });
+
+  describe('Edge Cases', () => {
+    it('handles empty children', () => {
+      render(<ComponentName />);
+      
+      const component = screen.getByRole('button');
+      expect(component).toBeInTheDocument();
+    });
+
+    it('handles complex children', () => {
+      render(
+        <ComponentName>
+          <span>Complex</span>
+          <strong>Children</strong>
+        </ComponentName>
+      );
+      
+      const component = screen.getByRole('button');
+      expect(component).toHaveTextContent('ComplexChildren');
+    });
+
+    it('handles rapid successive clicks', async () => {
+      const user = userEvent.setup();
+      const handleClick = jest.fn();
+      renderComponent({ onClick: handleClick });
+      
+      const component = screen.getByRole('button');
+      
+      // Rapid clicks
+      await user.click(component);
+      await user.click(component);
+      await user.click(component);
+      
+      expect(handleClick).toHaveBeenCalledTimes(3);
     });
   });
 });
 ```
 
-#### 6. Export File Template
+**Testing Requirements:**
+- Test all component functionality
+- Include accessibility testing
+- Test all prop combinations
+- Test event handling
+- Test edge cases and error states
+- Achieve 90%+ code coverage
 
-**index.ts** - Clean exports:
+#### 6. FRS Documentation
 
-```typescript
-export { ComponentName } from './ComponentName';
-export type { ComponentNameProps } from './ComponentName';
-```
+### FRS Documentation Requirements
 
-#### 7. Integration Steps
+**Required FRS Updates After Implementation:**
 
-After creating all component files, AI agents MUST:
+1. **Component API Documentation:**
+   ```markdown
+   ### ComponentName API
 
-1. **Update the main components index file** (`src/components/index.ts`):
-```typescript
-export { ComponentName } from './ComponentName';
-export type { ComponentNameProps } from './ComponentName';
-```
+   **Props Interface:**
+   \`\`\`typescript
+   interface ComponentNameProps {
+     variant?: 'primary' | 'secondary' | 'outline';
+     size?: 'sm' | 'md' | 'lg';
+     disabled?: boolean;
+     className?: string;
+     children: React.ReactNode;
+     onClick?: (event: React.MouseEvent) => void;
+   }
+   \`\`\`
 
-2. **Run quality checks**:
-```bash
-# Type checking
-cd ../design-system && npm run type-check
+   **Usage Example:**
+   \`\`\`typescript
+   import { ComponentName } from '@company/design-system';
 
-# Linting
-cd ../design-system && npm run lint:fix
-
-# Format code
-cd ../design-system && npm run format
-
-# Run tests
-cd ../design-system && npm test
-
-# Build Storybook to verify
-cd ../design-system && npm run build-storybook
-```
-
-3. **Verify component in Storybook**:
-```bash
-cd ../design-system && npm run dev
-# Navigate to http://localhost:6006 and check the component
-```
-
-### Component Categories and Patterns
-
-AI agents should categorize components appropriately:
-
-1. **Primitives** (atoms): Button, Input, Icon, Text, Badge
-2. **Compositions** (molecules): Card, FormField, Alert, Toast
-3. **Complex** (organisms): Modal, Table, Navigation, Form
-4. **Layouts**: Grid, Stack, Container, Sidebar
-5. **Patterns**: Dashboard, DataTable, SearchBar, FileUpload
-
-### Design Token Usage
-
-Always use design tokens from `src/tokens/`:
-- Colors: `var(--color-primary)`, `var(--color-text)`
-- Spacing: `var(--spacing-sm)`, `var(--spacing-md)`
-- Typography: `var(--font-size-base)`, `var(--line-height-base)`
-- Borders: `var(--border-radius-sm)`, `var(--border-width)`
-- Shadows: `var(--shadow-sm)`, `var(--shadow-md)`
-
-### Common Props Pattern
-
-All components should support these common props when applicable:
-- `className`: Custom CSS class
-- `style`: Inline styles
-- `children`: React children
-- `id`: HTML id attribute
-- `data-testid`: For testing
-- `ref`: React ref forwarding
-
-### Component-Specific Templates
-
-#### Form Input Components
-For input-type components (TextInput, Select, Checkbox, Radio, etc.), include:
-- `value` and `onChange` for controlled components
-- `defaultValue` for uncontrolled components
-- `name` for form integration
-- `required`, `disabled`, `readOnly` states
-- `error` and `helperText` for validation
-- `placeholder` for text inputs
-- Proper `label` association
-
-#### Layout Components
-For layout components (Grid, Stack, Container), include:
-- `gap` or `spacing` props
-- `align` and `justify` for alignment
-- `wrap` for flex wrapping
-- `direction` for flow direction
-- Responsive props (e.g., `columns={{ mobile: 1, tablet: 2, desktop: 3 }}`)
-
-#### Feedback Components
-For feedback components (Alert, Toast, Notification), include:
-- `type` or `severity` (success, warning, error, info)
-- `title` and `message`
-- `onClose` for dismissible components
-- `autoHideDuration` for auto-dismiss
-- `action` for action buttons
-
-### Accessibility Checklist
-
-Every component MUST meet these accessibility requirements:
-
-1. **Keyboard Navigation**
-   - Component is reachable via Tab key
-   - Interactive elements respond to Enter/Space
-   - Escape key closes overlays/modals
-   - Arrow keys for navigation where appropriate
-
-2. **Screen Reader Support**
-   - Proper semantic HTML elements
-   - ARIA labels for icon-only buttons
-   - ARIA live regions for dynamic content
-   - Descriptive text for complex interactions
-
-3. **Visual Accessibility**
-   - Color contrast ratio of at least 4.5:1
-   - Focus indicators clearly visible
-   - No color-only information
-   - Respects prefers-reduced-motion
-
-4. **Form Accessibility**
-   - Labels associated with inputs
-   - Error messages linked via aria-describedby
-   - Required fields marked appropriately
-   - Fieldsets for grouped inputs
-
-### Component Documentation
-
-Each component MUST include comprehensive documentation:
-
-1. **Component Description**: Clear explanation of purpose and use cases
-2. **Props Table**: All props with types, defaults, and descriptions
-3. **Usage Examples**: Common implementation patterns
-4. **Accessibility Notes**: Special considerations for a11y
-5. **Design Tokens Used**: List of tokens the component uses
-6. **Related Components**: Links to similar or complementary components
-
-### Error Handling
-
-Components should handle errors gracefully:
-
-```typescript
-// Example error boundary usage
-try {
-  // Component logic
-} catch (error) {
-  console.error(`ComponentName error:`, error);
-  // Return fallback UI or error state
-}
-
-// Prop validation
-if (!isValidProp(prop)) {
-  console.warn(`ComponentName: Invalid prop value for ${propName}`);
-}
-```
-
-### Performance Considerations
-
-1. **Use React.memo** for expensive components
-2. **Implement useMemo/useCallback** where appropriate
-3. **Lazy load heavy components**
-4. **Avoid inline function definitions in render**
-5. **Use CSS for animations when possible**
-
-### Testing Requirements
-
-Every component MUST have:
-- **90%+ code coverage** for unit tests
-- **Visual regression tests** via Storybook
-- **Accessibility tests** using jest-axe
-- **Integration tests** for complex interactions
-- **Performance tests** for heavy components
-
-### Version Control
-
-When modifying existing components:
-1. **Non-breaking changes**: Minor version bump
-2. **New features**: Minor version bump
-3. **Breaking changes**: Major version bump with migration guide
-4. **Bug fixes**: Patch version bump
-
-### Component Naming Conventions
-
-- **Component files**: PascalCase (e.g., `ButtonGroup.tsx`)
-- **Story files**: Component.stories.tsx
-- **Test files**: Component.test.tsx
-- **CSS classes**: kebab-case with BEM (e.g., `button-group__item--active`)
-- **Props interfaces**: ComponentNameProps
-- **Event handlers**: onEventName (e.g., `onSelectionChange`)
-
-### CSS Architecture
-
-1. **Use CSS Modules** or **CSS-in-JS** for scoping
-2. **Follow BEM methodology** for class naming
-3. **Use design tokens** for all values
-4. **Mobile-first responsive design**
-5. **Support RTL layouts**
-6. **Include print styles** where appropriate
-
-### Build Optimization
-
-Components should be optimized for production:
-1. **Tree-shaking friendly** exports
-2. **Minimal bundle size** impact
-3. **No unnecessary dependencies**
-4. **Proper code splitting** boundaries
-5. **CSS extraction** for critical styles
-
-## Automated Component Generation Workflow
-
-### Step-by-Step Component Creation Process
-
-When asked to create a new component, AI agents MUST follow this exact workflow:
-
-1. **Analyze Requirements**
-   - Identify component type (primitive, composition, complex, layout, pattern)
-   - Determine required props and variants
-   - Plan accessibility features
-   - List design tokens needed
-
-2. **Create Component Structure**
-   ```bash
-   # Create component directory
-   mkdir -p ../design-system/src/components/ComponentName
-   
-   # Create all required files
-   touch ../design-system/src/components/ComponentName/ComponentName.tsx
-   touch ../design-system/src/components/ComponentName/ComponentName.css
-   touch ../design-system/src/components/ComponentName/ComponentName.stories.tsx
-   touch ../design-system/src/components/ComponentName/ComponentName.test.tsx
-   touch ../design-system/src/components/ComponentName/index.ts
+   function App() {
+     return (
+       <ComponentName 
+         variant="primary" 
+         size="lg"
+         onClick={() => console.log('clicked')}
+       >
+         Click me
+       </ComponentName>
+     );
+   }
+   \`\`\`
    ```
 
-3. **Implement Component Files**
-   - Use the templates provided above
-   - Adapt templates to specific component requirements
-   - Ensure all props are properly typed
-   - Include all necessary variants and states
+2. **Technical Implementation Details:**
+   - Bundle size impact
+   - Performance characteristics
+   - Accessibility features implemented
+   - Browser compatibility
+   - Known limitations
 
-4. **Update Exports**
-   - Add component to `src/components/index.ts`
-   - Ensure proper TypeScript exports
+3. **Integration Patterns:**
+   - Framework integration examples
+   - Common usage patterns
+   - Best practices
+   - Troubleshooting guide
 
-5. **Run Quality Checks**
-   - TypeScript compilation
-   - ESLint fixes
-   - Prettier formatting
-   - Unit tests
-   - Build verification
+4. **Testing Coverage:**
+   - Test scenarios covered
+   - Accessibility test results
+   - Performance benchmarks
+   - Browser testing results
 
-6. **Verify in Storybook**
-   - Start Storybook dev server
-   - Check all stories render correctly
-   - Test interactive controls
-   - Verify accessibility
+**FRS Update Process:**
+1. Implement component
+2. Document technical specifications
+3. Update FRS.md with implementation details
+4. Review and validate documentation
+5. Merge changes
 
-### Example: Creating a Badge Component
+#### 7. Integration Implementation
 
-Here's a complete example of creating a Badge component:
+### Integration Implementation
 
+**Framework Integration Examples:**
+
+**Next.js Integration:**
 ```typescript
-// Badge.tsx
-import React from 'react';
-import './Badge.css';
+// pages/_app.tsx
+import type { AppProps } from 'next/app';
+import '@company/design-system/dist/styles.css';
 
-export interface BadgeProps {
-  children: React.ReactNode;
-  variant?: 'default' | 'primary' | 'success' | 'warning' | 'error';
-  size?: 'small' | 'medium';
-  dot?: boolean;
-  className?: string;
-  style?: React.CSSProperties;
+export default function App({ Component, pageProps }: AppProps) {
+  return <Component {...pageProps} />;
 }
 
-export const Badge: React.FC<BadgeProps> = ({
-  children,
-  variant = 'default',
-  size = 'medium',
-  dot = false,
-  className = '',
-  style,
-}) => {
-  const classNames = [
-    'badge',
-    `badge--${variant}`,
-    `badge--${size}`,
-    dot && 'badge--dot',
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+// pages/index.tsx
+import { Button, Card } from '@company/design-system';
 
+export default function Home() {
   return (
-    <span className={classNames} style={style}>
-      {dot ? <span className="badge__dot" aria-hidden="true" /> : children}
-    </span>
+    <Card>
+      <Button variant="primary">Next.js Integration</Button>
+    </Card>
   );
+}
+```
+
+**Vite Integration:**
+```typescript
+// main.tsx
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import '@company/design-system/dist/styles.css';
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+```
+
+**webpack Integration:**
+```javascript
+// webpack.config.js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      }
+    ]
+  }
 };
 ```
 
-### Component Request Response Pattern
-
-When a user requests a new component, AI agents should:
-
-1. **Acknowledge the request** with component details
-2. **Create all five required files** (implementation, styles, stories, tests, index)
-3. **Update the main exports** file
-4. **Provide usage instructions** for the new component
-5. **List any additional setup** needed (new dependencies, tokens, etc.)
-
-### Quality Assurance Workflow
-
-After creating a component:
-
-1. **Self-Review Checklist**
-   - [ ] TypeScript interfaces complete
-   - [ ] All variants implemented
-   - [ ] Accessibility features included
-   - [ ] Design tokens used consistently
-   - [ ] Tests cover all functionality
-   - [ ] Stories demonstrate all states
-
-2. **Automated Checks**
-   - [ ] `npm run type-check` passes
-   - [ ] `npm run lint` has no errors
-   - [ ] `npm run test` passes
-   - [ ] `npm run build-storybook` succeeds
-
-3. **Manual Verification**
-   - [ ] Component renders in Storybook
-   - [ ] Interactive features work
-   - [ ] Keyboard navigation functions
-   - [ ] Screen reader friendly
-
-### Common Pitfalls to Avoid
-
-1. **Don't forget to export** from index files
-2. **Don't use hardcoded values** - use design tokens
-3. **Don't skip accessibility** attributes
-4. **Don't omit loading/error states** where applicable
-5. **Don't forget dark mode** support
-6. **Don't use inline styles** except via style prop
-7. **Don't skip unit tests** for any functionality
-
-### Component Variations Guide
-
-Different component types require different considerations:
-
-**Data Display Components** (Table, List, DataGrid):
-- Sorting and filtering props
-- Pagination support
-- Loading states
-- Empty states
-- Column configuration
-
-**Navigation Components** (Tabs, Breadcrumb, Menu):
-- Active state management
-- Router integration props
-- Keyboard navigation
-- ARIA navigation patterns
-
-**Overlay Components** (Tooltip, Popover, Dropdown):
-- Positioning logic
-- Portal rendering
-- Click outside handling
-- Escape key support
-
-**Form Components** (Form, FormField, ValidationMessage):
-- Form state management
-- Validation integration
-- Error display
-- Submit handling
-
-## CLAUDE.md Template Generation
-
-<!-- begin:claude-template -->
----
-generated: true
-version: {{version}}
-lastUpdated: {{date}}
-sourceTemplate: AGENTS.md
-generatedBy: executor-crew
----
-
-# CLAUDE.md - Design System Architecture Definition & AI Collaboration Guide
-
-**Version**: {{version}}  
-**Date**: {{date}}  
-**Generated from**: AGENTS.md template
-
-This file defines the comprehensive architecture of the React Design System solution. It aligns with the Architect Crew methodology, where:
-- **`docs/RDS.md`** outlines the **functional requirements** and user needs.
-- **`docs/FRS.md`** provides the **detailed technical specifications**, including all UML diagrams (Mermaid) and specific implementation blueprints.
-- **`CLAUDE.md`** (this file) instructs Claude (and similar AI) on how to interpret these documents, contribute to the architecture, and ensure `AGENTS.md` is correctly aligned.
-- **`AGENTS.md`** provides specific, actionable instructions for AI agents performing implementation tasks.
-
-## 1. From RDS → FRS Validation
-
-**Source**: `docs/RDS.md` (What & Why)  
-**Ensure**: Every RDS requirement appears in FRS diagrams/contracts.
-
-{{rdsValidation}}
-
-## 2. Architectural Overview
-
-This architecture is designed to address the specific pain points of five key personas. Persona analysis can be found in the `docs/` directory.
-
-{{architectureOverview}}
-
-## 3. Component & Module Breakdown
-
-The design system follows a layered architecture approach:
-
-### Foundation Layer (Design Tokens)
-{{designTokens}}
-
-### Component Layer 
-{{componentBreakdown}}
-
-### Build & Distribution Layer
-{{buildSystem}}
-
-## 4. Persona-Driven Principles
-
-This architecture is designed around five key user personas:
-
-{{personaPrinciples}}
-
-### Developer-Centric Component Architecture
-{{developerArchitecture}}
-
-### Design-Implementation Bridge Architecture  
-{{designBridge}}
-
-### Business Value Architecture
-{{businessValue}}
-
-### Quality Assurance Architecture
-{{qaArchitecture}}
-
-### Infrastructure and Deployment Architecture
-{{infrastructureArchitecture}}
-
-## 5. System Architecture Layers
-
-{{systemLayers}}
-
-## 6. Technology Architecture Stack
-
-{{technologyStack}}
-
-## 7. Integration Architecture
-
-{{integrationPatterns}}
-
-## 8. Performance Architecture
-
-{{performanceOptimization}}
-
-## 9. Governance Architecture
-
-{{governanceModel}}
-
-## 10. Success Measurement Framework
-
-{{successMetrics}}
-
-## 11. CI/CD & Agent Triggers
-
-**Automated Processes**:
-- Component generation via AGENTS.md templates
-- Quality gates and testing protocols
-- Build and deployment pipelines
-- Documentation generation
-
-**Agent Integration Points**:
-- Component creation following AGENTS.md specifications
-- Automated testing and validation
-- Code quality enforcement
-- Documentation updates
-
-{{cicdIntegration}}
-
-## Core Principles for System Architecture, Integrity, and AI Collaboration
-
-{{coreArchitecturalPrinciples}}
-
-## Architectural Diagrams and Flows
-
-### Primary Architecture Flow
-{{primaryArchitectureFlow}}
-
-### Component Development Lifecycle
-{{componentLifecycle}}
-
-### Quality Assurance Process Flow
-{{qaProcessFlow}}
-
-### CI/CD Pipeline Architecture
-{{cicdArchitecture}}
-
-## File Encoding Standards
-**All documentation files, including `AGENTS.md` and any files generated or modified by AI, MUST be in UTF-8 encoding.**
-
-## Implementation Status and Next Steps
-
-**Current Implementation Status**:
-{{implementationStatus}}
-
-**Immediate Next Steps**:
-{{nextSteps}}
-
-**Architecture Evolution Timeline**:
-{{evolutionTimeline}}
-
----
-
-**Prime Directive**: Always ensure components are accessible, reusable, and follow design system principles as defined in `docs/FRS.md`. Every component must work seamlessly across different applications and maintain consistency with established design tokens and patterns.
-
-Built with ❤️ using the Architect Crew methodology.
-<!-- end:claude-template -->
-
-## Deployment Process
-
-**All deployment processes MUST align with the specifications in `docs/FRS.md`.**
-
-### Build Commands
-
+**Theme Integration:**
+```typescript
+import { ThemeProvider, createTheme } from '@company/design-system';
+
+const customTheme = createTheme({
+  colors: {
+    primary: '#custom-color'
+  }
+});
+
+function App() {
+  return (
+    <ThemeProvider theme={customTheme}>
+      {/* Your app */}
+    </ThemeProvider>
+  );
+}
+```
+
+### Component Categories Implementation
+
+### Component Categories Implementation
+
+**Foundation Components (Atoms):**
+- Button: Interactive element with variants and states
+- Input: Form input with validation states
+- Text: Typography component with semantic variants
+- Icon: SVG icon system with accessibility
+- Avatar: User profile image with fallbacks
+- Badge: Status indicators and labels
+
+**Layout Components (Molecules):**
+- Card: Content container with header/body/footer
+- Stack: Vertical layout with consistent spacing
+- Grid: Responsive grid system
+- Flex: Flexible layout container
+- Divider: Visual separator element
+- Container: Page width container
+
+**Complex Components (Organisms):**
+- Modal: Overlay dialog with focus management
+- Table: Data table with sorting and filtering
+- Form: Complete form with validation
+- Navigation: App navigation with responsive behavior
+- Pagination: Data pagination controls
+- Dropdown: Menu system with keyboard navigation
+
+**Pattern Components (Templates):**
+- Page: Complete page layout templates
+- Dashboard: Admin dashboard patterns
+- Auth: Authentication form patterns
+- Settings: Settings page patterns
+
+**Implementation Priority:**
+1. Foundation components first
+2. Layout components second
+3. Complex components third
+4. Pattern components last
+
+**Each component must include:**
+- TypeScript interface
+- CSS Module styles
+- Unit tests (90%+ coverage)
+- Storybook stories
+- Accessibility features
+- Performance optimization
+
+### Design Token Implementation
+
+### Design Token Implementation
+
+**Token Structure:**
+```typescript
+// tokens/colors.ts
+export const colors = {
+  // Primitive colors
+  gray: {
+    50: '#f9fafb',
+    100: '#f3f4f6',
+    500: '#6b7280',
+    900: '#111827'
+  },
+  
+  // Semantic colors
+  primary: {
+    50: '#eff6ff',
+    500: '#3b82f6',
+    900: '#1e3a8a'
+  },
+  
+  // Functional colors
+  text: {
+    primary: 'var(--color-gray-900)',
+    secondary: 'var(--color-gray-600)',
+    disabled: 'var(--color-gray-400)'
+  },
+  
+  background: {
+    primary: '#ffffff',
+    secondary: 'var(--color-gray-50)',
+    disabled: 'var(--color-gray-100)'
+  }
+};
+```
+
+**CSS Variable Generation:**
+```css
+:root {
+  /* Color tokens */
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-500: #6b7280;
+  --color-gray-900: #111827;
+  
+  --color-primary-50: #eff6ff;
+  --color-primary-500: #3b82f6;
+  --color-primary-900: #1e3a8a;
+  
+  /* Spacing tokens */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  
+  /* Typography tokens */
+  --font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --line-height-tight: 1.25;
+  --line-height-base: 1.5;
+  --line-height-relaxed: 1.75;
+  
+  /* Border tokens */
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --border-width-thin: 1px;
+  --border-width-thick: 2px;
+  
+  /* Shadow tokens */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.15);
+  
+  /* Transition tokens */
+  --transition-duration-fast: 150ms;
+  --transition-duration-normal: 300ms;
+  --transition-easing-ease: ease;
+  --transition-easing-ease-in: ease-in;
+  --transition-easing-ease-out: ease-out;
+}
+
+/* Dark theme tokens */
+[data-theme="dark"] {
+  --color-text-primary: var(--color-gray-50);
+  --color-background-primary: var(--color-gray-900);
+  /* ... other dark theme overrides */
+}
+```
+
+**Token Implementation Requirements:**
+- Use semantic naming for functional tokens
+- Support light and dark themes
+- Include responsive typography scales
+- Provide accessibility-compliant color contrasts
+- Support CSS custom properties for runtime theming
+
+### Accessibility Implementation
+
+### Accessibility Implementation
+
+**WCAG 2.1 AA Compliance Requirements:**
+
+1. **Keyboard Navigation:**
+   ```typescript
+   // Implement keyboard event handlers
+   const handleKeyDown = (event: React.KeyboardEvent) => {
+     switch (event.key) {
+       case 'Enter':
+       case ' ':
+         event.preventDefault();
+         onClick?.(event as any);
+         break;
+       case 'Escape':
+         onClose?.();
+         break;
+       case 'Tab':
+         // Handle focus management
+         break;
+     }
+   };
+   ```
+
+2. **ARIA Attributes:**
+   ```typescript
+   <button
+     type="button"
+     role="button"
+     aria-label={ariaLabel}
+     aria-describedby={ariaDescribedBy}
+     aria-expanded={isExpanded}
+     aria-pressed={isPressed}
+     aria-disabled={disabled}
+     tabIndex={disabled ? -1 : 0}
+   >
+     {children}
+   </button>
+   ```
+
+3. **Focus Management:**
+   ```typescript
+   import { useRef, useEffect } from 'react';
+
+   const ComponentName: React.FC<Props> = ({ autoFocus }) => {
+     const elementRef = useRef<HTMLElement>(null);
+
+     useEffect(() => {
+       if (autoFocus && elementRef.current) {
+         elementRef.current.focus();
+       }
+     }, [autoFocus]);
+
+     return <element ref={elementRef} />;
+   };
+   ```
+
+4. **Color Contrast:**
+   ```css
+   /* Ensure minimum 4.5:1 contrast ratio */
+   .component {
+     color: var(--color-text-primary); /* #111827 on #ffffff = 16:1 */
+     background-color: var(--color-background-primary);
+   }
+
+   .component:focus {
+     outline: 2px solid var(--color-focus-ring); /* High contrast focus indicator */
+     outline-offset: 2px;
+   }
+   ```
+
+5. **Screen Reader Support:**
+   ```typescript
+   // Provide meaningful labels and descriptions
+   <button
+     aria-label="Close dialog"
+     aria-describedby="dialog-description"
+   >
+     <Icon name="close" aria-hidden="true" />
+   </button>
+
+   <div id="dialog-description" className="sr-only">
+     This action will close the dialog and discard changes
+   </div>
+   ```
+
+**Accessibility Testing:**
+```typescript
+// Include in every component test
+import { axe, toHaveNoViolations } from 'jest-axe';
+
+expect.extend(toHaveNoViolations);
+
+it('has no accessibility violations', async () => {
+  const { container } = render(<Component />);
+  const results = await axe(container);
+  expect(results).toHaveNoViolations();
+});
+```
+
+**Accessibility Checklist:**
+- [ ] Keyboard navigation implemented
+- [ ] ARIA attributes correctly applied
+- [ ] Focus indicators visible and clear
+- [ ] Color contrast meets WCAG AA standards
+- [ ] Screen reader labels provided
+- [ ] Automated accessibility tests pass
+- [ ] Manual keyboard testing completed
+- [ ] Screen reader testing completed
+
+### Performance Implementation
+
+### Performance Implementation
+
+**Performance Requirements:**
+
+1. **Bundle Size Optimization:**
+   ```typescript
+   // Tree-shakable exports
+   export { Button } from './Button';
+   export { Input } from './Input';
+   // Avoid barrel exports that include everything
+
+   // Lazy loading for complex components
+   const Modal = React.lazy(() => import('./Modal'));
+   ```
+
+2. **Runtime Performance:**
+   ```typescript
+   // Memoize expensive calculations
+   const memoizedValue = useMemo(() => {
+     return expensiveCalculation(props);
+   }, [props.dependency]);
+
+   // Optimize re-renders
+   const MemoizedComponent = React.memo(Component);
+
+   // Use callback optimization
+   const handleClick = useCallback((event) => {
+     onClick?.(event);
+   }, [onClick]);
+   ```
+
+3. **CSS Performance:**
+   ```css
+   /* Use efficient selectors */
+   .component {
+     /* Avoid complex selectors */
+   }
+
+   /* Minimize paint and layout operations */
+   .component {
+     transform: translateX(0); /* Use transforms for animations */
+     will-change: transform; /* Hint browser for optimization */
+   }
+
+   /* Optimize animations */
+   @media (prefers-reduced-motion: no-preference) {
+     .component {
+       transition: transform 0.2s ease;
+     }
+   }
+   ```
+
+4. **Memory Management:**
+   ```typescript
+   // Clean up event listeners
+   useEffect(() => {
+     const handleResize = () => {
+       // Handle resize
+     };
+
+     window.addEventListener('resize', handleResize);
+     
+     return () => {
+       window.removeEventListener('resize', handleResize);
+     };
+   }, []);
+
+   // Clean up timers
+   useEffect(() => {
+     const timer = setTimeout(() => {
+       // Timer logic
+     }, 1000);
+
+     return () => clearTimeout(timer);
+   }, []);
+   ```
+
+**Performance Budget:**
+- Component bundle size: <10KB gzipped
+- First paint: <100ms
+- Interactive: <200ms
+- Memory usage: <5MB per component
+- CPU usage: <10ms per interaction
+
+**Performance Testing:**
+```typescript
+// Include performance tests
+it('renders within performance budget', () => {
+  const startTime = performance.now();
+  render(<Component />);
+  const endTime = performance.now();
+  
+  expect(endTime - startTime).toBeLessThan(16); // 60fps budget
+});
+
+// Bundle size testing
+it('has acceptable bundle size', () => {
+  const bundleSize = getBundleSize('Component');
+  expect(bundleSize).toBeLessThan(10 * 1024); // 10KB limit
+});
+```
+
+**Performance Monitoring:**
+- Monitor bundle sizes in CI/CD
+- Track Core Web Vitals
+- Set performance budgets
+- Use Lighthouse CI for automated audits
+- Monitor runtime performance metrics
+
+## Automated Implementation Workflow
+
+### Implementation Process
+
+### Implementation Process Workflow
+
+**Step-by-Step Implementation Process:**
+
+1. **Planning Phase (30 minutes):**
+   - [ ] Review CLAUDE.md architectural requirements
+   - [ ] Identify component requirements and constraints
+   - [ ] Plan design token usage
+   - [ ] Design accessibility strategy
+   - [ ] Plan testing approach
+
+2. **Setup Phase (15 minutes):**
+   - [ ] Create component directory structure
+   - [ ] Set up basic files (component, types, styles, tests, stories)
+   - [ ] Configure development environment
+
+3. **Implementation Phase (2-4 hours):**
+   - [ ] Implement TypeScript interface with JSDoc
+   - [ ] Build component with accessibility features
+   - [ ] Create CSS Module styles with design tokens
+   - [ ] Implement keyboard navigation
+   - [ ] Add ARIA attributes and labels
+
+4. **Testing Phase (1-2 hours):**
+   - [ ] Write comprehensive unit tests
+   - [ ] Add accessibility tests with jest-axe
+   - [ ] Test keyboard navigation manually
+   - [ ] Verify screen reader compatibility
+   - [ ] Validate performance benchmarks
+
+5. **Documentation Phase (30 minutes):**
+   - [ ] Create Storybook stories for all variants
+   - [ ] Write component README with usage examples
+   - [ ] Document accessibility features
+   - [ ] Add integration examples
+
+6. **Integration Phase (30 minutes):**
+   - [ ] Test component with other components
+   - [ ] Verify build process works correctly
+   - [ ] Test in different browsers
+   - [ ] Validate responsive behavior
+
+7. **Review Phase (30 minutes):**
+   - [ ] Run all quality checks
+   - [ ] Review code for compliance
+   - [ ] Update FRS.md with implementation details
+   - [ ] Create pull request for review
+
+8. **Deployment Phase (15 minutes):**
+   - [ ] Merge approved changes
+   - [ ] Update version and changelog
+   - [ ] Deploy documentation updates
+   - [ ] Communicate changes to team
+
+**Quality Checkpoints:**
+- After each phase, run: `npm run check:all`
+- Before PR: Complete accessibility audit
+- Before merge: All tests pass and coverage ≥ 90%
+- Before release: Cross-browser testing complete
+
+### Quality Assurance Implementation
+
+### Quality Assurance Implementation
+
+**QA Process Integration:**
+
+1. **Pre-Development QA:**
+   ```bash
+   # Architecture compliance check
+   npm run check:architecture ComponentName
+   
+   # Design token validation
+   npm run validate:tokens
+   ```
+
+2. **Development QA:**
+   ```bash
+   # Continuous validation during development
+   npm run dev # Includes type checking and linting
+   npm run test:watch # Continuous testing
+   ```
+
+3. **Pre-Commit QA:**
+   ```bash
+   # Automated pre-commit hooks
+   npm run lint:fix
+   npm run type-check
+   npm run test
+   npm run test:a11y
+   ```
+
+4. **Pre-Merge QA:**
+   ```bash
+   # Complete QA suite
+   npm run check:all
+   npm run build
+   npm run test:integration
+   npm run test:e2e
+   ```
+
+**QA Standards:**
+- Code coverage: ≥90%
+- Accessibility: WCAG 2.1 AA compliance
+- Performance: Within defined budgets
+- Browser support: Modern browsers (last 2 versions)
+- Type safety: Zero TypeScript errors
+- Linting: Zero ESLint warnings/errors
+
+**Automated QA Tools:**
+- ESLint for code quality
+- Prettier for formatting
+- TypeScript for type safety
+- Jest for unit testing
+- React Testing Library for component testing
+- jest-axe for accessibility testing
+- Chromatic for visual testing (when available)
+- Lighthouse CI for performance testing
+
+**Manual QA Checklist:**
+- [ ] Keyboard navigation works correctly
+- [ ] Screen reader announces content properly
+- [ ] Component works in all supported browsers
+- [ ] Responsive design functions correctly
+- [ ] Dark/light themes work properly
+- [ ] Component integrates well with others
+- [ ] Performance is within acceptable limits
+- [ ] Accessibility features are complete
+
+### FRS Documentation Process
+
+### FRS Documentation Process
+
+**Automated FRS.md Generation Process:**
+
+1. **Implementation Analysis:**
+   - Scan component implementations for API details
+   - Extract TypeScript interfaces and prop definitions
+   - Analyze CSS modules for styling patterns
+   - Review test files for coverage and scenarios
+   - Collect performance benchmarks
+
+2. **Technical Specification Extraction:**
+   - Component APIs with full TypeScript definitions
+   - Integration patterns and usage examples
+   - Build configuration details
+   - Testing methodologies and coverage
+   - Performance characteristics and budgets
+
+3. **Architecture Compliance Validation:**
+   - Verify implementation matches CLAUDE.md specifications
+   - Document any deviations with justifications
+   - Confirm accessibility requirements are met
+   - Validate technology stack decisions
+
+4. **FRS Content Generation:**
+   ```bash
+   # Generate FRS.md from implementation
+   npm run generate:frs
+   
+   # Manual update process
+   npm run update:frs ComponentName
+   ```
+
+**FRS Content Structure:**
+- System architecture as implemented
+- Component library specifications
+- Technology stack configuration
+- Build system details
+- Testing framework implementation
+- Performance metrics and budgets
+- Deployment configuration
+- Quality assurance results
+
+**FRS Update Triggers:**
+- New component implementations
+- Architecture pattern changes
+- Technology stack updates
+- Performance optimization changes
+- Build system modifications
+- Testing framework updates
+
+**FRS Maintenance:**
+- Weekly automated updates
+- Manual review and validation
+- Version control for all changes
+- Stakeholder notification of updates
+
+## Implementation Troubleshooting
+
+### Implementation Troubleshooting
+
+**Common Issues and Solutions:**
+
+1. **TypeScript Compilation Errors:**
+   ```bash
+   # Check TypeScript configuration
+   npx tsc --noEmit --pretty
+   
+   # Common fixes:
+   # - Add missing type imports
+   # - Update interface definitions
+   # - Check generic type constraints
+   ```
+
+2. **CSS Module Issues:**
+   ```bash
+   # Generate CSS type definitions
+   npm run generate:css-types
+   
+   # Common fixes:
+   # - Verify CSS module naming
+   # - Check import statements
+   # - Validate class name usage
+   ```
+
+3. **Storybook Build Failures:**
+   ```bash
+   # Clear Storybook cache
+   npm run storybook:clear-cache
+   
+   # Common fixes:
+   # - Update story syntax
+   # - Check addon configuration
+   # - Verify asset imports
+   ```
+
+4. **Test Failures:**
+   ```bash
+   # Run tests with detailed output
+   npm run test -- --verbose
+   
+   # Common fixes:
+   # - Update test queries
+   # - Mock external dependencies
+   # - Fix async test handling
+   ```
+
+5. **Accessibility Violations:**
+   ```bash
+   # Run accessibility audit
+   npm run test:a11y
+   
+   # Common fixes:
+   # - Add missing ARIA labels
+   # - Improve color contrast
+   # - Fix keyboard navigation
+   ```
+
+6. **Performance Issues:**
+   ```bash
+   # Analyze bundle size
+   npm run analyze:bundle
+   
+   # Common fixes:
+   # - Remove unused dependencies
+   # - Optimize imports
+   # - Add lazy loading
+   ```
+
+**Debug Commands:**
 ```bash
-# Build component library
-cd ../design-system && npm run build-lib
+# Development debugging
+npm run dev:debug
+npm run test:debug
+npm run storybook:debug
 
-# Build Storybook documentation
-cd ../design-system && npm run build-storybook
+# Build debugging
+npm run build:analyze
+npm run build:verbose
+
+# Performance debugging
+npm run perf:analyze
+npm run bundle:analyze
 ```
 
-### Integration Options
+**Getting Help:**
+- Check component README files
+- Review Storybook documentation
+- Consult CLAUDE.md for architecture guidance
+- Check GitHub issues for known problems
+- Contact design system team for support
 
-- **NPM Package**: Publish library to npm registry for React applications
-- **Static Assets**: Host built CSS and JS files on CDN
-- **Storybook Documentation**: Deploy documentation site for team reference
-- **Framework Integration**: Import components into Next.js, Vite, or other React applications
-*(Refer to `docs/FRS.md` for detailed integration guides.)*
+## Implementation Success Criteria
 
-## Pull Request Instructions
+### Implementation Success Criteria
 
-**Adhere to PR guidelines specified in `docs/FRS.md`.**
+**Component Implementation Success Criteria:**
 
-### PR Title Format
+1. **Functionality Criteria (25%):**
+   - [ ] All required props implemented and functional
+   - [ ] All variants and states work correctly
+   - [ ] Event handlers function as expected
+   - [ ] Component renders without errors
+   - [ ] Integration with other components works
 
-Must follow conventional commits (detailed in `docs/FRS.md`):
+2. **Quality Criteria (25%):**
+   - [ ] TypeScript compilation successful (0 errors)
+   - [ ] ESLint passes (0 warnings/errors)
+   - [ ] Test coverage ≥ 90%
+   - [ ] All tests pass
+   - [ ] Performance within budget
 
-- `feat:` New components or features
-- `fix:` Bug fixes in existing components
-- `docs:` Documentation updates
-- `refactor:` Code refactoring without functionality changes
-- `test:` Test additions or modifications
-- `chore:` Maintenance tasks and dependencies
+3. **Accessibility Criteria (25%):**
+   - [ ] WCAG 2.1 AA compliance verified
+   - [ ] Keyboard navigation implemented
+   - [ ] Screen reader compatibility confirmed
+   - [ ] Focus management working
+   - [ ] Color contrast validated
 
-Examples:
+4. **Documentation Criteria (25%):**
+   - [ ] Storybook stories complete and functional
+   - [ ] Component README written
+   - [ ] API documentation complete
+   - [ ] Usage examples provided
+   - [ ] FRS.md updated
 
-- `feat: Add DatePicker component with accessibility support`
-- `fix: Correct Button focus state styling`
-- `docs: Update component usage guidelines in FRS.md`
+**Project-Level Success Criteria:**
 
-### PR Body Requirements
+1. **Architecture Compliance:**
+   - [ ] All components follow architectural patterns
+   - [ ] Design tokens used consistently
+   - [ ] File organization matches standards
+   - [ ] Code style guidelines followed
 
-```markdown
-## Summary
-Brief description of changes made. **Reference relevant sections of `docs/FRS.md`.**
+2. **Performance Targets:**
+   - [ ] Bundle size < 500KB total
+   - [ ] Individual components < 10KB
+   - [ ] Build time < 30 seconds
+   - [ ] Test suite runs < 60 seconds
 
-## Component Compliance
-- [ ] Component follows design system patterns (defined in `docs/FRS.md`)
-- [ ] TypeScript interfaces properly defined (as per `docs/FRS.md`)
-- [ ] Accessibility requirements met (WCAG 2.1 AA, criteria in `docs/FRS.md`)
-- [ ] Responsive design implemented (as per `docs/FRS.md`)
+3. **Developer Experience:**
+   - [ ] TypeScript provides comprehensive IntelliSense
+   - [ ] Development server starts quickly
+   - [ ] Hot reload works consistently
+   - [ ] Error messages are helpful
 
-## Testing Done
-- [ ] Component tests pass (meeting `docs/FRS.md` standards)
-- [ ] Storybook stories created/updated
-- [ ] Visual regression testing completed
-- [ ] Accessibility testing performed
-- [ ] Cross-browser compatibility verified
+4. **Deployment Readiness:**
+   - [ ] CI/CD pipeline passes
+   - [ ] Documentation site builds
+   - [ ] NPM package can be published
+   - [ ] All environments work correctly
 
-## Storybook Documentation
-- [ ] All component variants documented
-- [ ] Interactive controls configured
-- [ ] Usage examples provided
-- [ ] Design tokens properly utilized
+**Validation Commands:**
+```bash
+# Validate complete implementation
+npm run validate:all
+
+# Check individual criteria
+npm run validate:functionality
+npm run validate:quality
+npm run validate:accessibility
+npm run validate:documentation
+
+# Generate success report
+npm run report:success
 ```
 
-## Security Requirements
+**Success Metrics:**
+- Implementation velocity: Components per sprint
+- Quality score: Automated checks passing rate
+- Developer satisfaction: Team feedback scores
+- Adoption rate: Component usage in applications
 
-**All development MUST adhere to the security protocols detailed in `docs/FRS.md`.**
+## FRS.md Generation Requirements
 
-### Component Security
+### Automated FRS.md Generation
 
-- Sanitize all props and user input before rendering
-- Use proper TypeScript types to prevent injection vulnerabilities
-- Implement Content Security Policy headers for Storybook deployment
-- Validate component props at runtime when necessary
+**Purpose**: Generate comprehensive technical specifications in FRS.md based on implementation decisions made during development.
 
-### Development Security
+**Source**: Implementation artifacts, code analysis, and architectural decisions from CLAUDE.md
 
-- Keep dependencies updated and scan for vulnerabilities
-- Use secure coding practices in component development
-- Implement proper error boundaries for component isolation
-- Follow React security best practices for XSS prevention
+**Generation Triggers**:
+- Component implementations completed
+- Architecture patterns established
+- Technical decisions documented
+- Integration patterns implemented
 
-## Troubleshooting Guide
+**FRS Content Generation**:
 
-**Consult `docs/FRS.md` for an extended troubleshooting guide and common issues.**
+### FRS Content Generation Requirements
 
-### Common Issues
+**Automated FRS Generation Strategy:**
 
-1. **"Component not rendering in Storybook"**
-   - Verify component export in index.ts
-   - Check for TypeScript compilation errors
-   - Ensure story file follows naming convention (*.stories.tsx)
-   - Verify Storybook configuration is correct (see `docs/FRS.md`)
+1. **Implementation Scanning:**
+   - Parse component TypeScript files for API definitions
+   - Extract CSS modules for styling implementation
+   - Analyze test files for coverage and test scenarios
+   - Review Storybook stories for documentation patterns
+   - Collect build artifacts and bundle analysis
 
-2. **"Build failing during library compilation"**
-   - Check for TypeScript errors in components
-   - Verify all imports are correctly resolved
-   - Ensure CSS imports are valid
-   - Check Rollup configuration for missing externals (config in `docs/FRS.md`)
+2. **Technical Specification Extraction:**
+   ```typescript
+   // Extract component APIs
+   interface ComponentAPI {
+     name: string;
+     props: PropDefinition[];
+     events: EventHandler[];
+     variants: VariantDefinition[];
+     accessibility: AccessibilityFeatures;
+   }
 
-3. **"Styles not applying correctly"**
-   - Verify CSS files are imported in component files
-   - Check for CSS naming conflicts (use BEM methodology, see `docs/FRS.md`)
-   - Ensure design tokens are properly imported
-   - Verify CSS custom properties are defined
+   // Extract implementation patterns
+   interface ImplementationPattern {
+     styling: CSSPattern;
+     testing: TestPattern;
+     integration: IntegrationMethod;
+     performance: PerformanceMetrics;
+   }
+   ```
 
-4. **"Component accessibility issues"**
-   - Check semantic HTML usage
-   - Verify ARIA labels and roles are correct
-   - Ensure keyboard navigation works properly
-   - Test with screen readers and accessibility tools (tools listed in `docs/FRS.md`)
+3. **Architecture Validation:**
+   - Compare implementation against CLAUDE.md specifications
+   - Document architectural compliance
+   - Identify deviations and justifications
+   - Validate technology stack usage
 
-5. **"TypeScript type errors"**
-   - Verify component prop interfaces are complete
-   - Check for missing or incorrect type definitions
-   - Ensure React types are properly imported
-   - Validate generic type constraints
+4. **FRS Document Structure:**
+   ```markdown
+   # Technical Specifications
 
-## Your Prime Directive
+   ## Component APIs
+   - TypeScript interfaces
+   - Usage examples
+   - Integration patterns
 
-**Always ensure components are accessible, reusable, and follow design system principles as defined in `docs/FRS.md`.** Every component must work seamlessly across different applications and maintain consistency with the established design tokens and patterns. When in doubt, prioritize accessibility and user experience over visual complexity, and **always consult `docs/FRS.md` for authoritative guidance.**
+   ## Implementation Details
+   - Build configuration
+   - Testing setup
+   - Performance characteristics
 
-Remember: This design system serves as the foundation for consistent UI experiences across multiple applications. Design and develop accordingly, with `docs/FRS.md` as your technical constitution.
+   ## Quality Metrics
+   - Test coverage reports
+   - Accessibility audit results
+   - Performance benchmarks
+   ```
 
-## Architecture Flows and Rules
+**Generation Triggers:**
+- Component implementation completion
+- Build system changes
+- Technology stack updates
+- Performance optimization
+- Testing framework updates
 
-**All architectural diagrams, flows, and rules are maintained in `docs/FRS.md`. You MUST refer to `docs/FRS.md` for the authoritative versions of these.** The diagrams below are illustrative examples and may not be up-to-date.
+**Content Sources:**
+- TypeScript declaration files
+- Component implementation files
+- Test suites and coverage reports
+- Build configuration files
+- Performance benchmarks
+- Accessibility audit results
 
-### Design System Architecture Flow
+### Technical Specifications to Capture
 
-```mermaid
-graph TB
-    subgraph "Development Layer"
-        A[React 18+] --> B[TypeScript]
-        B --> C[Storybook 8.3+]
-        C --> D[Component Development]
-    end
+### Technical Specifications to Capture
 
-    subgraph "Build Layer"
-        E[Vite] --> F[Rollup]
-        F --> G[Library Bundle]
-        G --> H[NPM Distribution]
-    end
+**Component-Level Specifications:**
 
-    subgraph "Quality Layer"
-        I[Jest] --> J[React Testing Library]
-        J --> K[Chromatic Visual Testing]
-        K --> L[Accessibility Testing]
-    end
+1. **API Specifications:**
+   ```typescript
+   // Capture complete TypeScript definitions
+   interface ComponentProps {
+     // All props with types and documentation
+   }
 
-    subgraph "Deployment Layer"
-        M[GitHub Actions] --> N[Semantic Versioning]
-        N --> O[Automated Releases]
-        O --> P[Documentation Hosting]
-    end
+   // Export patterns
+   export { Component } from './Component';
+   export type { ComponentProps } from './Component';
+   ```
 
-    D --> E
-    L --> M
-    H --> Q[Consumer Applications]
-    P --> R[Documentation Site]
+2. **Styling Specifications:**
+   ```css
+   /* CSS architecture patterns */
+   .component {
+     /* Design token usage */
+     /* Layout patterns */
+     /* Responsive design */
+     /* Accessibility features */
+   }
+   ```
+
+3. **Testing Specifications:**
+   - Test coverage percentages
+   - Testing methodologies used
+   - Accessibility test results
+   - Performance test benchmarks
+   - Browser compatibility results
+
+**System-Level Specifications:**
+
+1. **Build System Configuration:**
+   - Vite configuration details
+   - Rollup bundle settings
+   - TypeScript compiler options
+   - PostCSS processing setup
+   - Asset optimization settings
+
+2. **Development Workflow:**
+   - NPM scripts and their purposes
+   - Development server configuration
+   - Hot reload implementation
+   - Debugging setup
+   - Quality gate configurations
+
+3. **Deployment Configuration:**
+   - CI/CD pipeline details
+   - Build artifact specifications
+   - Distribution package structure
+   - Documentation deployment
+   - Performance monitoring setup
+
+**Performance Specifications:**
+- Bundle size measurements
+- Runtime performance metrics
+- Memory usage patterns
+- Loading performance
+- Accessibility compliance scores
+
+**Integration Specifications:**
+- Framework compatibility details
+- Integration examples
+- Common usage patterns
+- Migration guides
+- Troubleshooting documentation
+
+### Implementation Artifacts to Document
+
+### Implementation Artifacts to Document
+
+**Build Artifacts:**
+
+1. **Distribution Packages:**
+   ```
+   dist/
+   ├── design-system.es.js     # ES module bundle
+   ├── design-system.umd.js    # UMD bundle
+   ├── design-system.d.ts      # TypeScript declarations
+   ├── styles.css              # Complete CSS bundle
+   └── assets/                 # Static assets
+   ```
+
+2. **Documentation Artifacts:**
+   ```
+   storybook-static/
+   ├── index.html              # Storybook documentation
+   ├── static/                 # Static assets
+   └── assets/                 # Generated assets
+   ```
+
+**Development Artifacts:**
+
+1. **Source Code Structure:**
+   ```
+   src/
+   ├── components/             # Component implementations
+   ├── tokens/                 # Design token definitions
+   ├── utils/                  # Utility functions
+   └── types/                  # Type definitions
+   ```
+
+2. **Configuration Files:**
+   - TypeScript configuration (`tsconfig.json`)
+   - Vite configuration (`vite.config.ts`)
+   - Storybook configuration (`.storybook/`)
+   - Jest configuration (`jest.config.js`)
+   - ESLint configuration (`.eslintrc.js`)
+
+**Quality Artifacts:**
+
+1. **Test Results:**
+   - Unit test coverage reports
+   - Accessibility audit results
+   - Performance benchmark reports
+   - Visual regression test results
+   - Cross-browser test results
+
+2. **Analysis Reports:**
+   - Bundle analyzer reports
+   - Dependency analysis
+   - Security audit results
+   - Performance profiling data
+   - Code quality metrics
+
+**Deployment Artifacts:**
+
+1. **Package Metadata:**
+   - NPM package configuration
+   - Version history and changelog
+   - License and attribution
+   - Dependency specifications
+   - Installation instructions
+
+2. **Documentation Deployment:**
+   - Live Storybook site
+   - API documentation
+   - Integration guides
+   - Migration documentation
+   - Troubleshooting guides
+
+**Documentation Requirements:**
+- Artifact descriptions and purposes
+- Generation processes and tools
+- Quality metrics and benchmarks
+- Usage instructions and examples
+- Maintenance and update procedures
+
+## Prime Directive
+
+### Prime Directive for Implementation
+
+**THE CARDINAL RULE: All implementation must faithfully realize the architecture defined in CLAUDE.md while maintaining the highest standards of quality, accessibility, and performance.**
+
+**Core Implementation Principles:**
+
+1. **Architecture Fidelity:**
+   - Every component must implement the architecture specified in CLAUDE.md
+   - No architectural deviations without explicit approval and documentation
+   - All technology choices must align with the defined stack
+   - Implementation patterns must follow established conventions
+
+2. **Quality Without Compromise:**
+   - 90%+ test coverage is mandatory, not optional
+   - WCAG 2.1 AA accessibility compliance is non-negotiable
+   - Performance budgets are hard limits, not suggestions
+   - TypeScript type safety must be comprehensive
+
+3. **User-Centric Development:**
+   - Every implementation decision serves the personas identified in RDS.md
+   - Accessibility is a first-class concern, not an afterthought
+   - Developer experience is prioritized in API design
+   - Performance impacts are carefully considered
+
+4. **Documentation Integrity:**
+   - FRS.md must accurately reflect what was actually built
+   - All implementation details must be captured and documented
+   - Deviations from architecture must be justified and recorded
+   - Knowledge must be preserved for future maintainers
+
+**Implementation Hierarchy of Priorities:**
+1. **Accessibility** - Ensure inclusive design for all users
+2. **Functionality** - Meet the specified requirements completely
+3. **Performance** - Maintain fast, efficient operation
+4. **Maintainability** - Enable long-term evolution and support
+5. **Developer Experience** - Provide excellent APIs and tooling
+
+**Quality Gates (All Must Pass):**
+- Architecture compliance verification
+- TypeScript compilation with zero errors
+- All unit tests passing with 90%+ coverage
+- Accessibility audit with zero violations
+- Performance budget compliance
+- Storybook builds successfully
+- Documentation completeness check
+
+**When in Doubt:**
+1. Consult CLAUDE.md for architectural guidance
+2. Prioritize accessibility and inclusivity
+3. Choose the more maintainable solution
+4. Document decisions and reasoning
+5. Seek team review and consensus
+
+**Success Definition:**
+Implementation is successful when it serves real user needs, follows architectural principles, maintains quality standards, and contributes to a sustainable, scalable design system that empowers teams to build better user experiences.
+
+**This prime directive overrides all other considerations and must guide every implementation decision.**
+
+**Implementation Authority**: This AGENTS.md provides implementation instructions based on CLAUDE.md architecture. All technical specifications discovered during implementation must be documented in FRS.md to complete the methodology cycle.
+
+## File Generation Chain
+
+This creates the complete Architect Crew automation chain:
+
 ```
-*(See `docs/FRS.md` for the definitive version.)*
-
-### Component Development Sequence Diagram
-
-```mermaid
-sequenceDiagram
-    participant Dev as Developer
-    participant Git as Git Repository
-    participant CI as CI/CD Pipeline
-    participant SB as Storybook
-    participant NPM as NPM Registry
-    participant Docs as Documentation Site
-
-    Dev->>Git: Create feature branch
-    Dev->>Dev: Consult docs/FRS.md for specs
-    Dev->>Dev: Develop React component
-    Dev->>Dev: Add TypeScript definitions
-    Dev->>Dev: Create Storybook stories
-    Dev->>Dev: Write unit tests
-    Dev->>Git: Commit changes
-    Dev->>Git: Push to remote
-    Git->>CI: Trigger pipeline
-    CI->>CI: Run linting
-    CI->>CI: Run unit tests (per FRS.md)
-    CI->>CI: Run accessibility tests (per FRS.md)
-    CI->>CI: Build library
-    CI->>CI: Build Storybook
-    CI->>SB: Deploy Storybook preview
-    Dev->>Git: Create pull request (adhering to FRS.md PR guidelines)
-    Git->>CI: Trigger review pipeline
-    CI->>CI: Visual regression tests
-    CI->>Git: Report results
-    Git->>Git: Merge to main
-    CI->>NPM: Publish package
-    CI->>Docs: Deploy documentation
+RDS.md (Requirements) 
+    ↓ generates
+CLAUDE.md (Architecture)
+    ↓ generates  
+AGENTS.md (Implementation Instructions)
+    ↓ generates
+FRS.md (Technical Specifications)
+    ↓ enables
+Validated Implementation
 ```
-*(See `docs/FRS.md` for the definitive version.)*
 
-### Component Lifecycle State Flow
+**Manual Regeneration**:
+```bash
+# Regenerate AGENTS.md from CLAUDE.md changes
+npm run generate:agents
 
-```mermaid
-stateDiagram-v2
-    [*] --> Planning
-    Planning --> Development: Requirements Defined (in RDS, technicals in FRS)
-    Development --> Testing: Component Implemented (per FRS)
-    Testing --> CodeReview: Tests Pass (per FRS)
-    CodeReview --> Staging: Review Approved
-    Staging --> Production: QA Approved
-    Production --> Maintenance: Component Released
-    Maintenance --> Enhancement: Feature Request
-    Enhancement --> Development: Enhancement Planned (specs in FRS)
-    Maintenance --> Deprecation: Component Obsolete
-    Deprecation --> Retired: Migration Complete
-    Retired --> [*]
+# Regenerate FRS.md from implementation
+npm run generate:frs
 
-    Testing --> Development: Tests Fail
-    CodeReview --> Development: Review Rejected
-    Staging --> Development: QA Issues Found
-    PreProduction --> Staging: Pre-prod Issues
-    Production --> Rollback: Deployment Issues
-    Rollback --> Staging: Previous Version
+# Regenerate entire chain
+npm run generate:all
 ```
-*(See `docs/FRS.md` for the definitive version.)*
-
-### Design System Entity Relationship Diagram
-
-```mermaid
-erDiagram
-    DESIGN_TOKENS ||--o{ COMPONENTS : "styles"
-    COMPONENTS ||--o{ STORIES : "documents"
-    COMPONENTS ||--o{ TESTS : "validates"
-    STORIES ||--o{ DOCUMENTATION : "generates"
-    COMPONENTS ||--o{ LIBRARY_BUILD : "compiles_to"
-    LIBRARY_BUILD ||--o{ NPM_PACKAGE : "publishes_as"
-    COMPONENTS ||--o{ CONSUMER_APPS : "used_by"
-    FRS_DOCUMENT ||--|{ COMPONENTS : "defines_specs_for"
-
-    DESIGN_TOKENS {
-        string name
-        string category
-        string value
-        string description
-        string scope
-    }
-
-    COMPONENTS {
-        string name
-        string type
-        string variant
-        boolean deprecated
-        string version
-        string[] dependencies
-        string frs_specification_link
-    }
-
-    STORIES {
-        string component_name
-        string story_name
-        object args
-        string[] controls
-        string documentation
-    }
-
-    TESTS {
-        string component_name
-        string test_type
-        string test_file
-        number coverage
-        boolean passing
-    }
-
-    CONSUMER_APPS {
-        string app_name
-        string framework
-        string version
-        string[] used_components
-    }
-
-    FRS_DOCUMENT {
-        string document_id
-        string version
-        string section
-        string content
-    }
-```
-*(See `docs/FRS.md` for the definitive version.)*
-
-### Development Workflow Rules Engine
-
-```mermaid
-flowchart TD
-    A[Code Change] --> B{Consult docs/FRS.md for specs?}
-    B --> |No| Z[STOP: Must adhere to FRS.md]
-    B --> |Yes| BA[TypeScript Valid (per FRS.md)?]
-    BA -->|No| C[Block: Fix TypeScript Errors]
-    BA -->|Yes| D{Tests Pass (per FRS.md)?}
-    D -->|No| E[Block: Fix Failing Tests]
-    D -->|Yes| F{Accessibility OK (per FRS.md)?}
-    F -->|No| G[Block: Fix A11y Issues]
-    F -->|Yes| H{Stories Updated (per FRS.md)?}
-    H -->|No| I[Block: Add/Update Stories]
-    H -->|Yes| J{Breaking Changes (check FRS.md for policy)?}
-    J -->|Yes| K[Require: Version Bump + Migration Guide (per FRS.md)]
-    J -->|No| L{Visual Regression?}
-    L -->|Yes| M[Block: Review Visual Changes]
-    L -->|No| N[Allow: Merge to Main]
-
-    C --> A
-    E --> A
-    G --> A
-    I --> A
-    K --> N
-    M --> O{Approved?}
-    O -->|Yes| N
-    O -->|No| A
-    Z --> A
-```
-*(See `docs/FRS.md` for the definitive version.)*
-
-### Deployment State Machine
-
-```mermaid
-stateDiagram-v2
-    [*] --> Development
-    Development --> Testing: Code Complete (per FRS.md)
-    Testing --> CodeReview: Tests Pass (per FRS.md)
-    CodeReview --> Staging: Review Approved
-    Staging --> PreProduction: Staging Tests Pass
-    PreProduction --> Production: Final Approval
-    Production --> Monitoring: Deployed
-    Monitoring --> HotFix: Critical Issue
-    HotFix --> PreProduction: Fix Ready
-    Monitoring --> NextRelease: Stable
-    NextRelease --> Development: New Features (specs in FRS.md)
-
-    Testing --> Development: Test Failures
-    CodeReview --> Development: Changes Requested
-    Staging --> Development: Integration Issues
-    PreProduction --> Staging: Pre-prod Issues
-    Production --> Rollback: Deployment Issues
-    Rollback --> Staging: Previous Version
-```
-*(See `docs/FRS.md` for the definitive version.)*
-
-### Component Dependency Graph
-
-```mermaid
-graph TD
-    DT[Design Tokens (defined in FRS.md)] --> BC[Base Components (specs in FRS.md)]
-    BC --> Button
-    BC --> Input
-    BC --> Icon
-    BC --> Text
-
-    Button --> Form[Form Components (specs in FRS.md)]
-    Input --> Form
-    Text --> Form
-
-    Form --> Modal[Modal Components (specs in FRS.md)]
-    Form --> Card[Card Components (specs in FRS.md)]
-
-    Modal --> Layout[Layout Components (specs in FRS.md)]
-    Card --> Layout
-
-    Icon --> Navigation[Navigation Components (specs in FRS.md)]
-    Button --> Navigation
-
-    Layout --> Templates[Page Templates (concepts in FRS.md)]
-    Navigation --> Templates
-
-    Templates --> Applications[Consumer Applications]
-```
-*(See `docs/FRS.md` for the definitive version.)*
-
-### Error Handling Flow
-
-```mermaid
-flowchart TD
-    A[Component Error] --> B{Error Type (categories in FRS.md)}
-    B -->|Runtime Error| C[Error Boundary]
-    B -->|Prop Validation| D[PropTypes Warning]
-    B -->|TypeScript Error| E[Compile-time Error]
-    B -->|Accessibility Error| F[A11y Warning]
-
-    C --> G[Fallback UI]
-    D --> H[Console Warning]
-    E --> I[Build Failure]
-    F --> J[A11y Report]
-
-    G --> K[Log Error (logging strategy in FRS.md)]
-    H --> L[Dev Notification]
-    I --> M[Block Deployment]
-    J --> N[Quality Gate Failure]
-
-    K --> O[Error Tracking]
-    L --> P[Fix in Development (refer to FRS.md)]
-    M --> P
-    N --> P
-      P --> Q[Error Resolution]
-    Q --> A
-```
-*(See `docs/FRS.md` for the definitive version.)*
-
-## Prime Directive Reinforcement
-
-**Always ensure components are accessible, reusable, and follow design system principles as defined in `docs/FRS.md`.** Every component must work seamlessly across different applications and maintain consistency with the established design tokens and patterns. When in doubt, prioritize accessibility and user experience over visual complexity, and **always consult `docs/FRS.md` for authoritative guidance.**
-
-Remember: This design system serves as the foundation for consistent UI experiences across multiple applications. Design and develop accordingly, with `docs/FRS.md` as your technical constitution.
 
 **File Encoding: This AGENTS.md file MUST be maintained in UTF-8 encoding.**
-
-## 🔄 File Generation System
-
-### Automated CLAUDE.md Generation
-
-**Purpose**: Maintain CLAUDE.md as a fresh, generated artifact from this AGENTS.md template, ensuring perfect alignment with the Architect Crew methodology.
-
-**Trigger Conditions**:
-- Any merge to `main` branch
-- Changes to `docs/RDS.md` (Requirements Document Specification)
-- Changes to `docs/FRS.md` (Functional Requirements Specification)
-- Manual trigger via GitHub Actions workflow
-- Version bump in AGENTS.md front-matter
-
-**Generation Process**:
-
-1. **Extract Template**: Parse content between `<!-- begin:claude-template -->` and `<!-- end:claude-template -->` markers
-2. **Gather Data Sources**:
-   - Extract persona content from `docs/persona-*.md` files
-   - Pull architectural content from `docs/FRS.md`
-   - Read implementation status from `docs/RDS.md`
-   - Analyze current component library state
-3. **Substitute Placeholders**:
-   - `{{version}}` → increment from previous CLAUDE.md version
-   - `{{date}}` → current ISO date (YYYY-MM-DD)
-   - `{{rdsValidation}}` → cross-reference validation between RDS and FRS
-   - `{{architectureOverview}}` → pull from FRS.md architecture section
-   - `{{designTokens}}` → analyze current token implementation
-   - `{{componentBreakdown}}` → scan existing components and generate breakdown
-   - `{{buildSystem}}` → extract build configuration details
-   - `{{personaPrinciples}}` → compile from persona-*.md files
-   - `{{developerArchitecture}}` → extract developer-focused architecture from FRS
-   - `{{designBridge}}` → extract design-implementation bridge content
-   - `{{businessValue}}` → extract business value propositions
-   - `{{qaArchitecture}}` → extract QA and testing architecture
-   - `{{infrastructureArchitecture}}` → extract deployment and infrastructure details
-   - `{{systemLayers}}` → diagram system layer breakdown
-   - `{{technologyStack}}` → current technology analysis
-   - `{{integrationPatterns}}` → integration architecture patterns
-   - `{{performanceOptimization}}` → performance strategies
-   - `{{governanceModel}}` → governance and decision-making processes
-   - `{{successMetrics}}` → KPI and measurement frameworks
-   - `{{cicdIntegration}}` → CI/CD pipeline details
-   - `{{coreArchitecturalPrinciples}}` → foundational architectural principles
-   - `{{primaryArchitectureFlow}}` → main architecture flow diagram
-   - `{{componentLifecycle}}` → component development lifecycle
-   - `{{qaProcessFlow}}` → quality assurance process flow
-   - `{{cicdArchitecture}}` → CI/CD architecture diagram
-   - `{{implementationStatus}}` → current implementation status
-   - `{{nextSteps}}` → immediate action items
-   - `{{evolutionTimeline}}` → future roadmap
-4. **Generate Output**: Write complete CLAUDE.md file
-5. **Validate Output**: Ensure UTF-8 encoding and valid Markdown
-6. **Commit Changes**: Auto-commit with standardized message
-
-**Executor Agent**: `architect-generator`
-
-**Implementation Scripts**:
-- `scripts/generate-claude.js` - Main generation logic
-- `scripts/extract-template.js` - Template extraction utility
-- `scripts/substitute-placeholders.js` - Placeholder substitution engine
-- `scripts/validate-output.js` - Output validation and testing
-
-**GitHub Actions Integration**:
-```yaml
-name: Generate CLAUDE.md
-on:
-  push:
-    branches: [main]
-    paths: 
-      - 'docs/RDS.md'
-      - 'docs/FRS.md'
-      - 'AGENTS.md'
-  workflow_dispatch:
-
-jobs:
-  generate-claude:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-      - name: Generate CLAUDE.md
-        run: |
-          node scripts/generate-claude.js \
-            --template AGENTS.md \
-            --output CLAUDE.md \
-            --sources docs/
-      - uses: EndBug/add-and-commit@v9
-        with:
-          message: 'chore: regenerate CLAUDE.md from AGENTS.md template'
-          add: 'CLAUDE.md'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-```
-
-**Quality Assurance**:
-- Generated CLAUDE.md must pass Markdown linting
-- All placeholder substitutions must be validated
-- Generated content must maintain UTF-8 encoding
-- Version numbers must be properly incremented
-- Cross-references between RDS/FRS/CLAUDE must be validated
-
-**Traceability Chain**:
-```
-RDS.md (What & Why) 
-    ↓
-FRS.md (How - Technical Specs)
-    ↓
-AGENTS.md (Executor Instructions + Template)
-    ↓
-CLAUDE.md (Generated Architect AI Spec)
-    ↓
-Implementation (Components, Tests, Documentation)
-```
-
-**Error Handling**:
-- Missing source files: Log warning, use fallback content
-- Invalid placeholders: Fail generation with detailed error
-- Template parsing errors: Fail with line-number specific error
-- Output validation failures: Fail with validation report
-
-**Manual Override**:
-In exceptional cases, generation can be manually triggered:
-```bash
-# Manual generation command
-npm run generate:claude
-
-# Force regeneration (ignores version checks)
-npm run generate:claude --force
-
-# Preview generation without writing file
-npm run generate:claude --dry-run
-```
-
-**Template Evolution**:
-- Template structure changes require version bump in front-matter
-- New placeholders must be documented in this section
-- Breaking changes to template format require migration guide
-- All template modifications must maintain backward compatibility for CI
-
-This generation system ensures CLAUDE.md stays perfectly synchronized with the evolving RDS/FRS specifications while maintaining the Architect Crew methodology's principle of single-source-of-truth documentation.
