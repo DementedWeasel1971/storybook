@@ -36,6 +36,23 @@ This directory contains complete Architect Crew methodology templates for differ
 
 **Best for**: Discrete event simulation with optimization, LLM-assisted planning, operations research, smart manufacturing
 
+### 🗺️ Google Maps MCP Service
+**Location**: `googlemaps-mcp/`
+- **[CLAUDE.googlemaps-mcp.md](googlemaps-mcp/CLAUDE.googlemaps-mcp.md)** - Google Maps API MCP architecture definition & AI collaboration guide
+- **[AGENTS.googlemaps-mcp.md](googlemaps-mcp/AGENTS.googlemaps-mcp.md)** - AI agent constitution for Google Maps MCP development
+- **[FRS.googlemaps-mcp.md](googlemaps-mcp/FRS.googlemaps-mcp.md)** - Functional requirements specification for location services
+
+**Best for**: Location-based services, mapping applications, geographic data processing, LLM-assisted location queries
+**Implementation**: Complete Node.js/TypeScript implementation available in `/googlemaps-mcp-service/`
+
+### 🤖 OpenAI Laravel MCP Service
+**Location**: `openai-laravel-mcp/`
+- **[CLAUDE.openai-laravel-mcp.md](openai-laravel-mcp/CLAUDE.openai-laravel-mcp.md)** - OpenAI Laravel MCP architecture definition & AI collaboration guide
+- **[AGENTS.openai-laravel-mcp.md](openai-laravel-mcp/AGENTS.openai-laravel-mcp.md)** - AI agent constitution for OpenAI Laravel MCP development
+- **FRS.openai-laravel-mcp.md** - Functional requirements specification for OpenAI integration (planned)
+
+**Best for**: AI-powered Laravel applications, OpenAI API integration, chat applications, content generation, LLM services
+
 ## How to Use These Templates
 
 ### 1. Choose Your Technology Stack
@@ -70,6 +87,7 @@ Each technology-specific template includes:
 ✅ **Security Guidelines** - Technology-specific security considerations  
 ✅ **Performance Optimization** - Framework-specific performance patterns  
 ✅ **CI/CD Integration** - Automated testing and deployment pipelines  
+✅ **Cross-References** - Links to related implementations and examples
 
 ## Creating New Templates
 
@@ -90,6 +108,19 @@ When adding new templates:
 - Use placeholder variables for customization
 - Test the template with a real project
 - Update documentation and examples
+- Add cross-references to related implementations
+
+## Cross-References
+
+### Related Implementations
+- **[/implementations/](../../implementations/)** - Working implementations using these templates
+- **[/googlemaps-mcp-service/](../../googlemaps-mcp-service/)** - Complete Google Maps MCP implementation
+- **[/apps/design-system/](../../apps/design-system/)** - React Design System implementation
+
+### Methodology Documentation
+- **[METHODOLOGY.md](../../METHODOLOGY.md)** - Complete methodology framework
+- **[UNIVERSAL-ADAPTATION-GUIDE.md](../UNIVERSAL-ADAPTATION-GUIDE.md)** - Technology adaptation guide
+- **[LESSONS-LEARNED.md](../../LESSONS-LEARNED.md)** - Implementation insights
 
 ---
 

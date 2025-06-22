@@ -1,6 +1,6 @@
-# Storybook Design System Orchestration
+# Architect Crew Methodology - Reference Implementation
 
-This directory contains the **Architect Crew methodology** implementation for automated documentation generation in the React Design System project. It orchestrates the complete documentation chain: **RDS → CLAUDE → AGENTS → FRS**.
+This repository contains the **Architect Crew methodology** implementation for automated documentation generation in development projects. It demonstrates the complete documentation chain: **RDS → CLAUDE → AGENTS → FRS** using a React Design System as the reference implementation.
 
 ## 🏗️ Architecture Overview
 
@@ -75,24 +75,45 @@ npm run generate:all:force
 
 ```
 storybook/
-├── docs/                          # Documentation output
-│   ├── RDS.md                    # Requirements (manual)
-│   ├── FRS.md                    # Technical specs (generated)
-│   └── persona-*.md              # User personas (manual)
-├── templates/                     # Generation templates
-│   ├── CLAUDE.template.md        # Architecture template
-│   ├── AGENTS.template.md        # Implementation template
-│   └── FRS.template.md           # Technical specs template
-├── scripts/                       # Generation scripts
-│   ├── generate-claude.js        # RDS → CLAUDE generator
-│   ├── generate-agents.js        # CLAUDE → AGENTS generator
-│   └── generate-frs.js           # AGENTS → FRS generator
-├── .github/workflows/             # Automation workflows
-│   ├── generate-docs.yml         # Auto generation on changes
-│   └── manual-generate.yml       # Manual generation workflow
-├── CLAUDE.md                     # Architecture (generated)
-├── AGENTS.md                     # Implementation guide (generated)
-└── package.json                  # Scripts and dependencies
+├── docs/                                  # Documentation output
+│   ├── RDS.md                            # Requirements (manual)
+│   ├── FRS.md                            # Technical specs (generated)
+│   └── persona-*.md                      # User personas (manual)
+├── templates/                             # Generation templates
+│   ├── CLAUDE.template.md                # Architecture template
+│   ├── AGENTS.template.md                # Implementation template
+│   ├── FRS.template.md                   # Technical specs template
+│   ├── UNIVERSAL-ADAPTATION-GUIDE.md     # Technology adaptation guide
+│   └── technology-specific/              # Technology-specific templates
+│       ├── python/                       # Python development templates
+│       ├── flask/                        # Flask web framework templates
+│       ├── autogluon/                    # AutoGluon ML templates
+│       ├── laravel-php/                  # Laravel PHP templates
+│       ├── simpy-pyomo-mcp/              # Simulation & optimization templates
+│       ├── googlemaps-mcp/               # Google Maps MCP templates
+│       └── openai-laravel-mcp/           # OpenAI Laravel MCP templates
+├── implementations/                       # Working implementations
+│   ├── fastapi-neo4j-mysql/             # FastAPI implementation
+│   ├── laravel-mysql/                    # Laravel implementation
+│   └── simpy-pyomo-mcp-system/           # SimPy-Pyomo-MCP implementation
+├── googlemaps-mcp-service/               # Google Maps MCP Node.js implementation
+│   ├── src/                              # TypeScript source code
+│   ├── tests/                            # Comprehensive test suite
+│   └── package.json                      # Node.js dependencies
+├── apps/                                 # Application implementations
+│   └── design-system/                    # React Design System
+├── scripts/                              # Generation scripts
+│   ├── generate-claude.js               # RDS → CLAUDE generator
+│   ├── generate-agents.js               # CLAUDE → AGENTS generator
+│   └── generate-frs.js                  # AGENTS → FRS generator
+├── .github/workflows/                    # Automation workflows
+│   ├── generate-docs.yml                # Auto generation on changes
+│   └── manual-generate.yml              # Manual generation workflow
+├── CLAUDE.md                            # Architecture (generated)
+├── AGENTS.md                            # Implementation guide (generated)
+├── METHODOLOGY.md                       # Complete methodology framework
+├── LESSONS-LEARNED.md                   # Implementation insights
+└── package.json                         # Scripts and dependencies
 ```
 
 ## Stakeholders & Personas
@@ -180,7 +201,7 @@ This automation ensures that the Architect Crew methodology is consistently appl
 
 ## 🌟 **Methodology Resources**
 
-This project serves as both a **proof-of-concept** for the Architect Crew methodology and a **complete framework** for universal application:
+This project implements the Architect Crew methodology and provides a complete framework for technology-agnostic development:
 
 ### **Core Methodology Documentation**
 - **[METHODOLOGY.md](METHODOLOGY.md)** - Complete methodology framework for any technology stack
@@ -193,25 +214,29 @@ This project serves as both a **proof-of-concept** for the Architect Crew method
 - **[Flask Templates](templates/technology-specific/flask/)** - Flask web application framework
 - **[AutoGluon Templates](templates/technology-specific/autogluon/)** - AutoML and machine learning framework
 - **[Laravel/PHP Templates](templates/technology-specific/laravel-php/)** - Complete Laravel adaptation
+- **[SimPy-Pyomo-MCP Templates](templates/technology-specific/simpy-pyomo-mcp/)** - Simulation and optimization framework
+- **[Google Maps MCP Templates](templates/technology-specific/googlemaps-mcp/)** - Google Maps API with MCP integration
+- **[OpenAI Laravel MCP Templates](templates/technology-specific/openai-laravel-mcp/)** - OpenAI API with Laravel and MCP
 - **Technology Adapters** - Automated generation for specific tech stacks
 
-### **Proven Benefits**
-✅ **95% reduction** in architecture decision time  
-✅ **90% improvement** in implementation clarity  
-✅ **100% automated** documentation synchronization  
-✅ **Zero architectural** conflicts during development  
-✅ **75% faster** developer onboarding  
+### **Methodology Capabilities**
+✅ **Automated documentation** synchronization across the development chain  
+✅ **Consistent architecture** decisions through defined agent roles  
+✅ **Streamlined implementation** with technology-specific guidance  
+✅ **Quality assurance** through built-in validation and testing protocols  
+✅ **Accelerated onboarding** with comprehensive documentation and examples  
 
-### **Universal Application**
-The methodology has been **proven with Storybook** and designed for **any technology stack**:
+### **Technology Stack Support**
+The methodology supports diverse technology stacks and project types:
 - **Web frameworks**: Flask, Laravel, Django, ASP.NET, Express.js
 - **Machine Learning**: AutoGluon, TensorFlow, PyTorch, scikit-learn
-- **General Programming**: Python, JavaScript, Java, C#, Go
+- **API Integration**: OpenAI, Google Maps, MCP services
+- **General Programming**: Python, JavaScript, Java, C#, Go, PHP
 - **Mobile frameworks**: React Native, Flutter, Swift, Kotlin
 - **Desktop applications**: Electron, Qt, WPF
 - Any project type or team size
 
-**Ready to fast-track your development? Start with the [METHODOLOGY.md](METHODOLOGY.md) guide.**
+**Get started with the [METHODOLOGY.md](METHODOLOGY.md) guide.**
 
 ## BDD Requirements Flow
 
@@ -462,7 +487,7 @@ graph TB
 - npm or yarn package manager
 - Git
 
-### Initial Setup
+### Repository Setup
 
 1. **Clone the repository:**
    ```bash
@@ -470,15 +495,34 @@ graph TB
    cd storybook
    ```
 
-2. **Navigate to the design system application:**
-   ```bash
-   cd apps/design-system
-   ```
-
-3. **Install dependencies:**
+2. **Install root dependencies (for generation scripts):**
    ```bash
    npm install
    ```
+
+### Specific Implementation Setup
+
+#### React Design System
+```bash
+cd apps/design-system
+npm install
+npm run dev  # Start Storybook on port 6006
+```
+
+#### Google Maps MCP Service
+```bash
+cd googlemaps-mcp-service
+npm install
+npm run dev  # Start development server (requires setup of .env file)
+```
+
+#### Technology Template Usage
+```bash
+# Example: Use Flask template for new project
+cp templates/technology-specific/flask/CLAUDE.flask.md ./CLAUDE.md
+cp templates/technology-specific/flask/AGENTS.flask.md ./AGENTS.md
+cp templates/technology-specific/flask/FRS.flask.md ./docs/FRS.md
+```
 
 ## Development
 
@@ -488,10 +532,19 @@ Start the Storybook development server on port 6006:
 
 ```bash
 cd apps/design-system
-npm run dev
+npm run storybook
 ```
 
 Visit `http://localhost:6006` to view the component library and documentation.
+
+### Running Google Maps MCP Service
+
+Start the Google Maps MCP development server:
+
+```bash
+cd googlemaps-mcp-service
+npm run dev
+```
 
 ### Building the Library
 
@@ -582,6 +635,32 @@ The design system can be deployed in multiple ways:
 
 [Add your license information here]
 
+## Cross-References and Related Resources
+
+### Core Documentation
+- **[METHODOLOGY.md](METHODOLOGY.md)** - Complete Architect Crew methodology framework
+- **[LESSONS-LEARNED.md](LESSONS-LEARNED.md)** - Implementation insights and best practices
+- **[docs/RDS.md](docs/RDS.md)** - Requirements specification for the design system
+- **[docs/FRS.md](docs/FRS.md)** - Technical specifications and implementation details
+
+### Technology Templates
+- **[templates/technology-specific/](templates/technology-specific/)** - Complete template library
+- **[templates/UNIVERSAL-ADAPTATION-GUIDE.md](templates/UNIVERSAL-ADAPTATION-GUIDE.md)** - Technology adaptation guide
+
+### Working Implementations
+- **[apps/design-system/](apps/design-system/)** - React Design System with Storybook
+- **[googlemaps-mcp-service/](googlemaps-mcp-service/)** - Google Maps MCP Node.js service
+- **[implementations/](implementations/)** - Additional framework implementations
+
+### Generation Scripts
+- **[scripts/generate-claude.js](scripts/generate-claude.js)** - RDS → CLAUDE generator
+- **[scripts/generate-agents.js](scripts/generate-agents.js)** - CLAUDE → AGENTS generator
+- **[scripts/generate-frs.js](scripts/generate-frs.js)** - AGENTS → FRS generator
+
 ## Support
 
-For questions and support, please refer to the documentation in the `docs/` directory or create an issue in the repository.
+For questions and support:
+- Review the comprehensive documentation in the `docs/` directory
+- Check the technology-specific templates for guidance
+- Examine working implementations for examples
+- Create an issue in the repository for specific problems
