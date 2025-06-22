@@ -1,53 +1,182 @@
 ---
-generated: true
+template: claude.md
 version: 1.0.0
 lastUpdated: 2025-01-22
-sourceTemplate: AGENTS.md
-generatedBy: executor-crew
+sourceTemplate: docs/RDS.md
+generatedBy: architect-crew
+generationTriggers: 
+  - docs/RDS.md changes
+  - docs/persona-*.md changes
+chainedGeneration:
+  - AGENTS.md (from CLAUDE.md architecture)
+  - FRS.md (from AGENTS.md implementation)
 ---
 
 # CLAUDE.md - Design System Architecture Definition & AI Collaboration Guide
 
 **Version**: 1.0.0  
 **Date**: 2025-01-22  
-**Generated from**: AGENTS.md template
+**Generated from**: RDS.md requirements analysis
 
 This file defines the comprehensive architecture of the React Design System solution. It aligns with the Architect Crew methodology, where:
 - **`docs/RDS.md`** outlines the **functional requirements** and user needs.
-- **`docs/FRS.md`** provides the **detailed technical specifications**, including all UML diagrams (Mermaid) and specific implementation blueprints.
-- **`CLAUDE.md`** (this file) instructs Claude (and similar AI) on how to interpret these documents, contribute to the architecture, and ensure `AGENTS.md` is correctly aligned.
-- **`AGENTS.md`** provides specific, actionable instructions for AI agents performing implementation tasks.
+- **`CLAUDE.md`** (this file) interprets requirements and designs the architecture, ensuring AGENTS.md receives proper implementation guidance.
+- **`AGENTS.md`** provides specific, actionable instructions for AI agents performing implementation tasks based on this architectural guidance.
+- **`docs/FRS.md`** captures the **detailed technical specifications** that emerge from the implementation process.
 
-## 1. From RDS → FRS Validation
+## 1. Requirements Analysis & Architectural Interpretation
 
 **Source**: `docs/RDS.md` (What & Why)  
-**Ensure**: Every RDS requirement appears in FRS diagrams/contracts.
+**Architectural Response**: Translate functional requirements into technical architecture
 
-The current implementation validates requirements traceability between RDS functional requirements and FRS technical specifications. All persona-driven requirements from RDS.md have corresponding technical solutions documented in FRS.md.
+Based on the five key personas identified in RDS.md (Frontend Developer, UI/UX Designer, Product Manager, QA Engineer, and DevOps Engineer), this architecture prioritizes:
 
-## 2. Architectural Overview
+1. **Developer Experience**: TypeScript-first development with comprehensive type definitions
+2. **Design Consistency**: Token-driven design system with semantic naming
+3. **Quality Assurance**: Built-in accessibility and testing frameworks
+4. **Performance**: Tree-shaking, lazy loading, and bundle optimization
+5. **Scalability**: Modular architecture supporting cross-team collaboration
 
-This architecture is designed to address the specific pain points of five key personas. Persona analysis can be found in the `docs/` directory.
+### Persona-Driven Architecture Decisions
+
+**Frontend Developer (Sarah Chen)** needs drive:
+- Component-first architecture with atomic design principles
+- TypeScript interfaces for all components and design tokens
+- Comprehensive Storybook documentation with interactive examples
+- Hot module replacement for rapid development iteration
+
+**UI/UX Designer (Marcus Rodriguez)** needs drive:
+- Design token abstraction layer for consistent theming
+- Visual regression testing integration
+- Design-to-code workflow optimization
+- Real-time design system documentation
+
+**Product Manager (Jennifer Liu)** needs drive:
+- Adoption metrics and usage analytics
+- Component lifecycle management
+- Cross-platform consistency validation
+- Documentation accessibility for non-technical stakeholders
+
+## 2. System Architecture Design
 
 The React Design System follows a layered, persona-driven architecture that ensures scalability, maintainability, and developer experience. The architecture serves as a single source of truth for UI consistency across applications while providing the flexibility needed for diverse use cases.
 
-**Key Architectural Principles:**
-- Component-driven development with atomic design principles
-- Design token-based styling for consistency
-- Accessibility-first approach (WCAG 2.1 AA compliance)
-- TypeScript-first development for type safety
-- Automated testing and quality assurance
-- Performance optimization through tree-shaking and lazy loading
+### Foundation Layer Architecture
 
-## 3. Component & Module Breakdown
+**Design Tokens**: The foundational layer consists of semantic design tokens that abstract visual design decisions:
+- Color system with semantic naming (primary, secondary, success, warning, danger)
+- Typography scale with consistent font families, sizes, and weights  
+- Spacing system based on 4px grid (4px, 8px, 16px, 24px, 32px, 48px, 64px)
+- Border radius and shadow tokens for visual depth
 
-The design system follows a layered architecture approach:
+**Theme Provider**: React Context-based theming system that supports:
+- Light and dark mode variants
+- Runtime theme switching
+- Custom brand theme injection
+- CSS custom properties for browser compatibility
 
-### Foundation Layer (Design Tokens)
-- **Colors**: Semantic color palette with light/dark mode support
-- **Spacing**: Consistent spacing scale (4px, 8px, 16px, 24px, 32px, 48px, 64px)
-- **Typography**: Type scale with font families, sizes, and weights
-- **Borders**: Radius and width tokens for consistent component styling
+### Component Architecture Strategy
+
+**Atomic Design Methodology**: Components are organized in a hierarchical structure:
+- **Tokens**: Design decisions (colors, spacing, typography)
+- **Atoms**: Basic building blocks (Button, Input, Icon)
+- **Molecules**: Simple combinations (SearchBox, FormField)
+- **Organisms**: Complex UI sections (Header, Sidebar, DataTable)
+- **Templates**: Page-level layout components
+
+**Composition Patterns**: All components follow consistent patterns:
+- Polymorphic component APIs using `as` prop for semantic flexibility
+- Compound component patterns for complex UI structures
+- Render prop patterns for customizable behavior
+- Forward ref patterns for DOM access and animation libraries
+
+### Integration Architecture
+
+**Framework Agnostic Core**: While built for React, the design system maintains separation of concerns:
+- Design tokens exported as JSON, CSS custom properties, and JavaScript objects
+- Component logic separated from styling implementation  
+- Platform-specific adapters for React Native and other frameworks
+- Build-time optimizations for different deployment targets
+
+## 3. Development Methodology Specification
+
+This architecture requires specific development approaches that will be codified in AGENTS.md:
+
+### Component Development Standards
+
+**TypeScript-First Development**: All components must be developed with TypeScript to ensure type safety and improved developer experience:
+- Interface definitions for all props with comprehensive JSDoc
+- Generic type support for polymorphic components
+- Strict TypeScript configuration with no implicit any
+- Type-only imports for performance optimization
+
+**Accessibility-First Approach**: WCAG 2.1 AA compliance built into component architecture:
+- Semantic HTML foundation for all components
+- ARIA attributes integrated into component APIs
+- Keyboard navigation patterns as first-class citizens
+- Screen reader optimization with proper labeling
+
+**Testing Strategy**: Multi-layered testing approach ensuring component reliability:
+- Unit tests for component logic and API contracts
+- Integration tests for compound component interactions
+- Visual regression tests for design consistency
+- Accessibility tests using automated tools (axe-core)
+- Cross-browser compatibility testing
+
+### Quality Assurance Framework
+
+**Code Quality Gates**: Automated quality enforcement at multiple levels:
+- Pre-commit hooks for linting and formatting
+- TypeScript compilation validation
+- Test coverage thresholds (minimum 90%)
+- Bundle size monitoring and reporting
+- Performance budget enforcement
+
+**Documentation Standards**: Living documentation ensuring adoption success:
+- Storybook stories for all component variants
+- MDX documentation with usage examples
+- API documentation auto-generated from TypeScript
+- Design guidelines with visual examples
+- Migration guides for breaking changes
+
+## 4. Technology Stack Architecture
+
+### Core Technology Decisions
+
+**React 18+**: Modern React with concurrent features:
+- Concurrent rendering for improved performance
+- Suspense boundaries for loading states
+- React Server Components readiness
+- Strict mode compatibility
+
+**TypeScript 5.0+**: Advanced type system features:
+- Template literal types for design token autocomplete
+- Conditional types for polymorphic component APIs
+- Module resolution for optimal bundling
+- Decorator support for metadata-driven development
+
+**Storybook 8.3+**: Component development and documentation platform:
+- Component-driven development workflow
+- Interactive documentation with controls
+- Visual testing integration
+- Accessibility testing plugins
+- Performance monitoring tools
+
+### Build System Architecture
+
+**Vite-based Build System**: Modern build tooling for optimal performance:
+- Fast development server with HMR
+- Optimized production builds with tree-shaking
+- ESM and CommonJS dual package support
+- CSS-in-JS build optimization
+- Source map generation for debugging
+
+**Package Distribution Strategy**: Multiple distribution formats:
+- ESM modules for modern bundlers
+- CommonJS for legacy compatibility  
+- UMD builds for script tag usage
+- CSS stylesheets for framework-agnostic usage
+- Design token artifacts (JSON, CSS, SCSS)
 - **Shadows**: Elevation system for depth and hierarchy
 
 ### Component Layer 
