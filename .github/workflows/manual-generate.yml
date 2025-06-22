@@ -1,0 +1,121 @@
+name: Manual Documentation Generation
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'Which document to generate'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - 'claude'
+          - 'agents'
+          - 'frs'
+          - 'all'
+      dry_run:
+        description: 'Perform dry run (no commits)'
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  manual-generation:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm install
+
+      - name: Generate CLAUDE.md
+        if: ${{ github.event.inputs.target == 'claude' || github.event.inputs.target == 'all' }}
+        run: |
+          echo "🚀 Generating CLAUDE.md..."
+          if [[ "${{ github.event.inputs.dry_run }}" == "true" ]]; then
+            npm run generate:claude:dry-run
+          else
+            npm run generate:claude
+          fi
+
+      - name: Generate AGENTS.md
+        if: ${{ github.event.inputs.target == 'agents' || github.event.inputs.target == 'all' }}
+        run: |
+          echo "🚀 Generating AGENTS.md..."
+          if [[ "${{ github.event.inputs.dry_run }}" == "true" ]]; then
+            npm run generate:agents:dry-run
+          else
+            npm run generate:agents
+          fi
+
+      - name: Generate FRS.md
+        if: ${{ github.event.inputs.target == 'frs' || github.event.inputs.target == 'all' }}
+        run: |
+          echo "🚀 Generating FRS.md..."
+          if [[ "${{ github.event.inputs.dry_run }}" == "true" ]]; then
+            npm run generate:frs:dry-run
+          else
+            npm run generate:frs
+          fi
+
+      - name: Show changes
+        run: |
+          echo "📋 Changes detected:"
+          git status --porcelain
+          
+          if [[ -n "$(git status --porcelain)" ]]; then
+            echo ""
+            echo "📝 Diff summary:"
+            git diff --stat
+          else
+            echo "ℹ️  No changes detected"
+          fi
+
+      - name: Commit changes
+        if: ${{ github.event.inputs.dry_run == 'false' }}
+        run: |
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            
+            git add .
+            git commit -m "docs: manual regeneration of ${{ github.event.inputs.target }}
+
+🤖 Manually triggered generation
+Target: ${{ github.event.inputs.target }}
+Generated: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+
+Co-authored-by: GitHub Action <action@github.com>"
+            
+            git push
+            
+            echo "✅ Changes committed and pushed"
+          else
+            echo "ℹ️  No changes to commit"
+          fi
+
+      - name: Summary
+        run: |
+          echo "📊 Manual Generation Complete"
+          echo "============================"
+          echo "Target: ${{ github.event.inputs.target }}"
+          echo "Dry Run: ${{ github.event.inputs.dry_run }}"
+          echo "Status: ✅ Complete"
+          
+          if [[ "${{ github.event.inputs.dry_run }}" == "true" ]]; then
+            echo "Note: This was a dry run - no files were committed"
+          fi

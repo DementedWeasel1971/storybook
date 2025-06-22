@@ -13,7 +13,7 @@ const yaml = require('js-yaml');
 
 class ClaudeGenerator {
   constructor(options = {}) {
-    this.templateFile = options.template || 'AGENTS.md';
+    this.templateFile = options.template || 'templates/CLAUDE.template.md';
     this.outputFile = options.output || 'CLAUDE.md';
     this.sourcesDir = options.sources || 'docs/';
     this.dryRun = options.dryRun || false;
@@ -56,24 +56,14 @@ class ClaudeGenerator {
   }
 
   extractTemplate() {
-    console.log('📄 Extracting template from AGENTS.md...');
+    console.log('📄 Loading CLAUDE template...');
     
     if (!fs.existsSync(this.templateFile)) {
       throw new Error(`Template file not found: ${this.templateFile}`);
     }
     
     const content = fs.readFileSync(this.templateFile, 'utf8');
-    const startMarker = '<!-- begin:claude-template -->';
-    const endMarker = '<!-- end:claude-template -->';
-    
-    const startIndex = content.indexOf(startMarker);
-    const endIndex = content.indexOf(endMarker);
-    
-    if (startIndex === -1 || endIndex === -1) {
-      throw new Error('Template markers not found in AGENTS.md');
-    }
-    
-    return content.substring(startIndex + startMarker.length, endIndex).trim();
+    return content;
   }
 
   async gatherSourceData() {

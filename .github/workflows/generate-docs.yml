@@ -1,0 +1,439 @@
+name: Generate Documentation Chain
+
+on:
+  push:
+    branches: [main]
+    paths: 
+      - 'docs/RDS.md'
+      - 'docs/persona-*.md'
+      - 'CLAUDE.md'
+      - 'AGENTS.md'
+      - '../design-system/src/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'docs/RDS.md'
+      - 'docs/persona-*.md'
+      - 'CLAUDE.md'
+      - 'AGENTS.md'
+      - '../design-system/src/**'
+  workflow_dispatch:
+    inputs:
+      force_regenerate:
+        description: 'Force regeneration of entire chain'
+        required: false
+        default: false
+        type: boolean
+      target:
+        description: 'Target document to regenerate'
+        required: false
+        default: 'all'
+        type: choice
+        options:
+          - 'all'
+          - 'claude'
+          - 'agents'
+          - 'frs'
+
+jobs:
+  generate-documentation-chain:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm install
+          npm ci
+
+      - name: Validate templates
+        run: |
+          echo "🔍 Validating template structure..."
+          
+          # Check for template files
+          if [[ ! -f templates/CLAUDE.template.md ]]; then
+            echo "❌ CLAUDE template not found"
+            exit 1
+          fi
+          
+          if [[ ! -f templates/AGENTS.template.md ]]; then
+            echo "❌ AGENTS template not found"
+            exit 1
+          fi
+          
+          if [[ ! -f templates/FRS.template.md ]]; then
+            echo "❌ FRS template not found"
+            exit 1
+          fi
+          
+          echo "✅ All templates found"
+
+      - name: Check what needs regeneration
+        id: check_changes
+        run: |
+          echo "🔍 Checking what needs regeneration..."
+          
+          REGEN_CLAUDE=false
+          REGEN_AGENTS=false
+          REGEN_FRS=false
+          
+          # Force regeneration if requested
+          if [[ "${{ github.event.inputs.force_regenerate }}" == "true" ]]; then
+            echo "🔄 Force regeneration requested"
+            REGEN_CLAUDE=true
+            REGEN_AGENTS=true
+            REGEN_FRS=true
+          fi
+          
+          # Check target-specific regeneration
+          if [[ "${{ github.event.inputs.target }}" == "claude" || "${{ github.event.inputs.target }}" == "all" ]]; then
+            REGEN_CLAUDE=true
+          fi
+          
+          if [[ "${{ github.event.inputs.target }}" == "agents" || "${{ github.event.inputs.target }}" == "all" ]]; then
+            REGEN_AGENTS=true
+          fi
+          
+          if [[ "${{ github.event.inputs.target }}" == "frs" || "${{ github.event.inputs.target }}" == "all" ]]; then
+            REGEN_FRS=true
+          fi
+          
+          # Check for file changes
+          if git diff --name-only HEAD~1 | grep -E "(docs/RDS\.md|docs/persona-.*\.md)"; then
+            echo "📝 RDS or persona files changed, regenerating CLAUDE"
+            REGEN_CLAUDE=true
+          fi
+          
+          if git diff --name-only HEAD~1 | grep "CLAUDE\.md"; then
+            echo "📝 CLAUDE.md changed, regenerating AGENTS"
+            REGEN_AGENTS=true
+          fi
+          
+          if git diff --name-only HEAD~1 | grep "AGENTS\.md"; then
+            echo "📝 AGENTS.md changed, regenerating FRS"
+            REGEN_FRS=true
+          fi
+          
+          # Check if implementation changed
+          if git diff --name-only HEAD~1 | grep -E "\.\./design-system/src/"; then
+            echo "📝 Implementation changed, regenerating FRS"
+            REGEN_FRS=true
+          fi
+          
+          # Check file timestamps
+          if [[ -f docs/RDS.md && templates/CLAUDE.template.md -nt CLAUDE.md ]]; then
+            echo "⏰ RDS.md is newer than CLAUDE.md"
+            REGEN_CLAUDE=true
+          fi
+          
+          if [[ -f CLAUDE.md && templates/AGENTS.template.md -nt AGENTS.md ]]; then
+            echo "⏰ CLAUDE.md is newer than AGENTS.md"
+            REGEN_AGENTS=true
+          fi
+          
+          if [[ -f AGENTS.md && templates/FRS.template.md -nt docs/FRS.md ]]; then
+            echo "⏰ AGENTS.md is newer than FRS.md"
+            REGEN_FRS=true
+          fi
+          
+          # Set outputs
+          echo "regen_claude=$REGEN_CLAUDE" >> $GITHUB_OUTPUT
+          echo "regen_agents=$REGEN_AGENTS" >> $GITHUB_OUTPUT
+          echo "regen_frs=$REGEN_FRS" >> $GITHUB_OUTPUT
+          
+          echo "📋 Regeneration plan:"
+          echo "  CLAUDE.md: $REGEN_CLAUDE"
+          echo "  AGENTS.md: $REGEN_AGENTS"
+          echo "  FRS.md: $REGEN_FRS"
+
+      - name: Generate CLAUDE.md
+        if: steps.check_changes.outputs.regen_claude == 'true'
+        run: |
+          echo "🚀 Generating CLAUDE.md from RDS.md..."
+          npm run generate:claude
+          
+          # Verify generation was successful
+          if [[ ! -f CLAUDE.md ]]; then
+            echo "❌ CLAUDE.md was not generated"
+            exit 1
+          fi
+          
+          # Check file size (should be substantial)
+          FILE_SIZE=$(wc -c < CLAUDE.md)
+          if [[ $FILE_SIZE -lt 5000 ]]; then
+            echo "❌ Generated CLAUDE.md is too small ($FILE_SIZE bytes)"
+            exit 1
+          fi
+          
+          echo "✅ CLAUDE.md generated successfully ($FILE_SIZE bytes)"
+
+      - name: Generate AGENTS.md
+        if: steps.check_changes.outputs.regen_agents == 'true'
+        run: |
+          echo "🚀 Generating AGENTS.md from CLAUDE.md..."
+          npm run generate:agents
+          
+          # Verify generation was successful
+          if [[ ! -f AGENTS.md ]]; then
+            echo "❌ AGENTS.md was not generated"
+            exit 1
+          fi
+          
+          # Check file size (should be substantial)
+          FILE_SIZE=$(wc -c < AGENTS.md)
+          if [[ $FILE_SIZE -lt 10000 ]]; then
+            echo "❌ Generated AGENTS.md is too small ($FILE_SIZE bytes)"
+            exit 1
+          fi
+          
+          echo "✅ AGENTS.md generated successfully ($FILE_SIZE bytes)"
+
+      - name: Generate FRS.md
+        if: steps.check_changes.outputs.regen_frs == 'true'
+        run: |
+          echo "🚀 Generating FRS.md from implementation analysis..."
+          npm run generate:frs
+          
+          # Verify generation was successful
+          if [[ ! -f docs/FRS.md ]]; then
+            echo "❌ FRS.md was not generated"
+            exit 1
+          fi
+          
+          # Check file size (should be substantial)
+          FILE_SIZE=$(wc -c < docs/FRS.md)
+          if [[ $FILE_SIZE -lt 10000 ]]; then
+            echo "❌ Generated FRS.md is too small ($FILE_SIZE bytes)"
+            exit 1
+          fi
+          
+          echo "✅ FRS.md generated successfully ($FILE_SIZE bytes)"
+
+      - name: Validate generated content
+        run: |
+          echo "🔍 Validating generated content..."
+          
+          # Validate CLAUDE.md if regenerated
+          if [[ "${{ steps.check_changes.outputs.regen_claude }}" == "true" ]]; then
+            echo "Validating CLAUDE.md..."
+            
+            # Check for required sections
+            CLAUDE_SECTIONS=("CLAUDE.md" "Architecture" "Implementation")
+            for section in "${CLAUDE_SECTIONS[@]}"; do
+              if ! grep -q "$section" CLAUDE.md; then
+                echo "❌ Missing required section in CLAUDE.md: $section"
+                exit 1
+              fi
+            done
+            
+            # Validate UTF-8 encoding
+            if ! file CLAUDE.md | grep -q "UTF-8"; then
+              echo "❌ CLAUDE.md is not UTF-8 encoded"
+              exit 1
+            fi
+          fi
+          
+          # Validate AGENTS.md if regenerated
+          if [[ "${{ steps.check_changes.outputs.regen_agents }}" == "true" ]]; then
+            echo "Validating AGENTS.md..."
+            
+            # Check for required sections
+            AGENTS_SECTIONS=("AGENTS.md" "Implementation" "Testing" "Prime Directive")
+            for section in "${AGENTS_SECTIONS[@]}"; do
+              if ! grep -q "$section" AGENTS.md; then
+                echo "❌ Missing required section in AGENTS.md: $section"
+                exit 1
+              fi
+            done
+            
+            # Validate UTF-8 encoding
+            if ! file AGENTS.md | grep -q "UTF-8"; then
+              echo "❌ AGENTS.md is not UTF-8 encoded"
+              exit 1
+            fi
+          fi
+          
+          # Validate FRS.md if regenerated
+          if [[ "${{ steps.check_changes.outputs.regen_frs }}" == "true" ]]; then
+            echo "Validating FRS.md..."
+            
+            # Check for required sections
+            FRS_SECTIONS=("Functional Requirements Specification" "Implementation" "Technical")
+            for section in "${FRS_SECTIONS[@]}"; do
+              if ! grep -q "$section" docs/FRS.md; then
+                echo "❌ Missing required section in FRS.md: $section"
+                exit 1
+              fi
+            done
+            
+            # Validate UTF-8 encoding
+            if ! file docs/FRS.md | grep -q "UTF-8"; then
+              echo "❌ FRS.md is not UTF-8 encoded"
+              exit 1
+            fi
+          fi
+          
+          # Check for unresolved placeholders
+          for file in CLAUDE.md AGENTS.md docs/FRS.md; do
+            if [[ -f "$file" ]] && grep -q "{{" "$file"; then
+              echo "⚠️  Unresolved placeholders found in $file:"
+              grep -n "{{.*}}" "$file" || true
+            fi
+          done
+          
+          echo "✅ Generated content validated"
+
+      - name: Check for changes
+        id: git_diff
+        run: |
+          # Check if any files were actually changed
+          CHANGED_FILES=()
+          
+          if git diff --exit-code CLAUDE.md > /dev/null 2>&1; then
+            echo "CLAUDE.md: No changes"
+          else
+            echo "CLAUDE.md: Changes detected"
+            CHANGED_FILES+=(CLAUDE.md)
+          fi
+          
+          if git diff --exit-code AGENTS.md > /dev/null 2>&1; then
+            echo "AGENTS.md: No changes"
+          else
+            echo "AGENTS.md: Changes detected"
+            CHANGED_FILES+=(AGENTS.md)
+          fi
+          
+          if git diff --exit-code docs/FRS.md > /dev/null 2>&1; then
+            echo "FRS.md: No changes"
+          else
+            echo "FRS.md: Changes detected"
+            CHANGED_FILES+=(docs/FRS.md)
+          fi
+          
+          if [[ ${#CHANGED_FILES[@]} -gt 0 ]]; then
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "changed_files=${CHANGED_FILES[*]}" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit generated files
+        if: steps.git_diff.outputs.has_changes == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          # Add changed files
+          CHANGED_FILES="${{ steps.git_diff.outputs.changed_files }}"
+          for file in $CHANGED_FILES; do
+            echo "Adding $file"
+            git add "$file"
+          done
+          
+          # Create commit message
+          COMMIT_MSG="docs: regenerate documentation chain
+
+🤖 Auto-generated via GitHub Actions
+
+Generated files: $CHANGED_FILES
+Trigger: ${{ github.event_name }}
+Generated: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+
+RDS → CLAUDE → AGENTS → FRS generation chain completed.
+
+Co-authored-by: GitHub Action <action@github.com>"
+          
+          git commit -m "$COMMIT_MSG"
+
+      - name: Push changes
+        if: steps.git_diff.outputs.has_changes == 'true' && github.event_name == 'push'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
+
+      - name: Create Pull Request comment
+        if: steps.git_diff.outputs.has_changes == 'true' && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const changedFiles = "${{ steps.git_diff.outputs.changed_files }}".split(' ');
+            const filesList = changedFiles.map(file => `- \`${file}\``).join('\n');
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: \`## 🤖 Documentation Chain Regenerated
+
+The RDS → CLAUDE → AGENTS → FRS documentation chain has been automatically regenerated due to changes in source files.
+
+**Regenerated Files:**
+\${filesList}
+
+**Generation Details:**
+- **Trigger**: \${{ github.event_name }}
+- **Generated**: \$(date -u +"%Y-%m-%d %H:%M:%S UTC")
+- **Chain**: RDS.md → CLAUDE.md → AGENTS.md → FRS.md
+
+**What Changed:**
+- CLAUDE.md: \${{ steps.check_changes.outputs.regen_claude == 'true' && '✅ Regenerated' || '⏸️ No changes' }}
+- AGENTS.md: \${{ steps.check_changes.outputs.regen_agents == 'true' && '✅ Regenerated' || '⏸️ No changes' }}
+- FRS.md: \${{ steps.check_changes.outputs.regen_frs == 'true' && '✅ Regenerated' || '⏸️ No changes' }}
+
+Please review the generated changes to ensure they align with your updates.\`
+            })
+
+      - name: Summary
+        run: |
+          echo "📊 Documentation Generation Summary"
+          echo "==================================="
+          
+          if [[ "${{ steps.check_changes.outputs.regen_claude }}" == "true" ]]; then
+            if [[ "${{ steps.git_diff.outputs.has_changes }}" == "true" && "${{ steps.git_diff.outputs.changed_files }}" == *"CLAUDE.md"* ]]; then
+              echo "✅ CLAUDE.md successfully regenerated and committed"
+            else
+              echo "ℹ️  CLAUDE.md regenerated but no changes detected"
+            fi
+          else
+            echo "⏸️  CLAUDE.md - no regeneration needed"
+          fi
+          
+          if [[ "${{ steps.check_changes.outputs.regen_agents }}" == "true" ]]; then
+            if [[ "${{ steps.git_diff.outputs.has_changes }}" == "true" && "${{ steps.git_diff.outputs.changed_files }}" == *"AGENTS.md"* ]]; then
+              echo "✅ AGENTS.md successfully regenerated and committed"
+            else
+              echo "ℹ️  AGENTS.md regenerated but no changes detected"
+            fi
+          else
+            echo "⏸️  AGENTS.md - no regeneration needed"
+          fi
+          
+          if [[ "${{ steps.check_changes.outputs.regen_frs }}" == "true" ]]; then
+            if [[ "${{ steps.git_diff.outputs.has_changes }}" == "true" && "${{ steps.git_diff.outputs.changed_files }}" == *"FRS.md"* ]]; then
+              echo "✅ FRS.md successfully regenerated and committed"
+            else
+              echo "ℹ️  FRS.md regenerated but no changes detected"
+            fi
+          else
+            echo "⏸️  FRS.md - no regeneration needed"
+          fi
+          
+          echo ""
+          echo "🎯 Architecture Chain Status: RDS → CLAUDE → AGENTS → FRS"
+          echo "📋 All quality checks passed"
+          echo "🔄 Documentation chain is up to date"

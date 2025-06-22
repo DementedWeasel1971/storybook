@@ -1,0 +1,40 @@
+
+---
+# Secret for sensitive configuration
+apiVersion: v1
+kind: Secret
+metadata:
+  name: fastapi-secrets
+  namespace: fastapi
+  labels:
+    app: fastapi-app
+type: Opaque
+data:
+  # Base64 encoded secrets
+  # Generate with: echo -n 'your-secret' | base64
+  secret-key: eW91ci1zdXBlci1zZWN1cmUtc2VjcmV0LWtleS1jaGFuZ2UtaW4tcHJvZHVjdGlvbg==
+  mcp-api-key: eW91ci1tY3AtYXBpLWtleQ==
+
+---
+# Secret for database credentials
+apiVersion: v1
+kind: Secret
+metadata:
+  name: database-secrets
+  namespace: fastapi
+  labels:
+    app: fastapi-app
+type: Opaque
+data:
+  # MySQL credentials
+  mysql-username: ZmFzdGFwaV91c2Vy
+  mysql-password: eW91ci1teXNxbC1wYXNzd29yZA==
+  mysql-url: bXlzcWwrYXN5bmNteS8vZmFzdGFwaV91c2VyOnlvdXItbXlzcWwtcGFzc3dvcmRAbXlzcWwtY2x1c3Rlci5kYXRhYmFzZS5zdmMuY2x1c3Rlci5sb2NhbDozMzA2L2Zhc3RhcGlfcHJvZA==
+  
+  # Neo4j credentials
+  neo4j-uri: Ym9sdDovL25lbzRqLWNsdXN0ZXIuZGF0YWJhc2Uuc3ZjLmNsdXN0ZXIubG9jYWw6NzY4Nw==
+  neo4j-username: bmVvNGo=
+  neo4j-password: eW91ci1uZW80ai1wYXNzd29yZA==
+  
+  # Redis credentials
+  redis-url: cmVkaXM6Ly9yZWRpcy1jbHVzdGVyLmNhY2hlLnN2Yy5jbHVzdGVyLmxvY2FsOjYzNzkvMA==

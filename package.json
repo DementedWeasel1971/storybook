@@ -1,12 +1,20 @@
 {
   "name": "storybook-design-system-orchestration",
   "version": "1.0.0",
-  "description": "Architect Crew orchestration for React Design System with automated CLAUDE.md generation",
+  "description": "Architect Crew orchestration for React Design System with automated RDS → CLAUDE → AGENTS → FRS generation chain",
   "main": "scripts/generate-claude.js",
   "scripts": {
     "generate:claude": "node scripts/generate-claude.js",
     "generate:claude:dry-run": "node scripts/generate-claude.js --dry-run",
     "generate:claude:force": "node scripts/generate-claude.js --force",
+    "generate:agents": "node scripts/generate-agents.js",
+    "generate:agents:dry-run": "node scripts/generate-agents.js --dry-run",
+    "generate:agents:force": "node scripts/generate-agents.js --force",
+    "generate:frs": "node scripts/generate-frs.js",
+    "generate:frs:dry-run": "node scripts/generate-frs.js --dry-run",
+    "generate:frs:force": "node scripts/generate-frs.js --force",
+    "generate:all": "npm run generate:claude && npm run generate:agents && npm run generate:frs",
+    "generate:all:force": "npm run generate:claude:force && npm run generate:agents:force && npm run generate:frs:force",
     "test": "echo \"No tests configured\" && exit 0",
     "lint": "echo \"No linting configured\" && exit 0"
   },
