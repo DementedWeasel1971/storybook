@@ -48,18 +48,36 @@ jobs:
           npm install
           npm ci
 
-      - name: Validate AGENTS.md template
+      - name: Validate AGENTS.md structure
         run: |
-          echo "🔍 Validating AGENTS.md template structure..."
-          if ! grep -q "<!-- begin:claude-template -->" AGENTS.md; then
-            echo "❌ Template start marker not found in AGENTS.md"
+          echo "🔍 Validating AGENTS.md structure..."
+          
+          # Check if AGENTS.md exists
+          if [[ ! -f AGENTS.md ]]; then
+            echo "❌ AGENTS.md file not found"
             exit 1
           fi
-          if ! grep -q "<!-- end:claude-template -->" AGENTS.md; then
-            echo "❌ Template end marker not found in AGENTS.md"
+          
+          # Check if file is non-empty
+          if [[ ! -s AGENTS.md ]]; then
+            echo "❌ AGENTS.md file is empty"
             exit 1
           fi
-          echo "✅ Template structure validated"
+          
+          # Check if file starts with the required project heading
+          if ! head -20 AGENTS.md | grep -q "^# AGENTS.md: AI Agent Constitution for React Design System Development"; then
+            echo "❌ AGENTS.md does not start with the required project heading"
+            echo "Expected: # AGENTS.md: AI Agent Constitution for React Design System Development"
+            exit 1
+          fi
+          
+          # Check basic markdown structure (has at least one heading)
+          if ! grep -q "^#" AGENTS.md; then
+            echo "❌ AGENTS.md does not contain any markdown headings"
+            exit 1
+          fi
+          
+          echo "✅ AGENTS.md structure validated"
 
       - name: Check if regeneration needed
         id: check_changes
