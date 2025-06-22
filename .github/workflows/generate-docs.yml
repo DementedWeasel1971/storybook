@@ -252,7 +252,7 @@ jobs:
             echo "Validating AGENTS.md..."
             
             # Check for required sections
-            AGENTS_SECTIONS=("AGENTS.md" "Implementation" "Testing" "Prime Directive")
+            AGENTS_SECTIONS=("Project Overview" "Tech Stack" "Development Guidelines" "Testing Strategy" "Deployment Guide")
             for section in "${AGENTS_SECTIONS[@]}"; do
               if ! grep -q "$section" AGENTS.md; then
                 echo "❌ Missing required section in AGENTS.md: $section"
@@ -260,11 +260,35 @@ jobs:
               fi
             done
             
+            # Validate standard YAML front matter fields
+            echo "Validating standard AGENTS.md metadata..."
+            REQUIRED_FIELDS=("name:" "description:" "category:" "author:" "tags:" "lastUpdated:")
+            for field in "${REQUIRED_FIELDS[@]}"; do
+              if ! grep -q "^$field" AGENTS.md; then
+                echo "❌ Missing required metadata field in AGENTS.md: $field"
+                exit 1
+              fi
+            done
+            
+            # Validate YAML front matter format
+            if ! head -20 AGENTS.md | grep -q "^---$"; then
+              echo "❌ AGENTS.md missing proper YAML front matter delimiters"
+              exit 1
+            fi
+            
+            # Validate tags format (should be JSON array)
+            if ! grep -q "^tags: \[.*\]$" AGENTS.md; then
+              echo "❌ AGENTS.md tags field must be a JSON array format"
+              exit 1
+            fi
+            
             # Validate UTF-8 encoding
             if ! file AGENTS.md | grep -q "UTF-8"; then
               echo "❌ AGENTS.md is not UTF-8 encoded"
               exit 1
             fi
+            
+            echo "✅ AGENTS.md passes standard format validation"
           fi
           
           # Validate FRS.md if regenerated

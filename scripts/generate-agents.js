@@ -15,12 +15,68 @@ class AgentsGenerator {
     this.templateFile = options.template || 'templates/AGENTS.template.md';
     this.claudeFile = options.claude || 'CLAUDE.md';
     this.outputFile = options.output || 'AGENTS.md';
+    this.configFile = options.config || 'agents.config.json';
     this.dryRun = options.dryRun || false;
     this.force = options.force || false;
     
     this.placeholders = new Map();
     this.agentsVersion = '2.0.0';
     this.date = new Date().toISOString().split('T')[0];
+    
+    // Load configuration if available
+    this.config = this.loadConfiguration();
+  }
+
+  loadConfiguration() {
+    // Default configuration
+    const defaultConfig = {
+      metadata: {
+        name: "React Design System with Storybook",
+        description: "A comprehensive React design system development guide with Storybook integration, automated documentation generation, and AI agent constitution for scalable component development",
+        category: "Frontend Framework",
+        author: "Architect Crew",
+        authorUrl: "https://github.com/DementedWeasel1971/storybook",
+        tags: [
+          "react",
+          "storybook", 
+          "design-system",
+          "typescript",
+          "component-library",
+          "frontend",
+          "ai-agents",
+          "architect-crew",
+          "automation",
+          "documentation"
+        ]
+      },
+      features: {
+        includeStandardSections: true,
+        includeAIAgentConstitution: true,
+        includeArchitectCrewMethodology: true,
+        generateTechStackFromPackageJson: true
+      }
+    };
+
+    // Try to load custom configuration
+    if (fs.existsSync(this.configFile)) {
+      try {
+        const customConfig = JSON.parse(fs.readFileSync(this.configFile, 'utf8'));
+        // Merge custom config with defaults
+        return this.mergeConfig(defaultConfig, customConfig);
+      } catch (error) {
+        console.warn(`⚠️  Failed to load config from ${this.configFile}, using defaults`);
+        return defaultConfig;
+      }
+    }
+
+    return defaultConfig;
+  }
+
+  mergeConfig(defaultConfig, customConfig) {
+    return {
+      metadata: { ...defaultConfig.metadata, ...customConfig.metadata },
+      features: { ...defaultConfig.features, ...customConfig.features }
+    };
   }
 
   async generate() {
@@ -72,6 +128,14 @@ class AgentsGenerator {
     // Set basic placeholders
     this.placeholders.set('agentsVersion', this.agentsVersion);
     this.placeholders.set('date', this.date);
+    
+    // Set standard AGENTS.md metadata fields
+    this.placeholders.set('projectName', this.generateProjectName());
+    this.placeholders.set('projectDescription', this.generateProjectDescription());
+    this.placeholders.set('projectCategory', this.generateProjectCategory());
+    this.placeholders.set('projectAuthor', this.generateProjectAuthor());
+    this.placeholders.set('projectAuthorUrl', this.generateProjectAuthorUrl());
+    this.placeholders.set('projectTags', this.generateProjectTags());
     
     // Load CLAUDE.md content
     let claudeContent = '';
@@ -2955,6 +3019,67 @@ Implementation is successful when it serves real user needs, follows architectur
     }
     
     return result;
+  }
+
+  // Standard AGENTS.md metadata field generators
+  generateProjectName() {
+    return this.config.metadata.name;
+  }
+
+  generateProjectDescription() {
+    return this.config.metadata.description;
+  }
+
+  generateProjectCategory() {
+    return this.config.metadata.category;
+  }
+
+  generateProjectAuthor() {
+    return this.config.metadata.author;
+  }
+
+  generateProjectAuthorUrl() {
+    return this.config.metadata.authorUrl || "";
+  }
+
+  generateProjectTags() {
+    // Use configured tags or auto-detect from package.json
+    let tags = this.config.metadata.tags;
+    
+    if (this.config.features.generateTechStackFromPackageJson) {
+      tags = this.enhanceTagsFromPackageJson(tags);
+    }
+    
+    return JSON.stringify(tags);
+  }
+
+  enhanceTagsFromPackageJson(baseTags) {
+    // Try to enhance tags by analyzing package.json
+    const packageJsonPath = '../design-system/package.json';
+    if (fs.existsSync(packageJsonPath)) {
+      try {
+        const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+        const dependencies = { ...packageJson.dependencies, ...packageJson.devDependencies };
+        
+        // Add technology tags based on dependencies
+        const techTags = [];
+        if (dependencies.react) techTags.push('react');
+        if (dependencies.storybook || dependencies['@storybook/react']) techTags.push('storybook');
+        if (dependencies.typescript) techTags.push('typescript');
+        if (dependencies.vite) techTags.push('vite');
+        if (dependencies.jest) techTags.push('jest');
+        if (dependencies.tailwindcss) techTags.push('tailwindcss');
+        if (dependencies['@testing-library/react']) techTags.push('testing-library');
+        
+        // Merge with base tags, avoiding duplicates
+        const allTags = [...new Set([...baseTags, ...techTags])];
+        return allTags;
+      } catch (error) {
+        console.warn('⚠️  Could not analyze package.json for tags');
+      }
+    }
+    
+    return baseTags;
   }
 
   validateOutput(content) {

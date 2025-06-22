@@ -2,6 +2,18 @@
 
 This directory contains the **Architect Crew methodology** implementation for automated documentation generation in the React Design System project. It orchestrates the complete documentation chain: **RDS → CLAUDE → AGENTS → FRS**.
 
+## ✨ New: Standard AGENTS.md Compliance
+
+The AGENTS.md generation now **fully complies with standard AGENTS.md format** while preserving the Architect Crew methodology. This provides:
+
+- **Standard YAML front matter** with required fields (`name`, `description`, `category`, `author`, `tags`, etc.)
+- **Complete standard sections** (Tech Stack, Environment Setup, Testing Strategy, Deployment Guide, etc.)
+- **Maximum configurability** through `agents.config.json` 
+- **GitHub Action validation** for standard format compliance
+- **Backward compatibility** with existing Architect Crew workflow
+
+📖 **See [AGENTS Configuration Guide](docs/AGENTS_CONFIG.md) for full configuration options.**
+
 ## 🏗️ Architecture Overview
 
 The Architect Crew methodology creates a complete automation chain for design system documentation:

@@ -1,0 +1,27 @@
+{
+  "metadata": {
+    "name": "React Design System with Storybook",
+    "description": "A comprehensive React design system development guide with Storybook integration, automated documentation generation, and AI agent constitution for scalable component development",
+    "category": "Frontend Framework",
+    "author": "Architect Crew",
+    "authorUrl": "https://github.com/DementedWeasel1971/storybook",
+    "tags": [
+      "react",
+      "storybook",
+      "design-system",
+      "typescript",
+      "component-library",
+      "frontend",
+      "ai-agents",
+      "architect-crew",
+      "automation",
+      "documentation"
+    ]
+  },
+  "features": {
+    "includeStandardSections": true,
+    "includeAIAgentConstitution": true,
+    "includeArchitectCrewMethodology": true,
+    "generateTechStackFromPackageJson": true
+  }
+}
