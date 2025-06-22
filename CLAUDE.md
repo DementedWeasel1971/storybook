@@ -466,6 +466,39 @@ npm run test:visual
 
 This architecture document serves as the foundation for all development decisions, ensuring that the design system effectively serves all personas while maintaining technical excellence and business value.
 
+## Core Principles for System Architecture, Integrity, and AI Collaboration
+
+To ensure the design system's architecture remains robust, maintainable, and evolves according to best practices, and to facilitate effective collaboration with AI assistants, the following core principles must be upheld:
+
+1.  **Adherence to Established Patterns and Conventions:**
+    *   Architectural designs and component structures should consistently follow existing patterns within the project.
+    *   New architectural elements must be designed with consideration for existing conventions to ensure coherence and maintainability.
+
+2.  **Methodological Rigor in Development and Experimentation:**
+    *   All development, including experimental architectural changes, should occur in designated workspaces or using isolated structures like git worktrees to protect the integrity of main development lines.
+    *   Boundaries of reference materials or stable system parts must be respected; modifications require explicit architectural decisions.
+
+3.  **Evidence-Based Performance Considerations:**
+    *   Performance optimization, when an architectural concern, must be approached by leveraging existing benchmark infrastructure. Architectural decisions should not necessitate standalone or ad-hoc benchmarking tools.
+    *   All claims regarding performance improvements or characteristics of architectural designs **must be based on actual measurements.** The principle of "Never Make Up Measurements" is critical to maintain credibility and make informed decisions.
+    *   Architectural changes aimed at performance should be validated by proper measurement and impact analysis.
+
+4.  **Dependency and Technology Management:**
+    *   Introduction of new dependencies or technologies as part of an architectural change requires careful evaluation against project goals, potential impact (e.g., bundle size, complexity), and compatibility. Assumptions about availability should be verified.
+
+5.  **Security as a Foundational Architectural Concern:**
+    *   Security considerations must be integral to architectural design. This includes preventing exposure of secrets, designing for data sanitization, and mitigating common web vulnerabilities at an architectural level.
+
+6.  **Integrity of Documentation and Architectural Knowledge:**
+    *   The primary architectural documentation (`CLAUDE.md`) and operational guidelines (`AGENTS.md`) are central to AI alignment and project understanding. These must be consulted prior to significant architectural work.
+    *   Creation of new architectural documentation or significant restructuring of existing documents should be a deliberate architectural decision.
+
+7.  **Technical Merit and Justification:**
+    *   All architectural proposals and improvements should be justified by their technical merit and clear reasoning, avoiding unsubstantiated claims.
+
+8.  **Respect for Testing and Quality Assurance Frameworks:**
+    *   Architectural designs must be compatible with and support the project's established testing and QA infrastructure. Design decisions should not introduce elements that are inherently untestable or bypass quality gates.
+
 ## Architectural Diagrams and Flows
 
 ### Persona-Driven Architecture Overview
