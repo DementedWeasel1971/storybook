@@ -188,8 +188,11 @@ This project serves as both a **proof-of-concept** for the Architect Crew method
 - **[UNIVERSAL-ADAPTATION-GUIDE.md](templates/UNIVERSAL-ADAPTATION-GUIDE.md)** - Guide for adapting to any technology
 
 ### **Technology-Specific Templates**
-- **[Laravel/PHP Templates](templates/technology-specific/laravel-php/)** - Complete Laravel adaptation
 - **[React/TypeScript Templates](templates/)** - Current Storybook implementation templates
+- **[Python Templates](templates/technology-specific/python/)** - General Python development framework
+- **[Flask Templates](templates/technology-specific/flask/)** - Flask web application framework
+- **[AutoGluon Templates](templates/technology-specific/autogluon/)** - AutoML and machine learning framework
+- **[Laravel/PHP Templates](templates/technology-specific/laravel-php/)** - Complete Laravel adaptation
 - **Technology Adapters** - Automated generation for specific tech stacks
 
 ### **Proven Benefits**
@@ -201,9 +204,11 @@ This project serves as both a **proof-of-concept** for the Architect Crew method
 
 ### **Universal Application**
 The methodology has been **proven with Storybook** and designed for **any technology stack**:
-- Web frameworks (Laravel, Django, ASP.NET, etc.)
-- Mobile frameworks (React Native, Flutter, etc.)
-- Desktop applications (Electron, etc.)
+- **Web frameworks**: Flask, Laravel, Django, ASP.NET, Express.js
+- **Machine Learning**: AutoGluon, TensorFlow, PyTorch, scikit-learn
+- **General Programming**: Python, JavaScript, Java, C#, Go
+- **Mobile frameworks**: React Native, Flutter, Swift, Kotlin
+- **Desktop applications**: Electron, Qt, WPF
 - Any project type or team size
 
 **Ready to fast-track your development? Start with the [METHODOLOGY.md](METHODOLOGY.md) guide.**
