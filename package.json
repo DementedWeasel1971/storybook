@@ -1,0 +1,28 @@
+{
+  "name": "storybook-design-system-orchestration",
+  "version": "1.0.0",
+  "description": "Architect Crew orchestration for React Design System with automated CLAUDE.md generation",
+  "main": "scripts/generate-claude.js",
+  "scripts": {
+    "generate:claude": "node scripts/generate-claude.js",
+    "generate:claude:dry-run": "node scripts/generate-claude.js --dry-run",
+    "generate:claude:force": "node scripts/generate-claude.js --force",
+    "test": "echo \"No tests configured\" && exit 0",
+    "lint": "echo \"No linting configured\" && exit 0"
+  },
+  "keywords": [
+    "design-system",
+    "storybook",
+    "react",
+    "architect-crew",
+    "automation"
+  ],
+  "author": "Deon",
+  "license": "ISC",
+  "devDependencies": {
+    "js-yaml": "^4.1.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

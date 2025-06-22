@@ -1,3 +1,14 @@
+---
+template: claude.md
+version: 1.0.0
+lastUpdated: 2025-01-22
+templateOwner: executor-crew
+generationTriggers: 
+  - docs/RDS.md changes
+  - docs/FRS.md changes
+  - merge to main branch
+---
+
 # AGENTS.md: AI Agent Constitution for React Design System Development
 
 This document provides the **official guidelines and mandatory protocols** for any AI agent contributing to this project. **You MUST adhere to all instructions herein.**
@@ -1194,6 +1205,155 @@ Different component types require different considerations:
 - Error display
 - Submit handling
 
+## CLAUDE.md Template Generation
+
+<!-- begin:claude-template -->
+---
+generated: true
+version: {{version}}
+lastUpdated: {{date}}
+sourceTemplate: AGENTS.md
+generatedBy: executor-crew
+---
+
+# CLAUDE.md - Design System Architecture Definition & AI Collaboration Guide
+
+**Version**: {{version}}  
+**Date**: {{date}}  
+**Generated from**: AGENTS.md template
+
+This file defines the comprehensive architecture of the React Design System solution. It aligns with the Architect Crew methodology, where:
+- **`docs/RDS.md`** outlines the **functional requirements** and user needs.
+- **`docs/FRS.md`** provides the **detailed technical specifications**, including all UML diagrams (Mermaid) and specific implementation blueprints.
+- **`CLAUDE.md`** (this file) instructs Claude (and similar AI) on how to interpret these documents, contribute to the architecture, and ensure `AGENTS.md` is correctly aligned.
+- **`AGENTS.md`** provides specific, actionable instructions for AI agents performing implementation tasks.
+
+## 1. From RDS → FRS Validation
+
+**Source**: `docs/RDS.md` (What & Why)  
+**Ensure**: Every RDS requirement appears in FRS diagrams/contracts.
+
+{{rdsValidation}}
+
+## 2. Architectural Overview
+
+This architecture is designed to address the specific pain points of five key personas. Persona analysis can be found in the `docs/` directory.
+
+{{architectureOverview}}
+
+## 3. Component & Module Breakdown
+
+The design system follows a layered architecture approach:
+
+### Foundation Layer (Design Tokens)
+{{designTokens}}
+
+### Component Layer 
+{{componentBreakdown}}
+
+### Build & Distribution Layer
+{{buildSystem}}
+
+## 4. Persona-Driven Principles
+
+This architecture is designed around five key user personas:
+
+{{personaPrinciples}}
+
+### Developer-Centric Component Architecture
+{{developerArchitecture}}
+
+### Design-Implementation Bridge Architecture  
+{{designBridge}}
+
+### Business Value Architecture
+{{businessValue}}
+
+### Quality Assurance Architecture
+{{qaArchitecture}}
+
+### Infrastructure and Deployment Architecture
+{{infrastructureArchitecture}}
+
+## 5. System Architecture Layers
+
+{{systemLayers}}
+
+## 6. Technology Architecture Stack
+
+{{technologyStack}}
+
+## 7. Integration Architecture
+
+{{integrationPatterns}}
+
+## 8. Performance Architecture
+
+{{performanceOptimization}}
+
+## 9. Governance Architecture
+
+{{governanceModel}}
+
+## 10. Success Measurement Framework
+
+{{successMetrics}}
+
+## 11. CI/CD & Agent Triggers
+
+**Automated Processes**:
+- Component generation via AGENTS.md templates
+- Quality gates and testing protocols
+- Build and deployment pipelines
+- Documentation generation
+
+**Agent Integration Points**:
+- Component creation following AGENTS.md specifications
+- Automated testing and validation
+- Code quality enforcement
+- Documentation updates
+
+{{cicdIntegration}}
+
+## Core Principles for System Architecture, Integrity, and AI Collaboration
+
+{{coreArchitecturalPrinciples}}
+
+## Architectural Diagrams and Flows
+
+### Primary Architecture Flow
+{{primaryArchitectureFlow}}
+
+### Component Development Lifecycle
+{{componentLifecycle}}
+
+### Quality Assurance Process Flow
+{{qaProcessFlow}}
+
+### CI/CD Pipeline Architecture
+{{cicdArchitecture}}
+
+## File Encoding Standards
+**All documentation files, including `AGENTS.md` and any files generated or modified by AI, MUST be in UTF-8 encoding.**
+
+## Implementation Status and Next Steps
+
+**Current Implementation Status**:
+{{implementationStatus}}
+
+**Immediate Next Steps**:
+{{nextSteps}}
+
+**Architecture Evolution Timeline**:
+{{evolutionTimeline}}
+
+---
+
+**Prime Directive**: Always ensure components are accessible, reusable, and follow design system principles as defined in `docs/FRS.md`. Every component must work seamlessly across different applications and maintain consistency with established design tokens and patterns.
+
+Built with ❤️ using the Architect Crew methodology.
+<!-- end:claude-template -->
+
 ## Deployment Process
 
 **All deployment processes MUST align with the specifications in `docs/FRS.md`.**
@@ -1610,3 +1770,146 @@ flowchart TD
 Remember: This design system serves as the foundation for consistent UI experiences across multiple applications. Design and develop accordingly, with `docs/FRS.md` as your technical constitution.
 
 **File Encoding: This AGENTS.md file MUST be maintained in UTF-8 encoding.**
+
+## 🔄 File Generation System
+
+### Automated CLAUDE.md Generation
+
+**Purpose**: Maintain CLAUDE.md as a fresh, generated artifact from this AGENTS.md template, ensuring perfect alignment with the Architect Crew methodology.
+
+**Trigger Conditions**:
+- Any merge to `main` branch
+- Changes to `docs/RDS.md` (Requirements Document Specification)
+- Changes to `docs/FRS.md` (Functional Requirements Specification)
+- Manual trigger via GitHub Actions workflow
+- Version bump in AGENTS.md front-matter
+
+**Generation Process**:
+
+1. **Extract Template**: Parse content between `<!-- begin:claude-template -->` and `<!-- end:claude-template -->` markers
+2. **Gather Data Sources**:
+   - Extract persona content from `docs/persona-*.md` files
+   - Pull architectural content from `docs/FRS.md`
+   - Read implementation status from `docs/RDS.md`
+   - Analyze current component library state
+3. **Substitute Placeholders**:
+   - `{{version}}` → increment from previous CLAUDE.md version
+   - `{{date}}` → current ISO date (YYYY-MM-DD)
+   - `{{rdsValidation}}` → cross-reference validation between RDS and FRS
+   - `{{architectureOverview}}` → pull from FRS.md architecture section
+   - `{{designTokens}}` → analyze current token implementation
+   - `{{componentBreakdown}}` → scan existing components and generate breakdown
+   - `{{buildSystem}}` → extract build configuration details
+   - `{{personaPrinciples}}` → compile from persona-*.md files
+   - `{{developerArchitecture}}` → extract developer-focused architecture from FRS
+   - `{{designBridge}}` → extract design-implementation bridge content
+   - `{{businessValue}}` → extract business value propositions
+   - `{{qaArchitecture}}` → extract QA and testing architecture
+   - `{{infrastructureArchitecture}}` → extract deployment and infrastructure details
+   - `{{systemLayers}}` → diagram system layer breakdown
+   - `{{technologyStack}}` → current technology analysis
+   - `{{integrationPatterns}}` → integration architecture patterns
+   - `{{performanceOptimization}}` → performance strategies
+   - `{{governanceModel}}` → governance and decision-making processes
+   - `{{successMetrics}}` → KPI and measurement frameworks
+   - `{{cicdIntegration}}` → CI/CD pipeline details
+   - `{{coreArchitecturalPrinciples}}` → foundational architectural principles
+   - `{{primaryArchitectureFlow}}` → main architecture flow diagram
+   - `{{componentLifecycle}}` → component development lifecycle
+   - `{{qaProcessFlow}}` → quality assurance process flow
+   - `{{cicdArchitecture}}` → CI/CD architecture diagram
+   - `{{implementationStatus}}` → current implementation status
+   - `{{nextSteps}}` → immediate action items
+   - `{{evolutionTimeline}}` → future roadmap
+4. **Generate Output**: Write complete CLAUDE.md file
+5. **Validate Output**: Ensure UTF-8 encoding and valid Markdown
+6. **Commit Changes**: Auto-commit with standardized message
+
+**Executor Agent**: `architect-generator`
+
+**Implementation Scripts**:
+- `scripts/generate-claude.js` - Main generation logic
+- `scripts/extract-template.js` - Template extraction utility
+- `scripts/substitute-placeholders.js` - Placeholder substitution engine
+- `scripts/validate-output.js` - Output validation and testing
+
+**GitHub Actions Integration**:
+```yaml
+name: Generate CLAUDE.md
+on:
+  push:
+    branches: [main]
+    paths: 
+      - 'docs/RDS.md'
+      - 'docs/FRS.md'
+      - 'AGENTS.md'
+  workflow_dispatch:
+
+jobs:
+  generate-claude:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Generate CLAUDE.md
+        run: |
+          node scripts/generate-claude.js \
+            --template AGENTS.md \
+            --output CLAUDE.md \
+            --sources docs/
+      - uses: EndBug/add-and-commit@v9
+        with:
+          message: 'chore: regenerate CLAUDE.md from AGENTS.md template'
+          add: 'CLAUDE.md'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+
+**Quality Assurance**:
+- Generated CLAUDE.md must pass Markdown linting
+- All placeholder substitutions must be validated
+- Generated content must maintain UTF-8 encoding
+- Version numbers must be properly incremented
+- Cross-references between RDS/FRS/CLAUDE must be validated
+
+**Traceability Chain**:
+```
+RDS.md (What & Why) 
+    ↓
+FRS.md (How - Technical Specs)
+    ↓
+AGENTS.md (Executor Instructions + Template)
+    ↓
+CLAUDE.md (Generated Architect AI Spec)
+    ↓
+Implementation (Components, Tests, Documentation)
+```
+
+**Error Handling**:
+- Missing source files: Log warning, use fallback content
+- Invalid placeholders: Fail generation with detailed error
+- Template parsing errors: Fail with line-number specific error
+- Output validation failures: Fail with validation report
+
+**Manual Override**:
+In exceptional cases, generation can be manually triggered:
+```bash
+# Manual generation command
+npm run generate:claude
+
+# Force regeneration (ignores version checks)
+npm run generate:claude --force
+
+# Preview generation without writing file
+npm run generate:claude --dry-run
+```
+
+**Template Evolution**:
+- Template structure changes require version bump in front-matter
+- New placeholders must be documented in this section
+- Breaking changes to template format require migration guide
+- All template modifications must maintain backward compatibility for CI
+
+This generation system ensures CLAUDE.md stays perfectly synchronized with the evolving RDS/FRS specifications while maintaining the Architect Crew methodology's principle of single-source-of-truth documentation.

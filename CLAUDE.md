@@ -1,982 +1,379 @@
+---
+generated: true
+version: 1.0.0
+lastUpdated: 2025-01-22
+sourceTemplate: AGENTS.md
+generatedBy: executor-crew
+---
+
 # CLAUDE.md - Design System Architecture Definition & AI Collaboration Guide
 
+**Version**: 1.0.0  
+**Date**: 2025-01-22  
+**Generated from**: AGENTS.md template
+
 This file defines the comprehensive architecture of the React Design System solution. It aligns with the Architect Crew methodology, where:
--   **`docs/RDS.md`** outlines the **functional requirements** and user needs.
--   **`docs/FRS.md`** provides the **detailed technical specifications**, including all UML diagrams (Mermaid) and specific implementation blueprints. This FRS is the authoritative source for technical design.
--   **`CLAUDE.md`** (this file) instructs Claude (and similar AI) on how to interpret these documents, contribute to the architecture, and ensure `AGENTS.md` is correctly aligned.
--   **`AGENTS.md`** provides specific, actionable instructions for AI agents performing implementation tasks, ensuring they refer to `docs/FRS.md` for technical details.
-
-## Architecture Overview
-
-The architecture is designed to address the specific pain points of five key personas. Persona analysis can be found in the `docs/` directory (e.g., `docs/persona-frontend-developer.md`). Each architectural decision directly correlates to solving real user problems.
-
-**Your primary responsibility, Claude, is to maintain and evolve the technical specifications within `docs/FRS.md`. When new architectural components or changes are discussed or designed, you must ensure these are accurately captured as Mermaid diagrams and technical descriptions in `docs/FRS.md`.**
-
-Furthermore, you must ensure that `AGENTS.md` is always updated to instruct AI agents to consult `docs/FRS.md` for the precise technical details required for their implementation tasks.
-
-## Persona-Driven Architecture Principles
-
-This architecture is designed around five key user personas. For detailed persona analysis, see individual files in `docs/` (e.g., [Frontend Developer](docs/persona-frontend-developer.md)).
-
-### 1. Developer-Centric Component Architecture
-**Addressing [Frontend Developer](docs/persona-frontend-developer.md) Requirements:**
-
-```typescript
-// Type-First Component Design Pattern
-interface ComponentProps {
-  variant: 'primary' | 'secondary' | 'outline' | 'ghost';
-  size: 'sm' | 'md' | 'lg';
-  state?: 'default' | 'loading' | 'disabled';
-  children: React.ReactNode;
-}
-
-// Tree-shakable export structure
-export { Button } from './Button';
-export { Input } from './Input';
-export { Card } from './Card';
-export type { ComponentProps } from './types';
-```
-
-**Architecture Solution:**
-- **Atomic Component Structure**: Each component is self-contained with TypeScript definitions
-- **Predictable API Design**: Consistent prop patterns across all components
-- **Zero-Config Integration**: Drop-in compatibility with existing React applications
-
-### 2. Design-Implementation Bridge Architecture
-**Addressing [UI/UX Designer](docs/persona-ui-designer.md) Requirements:**
-
-```css
-/* Design Token Architecture */
-:root {
-  /* Semantic color tokens */
-  --color-primary-50: #eff6ff;
-  --color-primary-500: #3b82f6;
-  --color-primary-900: #1e3a8a;
-  
-  /* Spacing scale */
-  --spacing-xs: 4px;
-  --spacing-sm: 8px;
-  --spacing-md: 16px;
-  --spacing-lg: 24px;
-  
-  /* Typography system */
-  --font-size-sm: 0.875rem;
-  --font-size-base: 1rem;
-  --font-size-lg: 1.125rem;
-}
-```
-
-**Architecture Solution:**
-- **Single Source of Truth**: Design tokens synchronized between design tools and code
-- **Visual Documentation Platform**: Storybook serves as living style guide
-- **Component State Mapping**: Every design state has corresponding code implementation
-
-### 3. Business Value Architecture
-**Addressing [Product Manager](docs/persona-product-manager.md) Requirements:**
-
-```typescript
-// Component Usage Analytics Integration
-interface ComponentMetrics {
-  adoptionRate: number;        // % of teams using component
-  usageFrequency: number;      // Monthly component renders
-  timeToImplementation: number; // Days from design to code
-  bugReportCount: number;      // Quality metrics
-}
-
-// ROI Tracking Architecture
-interface BusinessMetrics {
-  developmentEfficiency: number; // % reduction in dev time
-  codeReuse: number;            // % of UI from design system
-  brandConsistency: number;     // Design compliance score
-  costSavings: number;          // Annual savings from reuse
-}
-```
-
-**Architecture Solution:**
-- **Metrics-Driven Development**: Built-in analytics for business value measurement
-- **Scalable Component Library**: Architecture supports 100+ components
-- **Governance Framework**: Clear ownership and evolution strategy
-
-### 4. Quality Assurance Architecture
-**Addressing [QA Engineer](docs/persona-qa-engineer.md) Requirements:**
-
-```typescript
-// Comprehensive Testing Architecture
-interface TestingFramework {
-  unit: {
-    framework: 'Jest + React Testing Library';
-    coverage: '95% code coverage requirement';
-    automation: 'Pre-commit hooks + CI pipeline';
-  };
-  
-  visual: {
-    tool: 'Chromatic for visual regression';
-    browsers: ['Chrome', 'Firefox', 'Safari', 'Edge'];
-    viewports: ['mobile', 'tablet', 'desktop'];
-  };
-  
-  accessibility: {
-    automated: 'axe-core integration';
-    standards: 'WCAG 2.1 AA compliance';
-    testing: 'Screen reader validation';
-  };
-  
-  integration: {
-    storybook: 'Interactive component testing';
-    crossBrowser: 'BrowserStack integration';
-    performance: 'Lighthouse CI monitoring';
-  };
-}
-```
-
-**Architecture Solution:**
-- **Test-Driven Component Development**: Tests written alongside components
-- **Automated Quality Gates**: No releases without passing all quality checks
-- **Continuous Accessibility Monitoring**: Built-in a11y validation
-
-### 5. Infrastructure and Deployment Architecture
-**Addressing [DevOps Engineer](docs/persona-devops-engineer.md) Requirements:**
-
-```yaml
-# Multi-Target Deployment Architecture
-deployment:
-  npm:
-    registry: 'https://registry.npmjs.org/'
-    versioning: 'semantic-release'
-    automation: true
-    
-  documentation:
-    platform: 'Netlify/Vercel'
-    domain: 'designsystem.company.com'
-    deployment: 'atomic'
-    
-  cdn:
-    provider: 'CloudFront'
-    assets: 'CSS/JS bundles'
-    caching: 'aggressive'
-    
-  monitoring:
-    uptime: 'Pingdom'
-    performance: 'New Relic'
-    errors: 'Sentry'
-```
-
-**Architecture Solution:**
-- **Automated CI/CD Pipeline**: Zero-touch deployments with rollback capability
-- **Multi-Environment Strategy**: Development, staging, and production environments
-- **Comprehensive Monitoring**: Real-time visibility into system health
-
-## System Architecture Layers
-
-### Layer 1: Foundation (Design Tokens)
-```
-tokens/
-├── colors.ts          # Color palette and semantic colors
-├── spacing.ts         # Spacing scale and layout tokens
-├── typography.ts      # Font families, sizes, and weights
-├── borders.ts         # Border radius and width tokens
-├── shadows.ts         # Box shadow definitions
-└── index.ts          # Consolidated token exports
-```
-
-**Purpose**: Provides atomic design values that ensure visual consistency
-
-### Layer 2: Primitives (Base Components)
-```
-primitives/
-├── Box/              # Layout primitive with spacing props
-├── Text/             # Typography primitive with token integration
-├── Icon/             # Icon system with SVG management
-├── Button/           # Interaction primitive with all variants
-└── Input/            # Form primitive with validation states
-```
-
-**Purpose**: Building blocks that combine tokens into functional UI elements
-
-### Layer 3: Composed Components (Complex UI)
-```
-components/
-├── Card/             # Content container with header/body/footer
-├── Modal/            # Overlay component with focus management
-├── Table/            # Data display with sorting and filtering
-├── Navigation/       # App navigation with responsive behavior
-└── Forms/            # Form compositions with validation
-```
-
-**Purpose**: Higher-level components that solve specific user interface patterns
-
-### Layer 4: Patterns (Application Templates)
-```
-patterns/
-├── Dashboard/        # Admin dashboard layouts
-├── Marketing/        # Landing page patterns
-├── E-commerce/       # Product listing and detail patterns
-└── Documentation/    # Content documentation layouts
-```
-
-**Purpose**: Complete page templates and complex interaction patterns
-
-## Technology Architecture Stack
-
-### Core Development Stack
-```typescript
-interface TechnologyStack {
-  runtime: {
-    react: '^18.0.0';           // Component framework
-    typescript: '^5.0.0';       // Type safety
-  };
-  
-  development: {
-    storybook: '^8.3.0';        // Component development
-    vite: '^5.0.0';             // Dev server and HMR
-    rollup: '^4.0.0';           // Library bundling
-  };
-  
-  testing: {
-    jest: '^29.0.0';            // Unit testing
-    rtl: '^14.0.0';             // Component testing
-    chromatic: 'latest';        // Visual testing
-    axe: '^4.0.0';              // Accessibility testing
-  };
-  
-  infrastructure: {
-    github: 'Version control + CI/CD';
-    npm: 'Package distribution';
-    netlify: 'Documentation hosting';
-    sentry: 'Error monitoring';
-  };
-}
-```
-
-### Build Architecture
-```bash
-# Multi-target build system
-npm run build:tokens     # Generate design tokens
-npm run build:components # Build component library
-npm run build:storybook  # Generate documentation
-npm run build:types      # Generate TypeScript definitions
-npm run build:all        # Complete build pipeline
-```
-
-## Integration Architecture
-
-### Application Integration Patterns
-```typescript
-// Design System Consumer Integration
-import { 
-  Button, 
-  Card, 
-  Input,
-  ThemeProvider,
-  tokens 
-} from '@company/design-system';
-
-// Theme integration
-const App = () => (
-  <ThemeProvider theme={tokens}>
-    <Card>
-      <Input placeholder="Search..." />
-      <Button variant="primary">Submit</Button>
-    </Card>
-  </ThemeProvider>
-);
-```
-
-### Framework Compatibility
-- **Next.js**: Server-side rendering support with CSS-in-JS
-- **Vite**: Optimized bundling and tree-shaking
-- **Create React App**: Zero-config integration
-- **Custom Webpack**: Modular CSS and JS imports
-
-## Performance Architecture
-
-### Bundle Optimization Strategy
-```typescript
-// Tree-shakable architecture
-export { Button } from './Button';
-export { Input } from './Input';
-// Individual imports: import { Button } from '@company/design-system/Button';
-
-// CSS optimization
-import '@company/design-system/Button/Button.css';
-// Or full stylesheet: import '@company/design-system/dist/styles.css';
-```
-
-## Documentation Requirements
-
-### Each folder must contain a README.md
-- The README.md file contains the following information:
-    - What the folder structure is about
-    - Description of the folder structure
-    - A mermaid script depicting a visual understanding of the folder structure and sub folders
-    - How to use the application inside the folder and sub folders
-
-### Each folder contains AGENTS.md file
-The AGENTS.md file contains the following elements:
-- **Project Overview**: Clear description of the project's purpose and architecture
-- **Critical Architecture Constraints**: Mandatory technical limitations and requirements
-- **Folder Structure**: Complete directory tree with explanations
-- **Development Workflow**: Step-by-step setup and development processes
-- **Code Style & Conventions**: Formatting, linting, and structural requirements
-- **Testing Protocols**: Mandatory testing procedures and checklists. These protocols **must** detail unit testing practices (e.g., using Jest + React Testing Library, aiming for high code coverage as specified in the Quality Assurance Architecture), integration testing, and accessibility testing expectations. Agents should be guided to write tests alongside components.
-- **Technology Stack Management**: Guidelines for dependencies and libraries
-- **Pull Request Instructions**: PR format and review requirements
-- **Security Requirements**: Security protocols and best practices
-- **Troubleshooting Guide**: Common issues and solutions
-- **Prime Directive**: Core principles that override all other considerations
-
-**IMPORTANT**: AGENTS.md files must be created to enable automated development of specifications. They serve as the constitutional document for AI agents working on the project, ensuring consistent adherence to project standards and requirements.
-
-## Governance Architecture
-
-### Design System Evolution Strategy
-```typescript
-interface GovernanceModel {
-  ownership: {
-    coreTeam: 'Design System Team';
-    contributors: 'Product Teams';
-    approvers: 'Design System Council';
-  };
-  
-  decisionMaking: {
-    componentAddition: 'RFC process with stakeholder review';
-    breakingChanges: '30-day notice with migration guide';
-    tokenUpdates: 'Design team approval required';
-  };
-  
-  communication: {
-    updates: 'Monthly newsletter + Slack channel';
-    training: 'Quarterly workshops + office hours';
-    feedback: 'GitHub issues + user research';
-  };
-}
-```
-
-### Version Management Strategy
-```json
-{
-  "versioning": {
-    "strategy": "semantic-versioning",
-    "schedule": "bi-weekly releases",
-    "branches": {
-      "main": "stable production releases",
-      "develop": "integration branch for features",
-      "feature/*": "individual feature development"
-    }
-  },
-  "compatibility": {
-    "policy": "18-month LTS support",
-    "migration": "automated codemods where possible",
-    "deprecation": "6-month deprecation cycle"
-  }
-}
-```
-
-## Success Measurement Framework
-
-### Component Adoption Metrics
-```typescript
-interface AdoptionMetrics {
-  usage: {
-    componentsFromSystem: number;  // % of UI from design system
-    teamsAdopted: number;         // % of teams using system
-    newComponentRequests: number;  // Monthly new component requests
-  };
-  
-  efficiency: {
-    developmentTimeReduction: number; // % faster development
-    codeReuseRate: number;           // % reduction in duplicate code
-    maintenanceEffort: number;       // % reduction in UI maintenance
-  };
-  
-  quality: {
-    accessibilityCompliance: number; // % WCAG 2.1 AA compliance
-    visualConsistency: number;       // Brand consistency score
-    bugReduction: number;            // % reduction in UI bugs
-  };
-}
-```
-
-### Business Impact Tracking
-```typescript
-interface BusinessImpact {
-  financial: {
-    developmentCostSavings: number;   // Annual savings from reuse
-    timeToMarketImprovement: number;  // % faster feature delivery
-    maintenanceCostReduction: number; // % reduction in support costs
-  };
-  
-  user: {
-    satisfactionScore: number;        // User experience consistency
-    taskCompletionRate: number;       // Improved usability metrics
-    accessibilityScore: number;       // Inclusive design metrics
-  };
-  
-  developer: {
-    satisfactionRating: number;       // Developer experience score
-    productivityGains: number;        // % improvement in velocity
-    onboardingTime: number;           // % faster new dev onboarding
-  };
-}
-```
-
-## Current State and Next Steps
-
-This `storybook` directory serves as the central coordination point for design system architecture. The actual implementation is located at `../design-system/`.
-
-**Key Documentation and Your Role:**
-1.  **`docs/RDS.md` (Functional Requirements Specification):** Defines *what* the system should do and *why*, based on persona needs. You should understand these requirements to ensure technical solutions align with user goals.
-2.  **`docs/FRS.md` (Technical Requirements Specification):** This is your primary domain. It contains the *how* – detailed technical designs, Mermaid UML diagrams, and specific implementation blueprints. **You are responsible for creating, updating, and maintaining the accuracy and completeness of `docs/FRS.md`.** All technical architecture decisions must be codified here.
-3.  **`CLAUDE.md` (This Document):** Guides your actions in interpreting requirements, updating technical specifications, and ensuring alignment with `AGENTS.md`.
-4.  **`AGENTS.md` (AI Agent Constitution):** This document instructs implementing AI agents. **You must ensure `AGENTS.md` directs agents to `docs/FRS.md` for all technical implementation details.**
-5.  **Persona Analysis (`docs/persona-*.md`):** Provides the user-centered context for requirements.
-6.  **Governance Guidelines & Integration Examples:** Also part of the overall documentation suite.
-
-**Architect Crew Methodology Workflow:**
-- Functional needs are captured in `docs/RDS.md`.
-- You, Claude, translate these (and any new architectural initiatives) into detailed technical designs in `docs/FRS.md`. This includes creating and updating Mermaid diagrams.
-- You then update `AGENTS.md` to ensure that AI agents tasked with implementation are clearly instructed to follow the specifications in `docs/FRS.md`.
-
-### Implementation Priorities
-
-1. **Phase 1**: Core component library with design tokens
-2. **Phase 2**: Advanced components and patterns
-3. **Phase 3**: Automated tooling and analytics integration
-4. **Phase 4**: Multi-framework support and advanced features
-
-### Key Development Commands
-
-```bash
-# Main development workflow (run in design-system directory)
-cd ../design-system
-
-# Install dependencies
-npm install
-
-# Start Storybook development server (port 6006)
-npm run dev
-
-# Build component library for distribution
-npm run build-lib
-
-# Build Storybook static site for deployment
-npm run build-storybook
-
-# Run complete build pipeline
-npm run build
-
-# Run test suite
-npm run test
-
-# Run accessibility audits
-npm run test:a11y
-
-# Run visual regression tests
-npm run test:visual
-```
-
-This architecture document serves as the foundation for all development decisions, ensuring that the design system effectively serves all personas while maintaining technical excellence and business value.
-
-## Core Principles for System Architecture, Integrity, and AI Collaboration
-
-To ensure the design system's architecture remains robust, maintainable, and evolves according to best practices, and to facilitate effective collaboration with AI assistants, the following core principles must be upheld:
-
-1.  **Adherence to Established Patterns and Conventions:**
-    *   Architectural designs and component structures should consistently follow existing patterns within the project.
-    *   New architectural elements must be designed with consideration for existing conventions to ensure coherence and maintainability.
-
-2.  **Methodological Rigor in Development and Experimentation:**
-    *   All development, including experimental architectural changes, should occur in designated workspaces or using isolated structures like git worktrees to protect the integrity of main development lines.
-    *   Boundaries of reference materials or stable system parts must be respected; modifications require explicit architectural decisions.
-
-3.  **Evidence-Based Performance Considerations:**
-    *   Performance optimization, when an architectural concern, must be approached by leveraging existing benchmark infrastructure. Architectural decisions should not necessitate standalone or ad-hoc benchmarking tools.
-    *   All claims regarding performance improvements or characteristics of architectural designs **must be based on actual measurements.** The principle of "Never Make Up Measurements" is critical to maintain credibility and make informed decisions.
-    *   Architectural changes aimed at performance should be validated by proper measurement and impact analysis.
-
-4.  **Dependency and Technology Management:**
-    *   Introduction of new dependencies or technologies as part of an architectural change requires careful evaluation against project goals, potential impact (e.g., bundle size, complexity), and compatibility. Assumptions about availability should be verified.
-
-5.  **Security as a Foundational Architectural Concern:**
-    *   Security considerations must be integral to architectural design. This includes preventing exposure of secrets, designing for data sanitization, and mitigating common web vulnerabilities at an architectural level.
-
-6.  **Integrity of Documentation and Architectural Knowledge:**
-    *   The primary architectural documentation (`CLAUDE.md`) and operational guidelines (`AGENTS.md`) are central to AI alignment and project understanding. These must be consulted prior to significant architectural work.
-    *   Creation of new architectural documentation or significant restructuring of existing documents should be a deliberate architectural decision.
-
-7.  **Technical Merit and Justification:**
-    *   All architectural proposals and improvements should be justified by their technical merit and clear reasoning, avoiding unsubstantiated claims.
-
-8.  **Respect for Testing and Quality Assurance Frameworks:**
-    *   Architectural designs must be compatible with and support the project's established testing and QA infrastructure. Design decisions should not introduce elements that are inherently untestable or bypass quality gates.
-
-## Architectural Diagrams and Flows
-
-### Persona-Driven Architecture Overview
+- **`docs/RDS.md`** outlines the **functional requirements** and user needs.
+- **`docs/FRS.md`** provides the **detailed technical specifications**, including all UML diagrams (Mermaid) and specific implementation blueprints.
+- **`CLAUDE.md`** (this file) instructs Claude (and similar AI) on how to interpret these documents, contribute to the architecture, and ensure `AGENTS.md` is correctly aligned.
+- **`AGENTS.md`** provides specific, actionable instructions for AI agents performing implementation tasks.
+
+## 1. From RDS → FRS Validation
+
+**Source**: `docs/RDS.md` (What & Why)  
+**Ensure**: Every RDS requirement appears in FRS diagrams/contracts.
+
+The current implementation validates requirements traceability between RDS functional requirements and FRS technical specifications. All persona-driven requirements from RDS.md have corresponding technical solutions documented in FRS.md.
+
+## 2. Architectural Overview
+
+This architecture is designed to address the specific pain points of five key personas. Persona analysis can be found in the `docs/` directory.
+
+The React Design System follows a layered, persona-driven architecture that ensures scalability, maintainability, and developer experience. The architecture serves as a single source of truth for UI consistency across applications while providing the flexibility needed for diverse use cases.
+
+**Key Architectural Principles:**
+- Component-driven development with atomic design principles
+- Design token-based styling for consistency
+- Accessibility-first approach (WCAG 2.1 AA compliance)
+- TypeScript-first development for type safety
+- Automated testing and quality assurance
+- Performance optimization through tree-shaking and lazy loading
+
+## 3. Component & Module Breakdown
+
+The design system follows a layered architecture approach:
+
+### Foundation Layer (Design Tokens)
+- **Colors**: Semantic color palette with light/dark mode support
+- **Spacing**: Consistent spacing scale (4px, 8px, 16px, 24px, 32px, 48px, 64px)
+- **Typography**: Type scale with font families, sizes, and weights
+- **Borders**: Radius and width tokens for consistent component styling
+- **Shadows**: Elevation system for depth and hierarchy
+
+### Component Layer 
+- **Primitives** (atoms): Button, Input, Icon, Text, Badge
+- **Compositions** (molecules): Card, FormField, Alert, Toast, Modal
+- **Complex** (organisms): Table, Navigation, Form, Dashboard
+- **Layouts**: Grid, Stack, Container, Sidebar
+- **Patterns**: SearchBar, DataTable, FileUpload, Pagination
+
+### Build & Distribution Layer
+- **Vite**: Development server with hot module replacement
+- **Rollup**: Library bundling for distribution
+- **TypeScript**: Type checking and compilation
+- **Storybook**: Component development and documentation
+- **Jest**: Unit testing framework
+- **GitHub Actions**: CI/CD automation
+
+## 4. Persona-Driven Principles
+
+This architecture is designed around five key user personas:
+
+1. **Frontend Developer**: Needs predictable APIs, TypeScript support, and comprehensive documentation
+2. **UI/UX Designer**: Requires design token integration, visual consistency, and design-to-code alignment
+3. **Product Manager**: Focuses on business value, development efficiency, and scalability metrics
+4. **QA Engineer**: Emphasizes automated testing, accessibility compliance, and quality gates
+5. **DevOps Engineer**: Concentrates on deployment automation, performance monitoring, and infrastructure
+
+### Developer-Centric Component Architecture
+- Type-first component design with comprehensive TypeScript interfaces
+- Predictable prop patterns across all components
+- Tree-shakable exports for optimal bundle sizes
+- Zero-config integration with existing React applications
+- Comprehensive documentation with usage examples
+
+### Design-Implementation Bridge Architecture  
+- Design tokens as single source of truth for visual consistency
+- Storybook as living style guide and component playground
+- Automated design-to-code synchronization
+- Visual regression testing for design consistency
+- Component state mapping between design tools and implementation
+
+### Business Value Architecture
+- Metrics-driven development with adoption tracking
+- ROI measurement through development efficiency gains
+- Scalable component library supporting 100+ components
+- Cost savings through code reuse and consistency
+- Time-to-market acceleration through pre-built components
+
+### Quality Assurance Architecture
+- Test-driven component development with 90%+ coverage
+- Automated accessibility testing with axe-core integration
+- Visual regression testing via Chromatic
+- Cross-browser compatibility testing
+- Performance monitoring and optimization
+
+### Infrastructure and Deployment Architecture
+- Automated CI/CD pipelines with semantic versioning
+- Multi-environment deployment strategy
+- CDN distribution for optimal performance
+- Real-time monitoring and error tracking
+- Rollback capabilities for deployment safety
+
+## 5. System Architecture Layers
 
 ```mermaid
 graph TB
-    subgraph "Development Layer"
-        A[React 18+] --> B[TypeScript]
-        B --> C[Storybook 8.3+]
-        C --> D[Component Development]
+    subgraph "Foundation Layer"
+        A[Design Tokens] --> B[Colors]
+        A --> C[Spacing]
+        A --> D[Typography]
+        A --> E[Borders & Shadows]
+    end
+    
+    subgraph "Component Layer"
+        F[Primitives] --> G[Button, Input, Icon]
+        H[Compositions] --> I[Card, Modal, Alert]
+        J[Complex] --> K[Table, Navigation, Form]
+        
+        B --> F
+        C --> F
+        D --> F
+        E --> F
+        
+        F --> H
+        H --> J
     end
     
     subgraph "Build Layer"
-        E[Vite] --> F[Rollup]
-        F --> G[Library Bundle]
-        G --> H[NPM Distribution]
+        L[TypeScript] --> M[Rollup Bundle]
+        N[Storybook] --> O[Documentation]
+        P[Jest] --> Q[Test Reports]
+        
+        J --> L
+        Q --> L
     end
     
-    subgraph "Quality Layer"
-        I[Jest] --> J[React Testing Library]
-        J --> K[Chromatic Visual Testing]
-        K --> L[Accessibility Testing]
+    subgraph "Distribution Layer"
+        M --> R[NPM Package]
+        O --> S[Documentation Site]
+        R --> T[Consumer Applications]
     end
-    
-    subgraph "Deployment Layer"
-        M[GitHub Actions] --> N[Semantic Versioning]
-        N --> O[Automated Releases]
-        O --> P[Documentation Hosting]
-    end
-    
-    D --> E
-    L --> M
-    H --> Q[Consumer Applications]
-    P --> R[Documentation Site]
 ```
 
-### Persona Interaction Sequence Diagram
+## 6. Technology Architecture Stack
 
-```mermaid
-sequenceDiagram
-    participant PM as Product Manager
-    participant UX as UI/UX Designer
-    participant FE as Frontend Developer
-    participant QA as QA Engineer
-    participant DO as DevOps Engineer
-    participant DS as Design System
-    
-    PM->>UX: Define feature requirements
-    UX->>UX: Create design specifications
-    UX->>DS: Define design tokens
-    UX->>FE: Handoff designs
-    FE->>DS: Implement components
-    FE->>DS: Add TypeScript definitions
-    FE->>DS: Create Storybook stories
-    QA->>DS: Run automated tests
-    QA->>DS: Accessibility validation
-    QA->>FE: Report issues
-    FE->>DS: Fix issues
-    DO->>DS: Build and deploy
-    DS->>PM: Usage analytics
-    PM->>UX: Performance feedback
-```
+**Core Technologies:**
+- React 18+ with TypeScript 5+
+- Storybook 8.3+ for component development
+- Vite 5+ for development and build tooling
+- Jest 29+ with React Testing Library for testing
+- ESLint and Prettier for code quality
 
-### Component Development State Flow
+**Build and Distribution:**
+- Rollup for library bundling
+- Semantic versioning for releases
+- NPM for package distribution
+- GitHub Actions for CI/CD automation
+- Netlify/Vercel for documentation hosting
 
-```mermaid
-stateDiagram-v2
-    [*] --> TokenDefinition
-    TokenDefinition --> ComponentDesign: Tokens Created
-    ComponentDesign --> Implementation: Design Approved
-    Implementation --> TypeScript: Component Built
-    TypeScript --> Stories: Types Added
-    Stories --> Testing: Stories Created
-    Testing --> AccessibilityCheck: Unit Tests Pass
-    AccessibilityCheck --> VisualTesting: A11y Compliant
-    VisualTesting --> Documentation: Visual Tests Pass
-    Documentation --> Review: Docs Complete
-    Review --> Release: Review Approved
-    Release --> Monitoring: Component Released
-    Monitoring --> Enhancement: Usage Tracked
-    Enhancement --> TokenDefinition: Updates Needed
-    
-    Testing --> Implementation: Test Failures
-    AccessibilityCheck --> Implementation: A11y Issues
-    VisualTesting --> Implementation: Visual Issues
-    Review --> Implementation: Review Rejected
-```
+**Quality Assurance:**
+- Chromatic for visual regression testing
+- axe-core for accessibility testing
+- TypeScript for compile-time error checking
+- Pre-commit hooks for code quality enforcement
 
-### Design System Entity Relationships
+## 7. Integration Architecture
 
-```mermaid
-erDiagram
-    PERSONAS ||--o{ REQUIREMENTS : "defines"
-    REQUIREMENTS ||--o{ COMPONENTS : "drives"
-    DESIGN_TOKENS ||--o{ COMPONENTS : "styles"
-    COMPONENTS ||--o{ STORIES : "documents"
-    COMPONENTS ||--o{ TESTS : "validates"
-    STORIES ||--o{ DOCUMENTATION : "generates"
-    COMPONENTS ||--o{ METRICS : "tracked_by"
-    METRICS ||--o{ PERSONAS : "reports_to"
-    
-    PERSONAS {
-        string name
-        string role
-        string team
-        string[] pain_points
-        string[] needs
-        string[] success_criteria
-    }
-    
-    REQUIREMENTS {
-        string type
-        string priority
-        string persona_source
-        string description
-        boolean implemented
-    }
-    
-    DESIGN_TOKENS {
-        string category
-        string name
-        string value
-        string semantic_name
-        string[] platforms
-    }
-    
-    COMPONENTS {
-        string name
-        string type
-        string[] variants
-        string accessibility_level
-        string maturity_status
-        string[] dependencies
-    }
-    
-    METRICS {
-        string component_name
-        number adoption_rate
-        number usage_frequency
-        number satisfaction_score
-        number performance_score
-    }
-```
+**Framework Compatibility:**
+- Next.js with server-side rendering support
+- Vite applications with optimal bundling
+- Create React App with zero configuration
+- Custom webpack setups with modular imports
 
-### Business Value Flow Diagram
+**API Integration Patterns:**
+- Props-based component configuration
+- Event handler patterns for component interactions
+- Context providers for global state management
+- Custom hooks for reusable component logic
 
-```mermaid
-flowchart TD
-    A[Design System Investment] --> B[Component Library]
-    B --> C[Developer Productivity]
-    B --> D[Design Consistency]
-    B --> E[Quality Assurance]
-    B --> F[Maintenance Efficiency]
-    
-    C --> G[40% Faster Development]
-    D --> H[95% Brand Consistency]
-    E --> I[50% Fewer UI Bugs]
-    F --> J[60% Less Maintenance]
-    
-    G --> K[Cost Savings]
-    H --> L[User Experience]
-    I --> M[Quality Metrics]
-    J --> N[Resource Optimization]
-    
-    K --> O[ROI Measurement]
-    L --> O
-    M --> O
-    N --> O
-    
-    O --> P[Business Impact]
-    P --> Q[Continued Investment]
-    Q --> A
-```
+## 8. Performance Architecture
 
-### Technology Stack Decision Tree
+**Bundle Optimization:**
+- Tree-shaking friendly exports
+- Code splitting at component level
+- CSS extraction for critical styles
+- Lazy loading for heavy components
 
-```mermaid
-flowchart TD
-    A[Technology Choice] --> B{Component Framework}
-    B -->|Frontend Library| C[React 18+]
-    B -->|Type Safety| D[TypeScript]
-    B -->|Documentation| E[Storybook]
+**Runtime Performance:**
+- React.memo for expensive components
+- useMemo/useCallback optimization
+- Virtual scrolling for large lists
+- Efficient re-rendering patterns
 
-## File Encoding Standards
-**All documentation files, including `AGENTS.md` and any files generated or modified by AI, MUST be in UTF-8 encoding.** You are responsible for ensuring that if `AGENTS.md` is regenerated or significantly modified under your direction, it maintains UTF-8 encoding.
-    
-    C --> F{Build Tools}
-    F -->|Development| G[Vite]
-    F -->|Library Bundling| H[Rollup]
-    F -->|Package Manager| I[NPM]
-    
-    D --> J{Testing Framework}
-    J -->|Unit Testing| K[Jest]
-    J -->|Component Testing| L[React Testing Library]
-    J -->|Visual Testing| M[Chromatic]
-    J -->|Accessibility| N[Axe-core]
-    
-    E --> O{Deployment Strategy}
-    O -->|Documentation| P[Netlify/Vercel]
-    O -->|Package Distribution| Q[NPM Registry]
-    O -->|CI/CD| R[GitHub Actions]
-    
-    G --> S[Development Environment]
-    H --> T[Production Bundle]
-    K --> U[Quality Assurance]
-    P --> V[Documentation Site]
-```
+## 9. Governance Architecture
 
-### Component Maturity Model
+**Decision Making Process:**
+- RFC process for new component proposals
+- Design System Council for architectural decisions
+- Community feedback integration
+- Regular architecture reviews
 
-```mermaid
-stateDiagram-v2
-    [*] --> Experimental
-    Experimental --> Alpha: Basic functionality
-    Alpha --> Beta: API stable
-    Beta --> Stable: Production ready
-    Stable --> Mature: Widely adopted
-    Mature --> Legacy: Superseded
-    Legacy --> Deprecated: Migration path
-    Deprecated --> Removed: End of life
-    Removed --> [*]
-    
-    Experimental --> Abandoned: Not viable
-    Alpha --> Abandoned: API issues
-    Beta --> Alpha: Breaking changes
-    Stable --> Beta: Major updates
-    Mature --> Stable: Significant changes
-    Legacy --> Stable: Revival needed
-    Abandoned --> [*]
-```
+**Version Management:**
+- Semantic versioning with automated releases
+- Breaking change migration guides
+- Deprecation cycle management
+- Backward compatibility maintenance
 
-### Integration Architecture Flow
+## 10. Success Measurement Framework
 
+**Key Performance Indicators:**
+- Component adoption rate (target: 95% of teams)
+- Development efficiency improvement (target: 40% faster)
+- Code reuse percentage (target: 80% of UI from design system)
+- Accessibility compliance (target: 100% WCAG 2.1 AA)
+- Bundle size impact (target: <5% increase)
+
+**Quality Metrics:**
+- Test coverage (target: 90%+)
+- Bug reduction (target: 50% fewer UI bugs)
+- Documentation completeness (target: 100% component coverage)
+- Performance scores (target: 95+ Lighthouse scores)
+
+## 11. CI/CD & Agent Triggers
+
+**Automated Processes**:
+- Component generation via AGENTS.md templates
+- Quality gates and testing protocols
+- Build and deployment pipelines
+- Documentation generation and updates
+
+**Agent Integration Points**:
+- Component creation following AGENTS.md specifications
+- Automated testing and validation workflows
+- Code quality enforcement and formatting
+- Documentation synchronization and updates
+
+**Trigger Conditions:**
+- Pull request creation and updates
+- Merge to main branch
+- Version tag creation
+- Manual workflow dispatch
+- Scheduled maintenance tasks
+
+## Core Principles for System Architecture, Integrity, and AI Collaboration
+
+1. **Adherence to Established Patterns**: Maintain consistency with existing architectural patterns
+2. **Methodological Rigor**: Use isolated development environments and proper testing
+3. **Evidence-Based Performance**: All performance claims must be backed by measurements
+4. **Dependency Management**: Careful evaluation of new dependencies and technologies
+5. **Security First**: Integral security considerations in architectural design
+6. **Documentation Integrity**: Maintain CLAUDE.md and AGENTS.md alignment
+7. **Technical Merit**: Justify all architectural decisions with clear reasoning
+
+## Architectural Diagrams and Flows
+
+### Primary Architecture Flow
 ```mermaid
 graph LR
-    subgraph "Design System Core"
-        A[Design Tokens] --> B[Base Components]
-        B --> C[Complex Components]
-        C --> D[Component Library]
-    end
+    A[RDS Requirements] --> B[FRS Technical Specs]
+    B --> C[CLAUDE Architecture]
+    C --> D[AGENTS Implementation]
+    D --> E[Component Library]
+    E --> F[Consumer Applications]
     
-    subgraph "Development Workflow"
-        E[Local Development] --> F[Storybook Dev Server]
-        F --> G[Component Stories]
-        G --> H[Visual Testing]
+    subgraph "Feedback Loop"
+        F --> G[Usage Analytics]
+        G --> H[Architecture Updates]
+        H --> A
     end
-    
-    subgraph "Distribution Channels"
-        D --> I[NPM Package]
-        D --> J[CDN Distribution]
-        G --> K[Static Storybook Site]
-    end
-    
-    subgraph "Consumer Applications"
-        I --> L[React Applications]
-        J --> M[Laravel Applications]
-        K --> N[Design Documentation]
-    end
-    
-    subgraph "Quality Gates"
-        O[Unit Tests] --> P[Visual Regression]
-        P --> Q[Accessibility Audit]
-        Q --> R[Performance Testing]
-    end
-    
-    H --> O
-    R --> I
-    R --> J
 ```
 
-### Governance Process Flow
-
+### Component Development Lifecycle
 ```mermaid
-sequenceDiagram
-    participant Contributor as Contributor
-    participant Maintainer as Maintainer
-    participant Council as Design System Council
-    participant Community as Community
-    participant Release as Release Process
+stateDiagram-v2
+    [*] --> Planning
+    Planning --> Development: Requirements Defined
+    Development --> Testing: Component Implemented
+    Testing --> Review: Tests Pass
+    Review --> Integration: Approved
+    Integration --> Documentation: Merged
+    Documentation --> Release: Documented
+    Release --> Monitoring: Deployed
+    Monitoring --> [*]: Stable
     
-    Contributor->>Maintainer: Submit component proposal
-    Maintainer->>Council: Review proposal
-    Council->>Community: Request feedback
-    Community->>Council: Provide input
-    Council->>Maintainer: Decision on proposal
-    Maintainer->>Contributor: Approval/rejection
-    Contributor->>Maintainer: Implement component
-    Maintainer->>Maintainer: Code review
-    Maintainer->>Release: Merge to main
-    Release->>Community: Release notification
-    Community->>Maintainer: Usage feedback
-    Maintainer->>Council: Report metrics
+    Testing --> Development: Tests Fail
+    Review --> Development: Changes Requested
+    Integration --> Development: Integration Issues
 ```
 
-### Performance Monitoring Flow
-
+### Quality Assurance Process Flow
 ```mermaid
 flowchart TD
-    A[Component Usage] --> B[Metrics Collection]
-    B --> C{Performance Thresholds}
-    C -->|Bundle Size OK| D[Size Monitoring]
-    C -->|Bundle Too Large| E[Optimization Required]
-    C -->|Render Time OK| F[Performance Monitoring]
-    C -->|Render Too Slow| G[Performance Issues]
+    A[Component Code] --> B{TypeScript Valid?}
+    B -->|No| C[Fix Type Errors]
+    B -->|Yes| D{Tests Pass?}
+    D -->|No| E[Fix Test Failures]
+    D -->|Yes| F{Accessibility OK?}
+    F -->|No| G[Fix A11y Issues]
+    F -->|Yes| H{Visual Tests Pass?}
+    H -->|No| I[Review Visual Changes]
+    H -->|Yes| J[Ready for Release]
     
-    D --> H[Continued Monitoring]
-    E --> I[Bundle Analysis]
-    F --> H
-    G --> J[Performance Optimization]
-    
-    I --> K[Code Splitting]
-    I --> L[Tree Shaking]
-    J --> M[Component Refactoring]
-    J --> N[Lazy Loading]
-    
-    K --> O[Re-test Performance]
-    L --> O
-    M --> O
-    N --> O
-    
-    O --> C
-    H --> P[Performance Reports]
-    P --> Q[Stakeholder Dashboard]
+    C --> A
+    E --> A
+    G --> A
+    I --> A
 ```
 
-### Success Metrics Tracking System
-
+### CI/CD Pipeline Architecture
 ```mermaid
 graph TB
-    subgraph "Measurement Categories"
-        A[Developer Experience] --> A1[Implementation Time]
-        A --> A2[Adoption Rate]
-        A --> A3[Satisfaction Scores]
-        A --> A4[Documentation Usage]
-        
-        B[Design Consistency] --> B1[Visual Audit Scores]
-        B --> B2[Brand Compliance]
-        B --> B3[Accessibility Results]
-        B --> B4[Cross-platform Consistency]
-        
-        C[System Performance] --> C1[Bundle Size Impact]
-        C --> C2[Render Performance]
-        C --> C3[Build Time]
-        C --> C4[Documentation Performance]
-        
-        D[Quality Metrics] --> D1[Test Coverage]
-        D --> D2[Bug Frequency]
-        D --> D3[Security Vulnerabilities]
-        D --> D4[Deployment Success]
-    end
+    A[Code Push] --> B[CI Pipeline]
+    B --> C[Lint & Format]
+    B --> D[Type Check]
+    B --> E[Unit Tests]
+    B --> F[Build Library]
+    B --> G[Build Storybook]
+    B --> H[Visual Tests]
+    B --> I[A11y Tests]
     
-    subgraph "KPI Targets"
-        E[80% Time Reduction] --> A1
-        F[95% Team Adoption] --> A2
-        G[100% Brand Consistency] --> B2
-        H[WCAG 2.1 AA Compliance] --> B3
-        I[<5% Bundle Impact] --> C1
-        J[100% Test Coverage] --> D1
-        K[99.9% Deploy Success] --> D4
-    end
+    C --> J{All Checks Pass?}
+    D --> J
+    E --> J
+    F --> J
+    G --> J
+    H --> J
+    I --> J
     
-    subgraph "Reporting Dashboard"
-        L[Real-time Metrics]
-        M[Monthly Reports]
-        N[Quarterly Reviews]
-        O[Annual Assessment]
-    end
-    
-    A1 --> L
-    A2 --> L
-    B1 --> M
-    C1 --> M
-    D1 --> N
-    N --> O
+    J -->|No| K[Block Deployment]
+    J -->|Yes| L[Deploy to Staging]
+    L --> M[Integration Tests]
+    M --> N{Tests Pass?}
+    N -->|No| K
+    N -->|Yes| O[Deploy to Production]
 ```
 
-### Multi-Framework Integration Strategy
+## File Encoding Standards
+**All documentation files, including `AGENTS.md` and any files generated or modified by AI, MUST be in UTF-8 encoding.**
 
-```mermaid
-flowchart TD
-    A[Design System Core] --> B{Target Framework}
-    B -->|React| C[React Components]
-    B -->|Vue| D[Vue Components]
-    B -->|Angular| E[Angular Components]
-    B -->|Web Components| F[Custom Elements]
-    
-    C --> G[React Package]
-    D --> H[Vue Package]
-    E --> I[Angular Package]
-    F --> J[Universal Package]
-    
-    G --> K[NPM Registry]
-    H --> K
-    I --> K
-    J --> K
-    
-    K --> L[Consumer Applications]
-    
-    subgraph "Shared Resources"
-        M[Design Tokens]
-        N[CSS Styles]
-        O[Icons]
-        P[Documentation]
-    end
-    
-    M --> C
-    M --> D
-    M --> E
-    M --> F
-    
-    N --> C
-    N --> D
-    N --> E
-    N --> F
-```
+## Implementation Status and Next Steps
 
-### CI/CD Pipeline Detailed Flow
+**Current Implementation Status**:
+- ✅ Complete Storybook setup with enhanced configuration
+- ✅ 4 core components (Button, Card, Input, Modal) with full stories and tests
+- ✅ Testing infrastructure with Jest and React Testing Library
+- ✅ Code quality tools (ESLint, Prettier, TypeScript)
+- ✅ Design token foundation (colors, spacing, typography)
+- ✅ Comprehensive documentation and templates
+- ✅ AI agent templates for automated component creation
 
-```mermaid
-gitGraph
-    commit id: "Feature Branch"
-    branch feature
-    checkout feature
-    commit id: "Component Development"
-    commit id: "Add TypeScript"
-    commit id: "Add Tests"
-    commit id: "Add Stories"
-    commit id: "Update Docs"
-    checkout main
-    merge feature
-    commit id: "Automated Testing"
-    commit id: "Visual Regression"
-    commit id: "Accessibility Audit"
-    commit id: "Performance Check"
-    commit id: "Build Library"
-    commit id: "Build Storybook"
-    commit id: "Version Bump"
-    commit id: "Deploy Storybook"
-    commit id: "Publish NPM"
-    commit id: "Update Changelog"
-```
+**Immediate Next Steps**:
+1. Install and validate all dependencies in design-system directory
+2. Run complete test suite and fix any failing tests
+3. Generate additional components using AGENTS.md templates
+4. Set up automated CI/CD pipeline with GitHub Actions
+5. Implement visual regression testing with Chromatic
+6. Create component library package for NPM distribution
 
-### Component API Design Rules
+**Architecture Evolution Timeline**:
+- **Phase 1** (Current): Core component library with design tokens
+- **Phase 2** (Next 30 days): Advanced components and patterns
+- **Phase 3** (Next 60 days): Automated tooling and analytics integration
+- **Phase 4** (Next 90 days): Multi-framework support and advanced features
 
-```mermaid
-flowchart TD
-    A[Component API Design] --> B{Prop Type}
-    B -->|Required| C[Clear TypeScript Interface]
-    B -->|Optional| D[Sensible Defaults]
-    B -->|Events| E[Consistent Event Handlers]
-    B -->|Styling| F[Design Token Integration]
-    
-    C --> G[Comprehensive Documentation]
-    D --> G
-    E --> G
-    F --> G
-    
-    G --> H{API Validation}
-    H -->|Pass| I[Component Ready]
-    H -->|Fail| J[Refactor Required]
-    
-    J --> K[Review Requirements]
-    K --> L[Update Implementation]
-    L --> A
-    
-    I --> M[Add to Library]
-    M --> N[Create Stories]
-    N --> O[Write Tests]
-    O --> P[Documentation Update]
-```
+---
+
+**Prime Directive**: Always ensure components are accessible, reusable, and follow design system principles as defined in `docs/FRS.md`. Every component must work seamlessly across different applications and maintain consistency with established design tokens and patterns.
+
+Built with ❤️ using the Architect Crew methodology.
