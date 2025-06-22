@@ -1,19 +1,22 @@
-# CLAUDE.md - Design System Architecture Definition
+# CLAUDE.md - Design System Architecture Definition & AI Collaboration Guide
 
-This file defines the comprehensive architecture of the React Design System solution based on persona analysis and requirements from the RDS.md documentation.
+This file defines the comprehensive architecture of the React Design System solution. It aligns with the Architect Crew methodology, where:
+-   **`docs/RDS.md`** outlines the **functional requirements** and user needs.
+-   **`docs/FRS.md`** provides the **detailed technical specifications**, including all UML diagrams (Mermaid) and specific implementation blueprints. This FRS is the authoritative source for technical design.
+-   **`CLAUDE.md`** (this file) instructs Claude (and similar AI) on how to interpret these documents, contribute to the architecture, and ensure `AGENTS.md` is correctly aligned.
+-   **`AGENTS.md`** provides specific, actionable instructions for AI agents performing implementation tasks, ensuring they refer to `docs/FRS.md` for technical details.
 
 ## Architecture Overview
 
-The architecture is designed to address the specific pain points of five key personas: [Frontend Developers](docs/persona-frontend-developer.md), [UI/UX Designers](docs/persona-ui-designer.md), [Product Managers](docs/persona-product-manager.md), [QA Engineers](docs/persona-qa-engineer.md), and [DevOps Engineers](docs/persona-devops-engineer.md). Each architectural decision directly correlates to solving real user problems identified in the persona analysis.
+The architecture is designed to address the specific pain points of five key personas. Persona analysis can be found in the `docs/` directory (e.g., `docs/persona-frontend-developer.md`). Each architectural decision directly correlates to solving real user problems.
+
+**Your primary responsibility, Claude, is to maintain and evolve the technical specifications within `docs/FRS.md`. When new architectural components or changes are discussed or designed, you must ensure these are accurately captured as Mermaid diagrams and technical descriptions in `docs/FRS.md`.**
+
+Furthermore, you must ensure that `AGENTS.md` is always updated to instruct AI agents to consult `docs/FRS.md` for the precise technical details required for their implementation tasks.
 
 ## Persona-Driven Architecture Principles
 
-This architecture is designed around five key user personas. For detailed persona analysis, see:
-- [Frontend Developer](docs/persona-frontend-developer.md)
-- [UI/UX Designer](docs/persona-ui-designer.md) 
-- [Product Manager](docs/persona-product-manager.md)
-- [QA Engineer](docs/persona-qa-engineer.md)
-- [DevOps Engineer](docs/persona-devops-engineer.md)
+This architecture is designed around five key user personas. For detailed persona analysis, see individual files in `docs/` (e.g., [Frontend Developer](docs/persona-frontend-developer.md)).
 
 ### 1. Developer-Centric Component Architecture
 **Addressing [Frontend Developer](docs/persona-frontend-developer.md) Requirements:**
@@ -419,12 +422,20 @@ interface BusinessImpact {
 
 ## Current State and Next Steps
 
-This `storybook` directory serves as the central coordination point for design system architecture. The actual implementation is located at `../design-system/`, while this space contains:
+This `storybook` directory serves as the central coordination point for design system architecture. The actual implementation is located at `../design-system/`.
 
-1. **Architectural Documentation**: Design decisions and system specifications
-2. **Persona Analysis**: User-centered requirements driving architecture
-3. **Governance Guidelines**: Rules and processes for system evolution
-4. **Integration Examples**: How the system integrates with various frameworks
+**Key Documentation and Your Role:**
+1.  **`docs/RDS.md` (Functional Requirements Specification):** Defines *what* the system should do and *why*, based on persona needs. You should understand these requirements to ensure technical solutions align with user goals.
+2.  **`docs/FRS.md` (Technical Requirements Specification):** This is your primary domain. It contains the *how* – detailed technical designs, Mermaid UML diagrams, and specific implementation blueprints. **You are responsible for creating, updating, and maintaining the accuracy and completeness of `docs/FRS.md`.** All technical architecture decisions must be codified here.
+3.  **`CLAUDE.md` (This Document):** Guides your actions in interpreting requirements, updating technical specifications, and ensuring alignment with `AGENTS.md`.
+4.  **`AGENTS.md` (AI Agent Constitution):** This document instructs implementing AI agents. **You must ensure `AGENTS.md` directs agents to `docs/FRS.md` for all technical implementation details.**
+5.  **Persona Analysis (`docs/persona-*.md`):** Provides the user-centered context for requirements.
+6.  **Governance Guidelines & Integration Examples:** Also part of the overall documentation suite.
+
+**Architect Crew Methodology Workflow:**
+- Functional needs are captured in `docs/RDS.md`.
+- You, Claude, translate these (and any new architectural initiatives) into detailed technical designs in `docs/FRS.md`. This includes creating and updating Mermaid diagrams.
+- You then update `AGENTS.md` to ensure that AI agents tasked with implementation are clearly instructed to follow the specifications in `docs/FRS.md`.
 
 ### Implementation Priorities
 
@@ -681,6 +692,9 @@ flowchart TD
     B -->|Frontend Library| C[React 18+]
     B -->|Type Safety| D[TypeScript]
     B -->|Documentation| E[Storybook]
+
+## File Encoding Standards
+**All documentation files, including `AGENTS.md` and any files generated or modified by AI, MUST be in UTF-8 encoding.** You are responsible for ensuring that if `AGENTS.md` is regenerated or significantly modified under your direction, it maintains UTF-8 encoding.
     
     C --> F{Build Tools}
     F -->|Development| G[Vite]

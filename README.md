@@ -12,17 +12,11 @@ This design system provides a collection of reusable React components, design to
 ├── apps/                    # Application directories
 │   └── design-system/      # Main design system application
 ├── docs/                   # Documentation
-│   ├── persona-brand-manager.md        # Brand Manager persona requirements
-│   ├── persona-copywriter.md           # Copywriter persona requirements
-│   ├── persona-devops-engineer.md      # DevOps Engineer persona requirements
-│   ├── persona-frontend-developer.md   # Frontend Developer persona requirements
-│   ├── persona-product-manager.md      # Product Manager persona requirements
-│   ├── persona-product-owner.md        # Product Owner persona requirements
-│   ├── persona-qa-engineer.md          # QA Engineer persona requirements
-│   ├── persona-ui-designer.md          # UI Designer persona requirements
-│   └── RDS.md                         # Requirements Document Specification
-├── AGENTS.md              # AI agents configuration
-├── CLAUDE.md              # AI assistant instructions
+│   ├── persona-*.md        # Persona-specific requirements and details
+│   ├── RDS.md              # Requirements Document Specification (Functional Requirements - "What" & "Why")
+│   └── FRS.md              # Functional Requirements Specification (Technical Specifications - "How", includes UML)
+├── AGENTS.md              # AI Agent Constitution (Instructions for implementing agents, should refer to FRS.md)
+├── CLAUDE.md              # AI Architect (Claude) Instructions (Guides Claude in maintaining FRS.md and AGENTS.md)
 └── README.md              # This file
 ```
 
@@ -41,11 +35,22 @@ This design system is built to serve multiple personas across the development an
 - **QA Engineers** - Implementing automated testing and quality assurance
 - **DevOps Engineers** - Managing CI/CD pipelines and deployment infrastructure
 
-For detailed persona requirements and specifications, see the individual persona files in the `docs/` directory and the comprehensive [Requirements Document Specification (RDS)](docs/RDS.md).
+For detailed persona requirements and specifications, see the individual persona files in the `docs/` directory.
+
+## Architect Crew Methodology & Documentation Structure
+
+This repository employs the **Architect Crew methodology** to manage requirements, technical design, and AI collaboration:
+
+-   **`docs/RDS.md` (Requirements Document Specification):** This document outlines the **functional requirements** of the design system. It answers *what* the system should do and *why*, based on user personas and business needs. It is the source of truth for functional goals.
+-   **`docs/FRS.md` (Functional Requirements Specification):** This document provides the **detailed technical specifications**. It answers *how* the system should be built, including all UML diagrams (using Mermaid), component architecture, API contracts, and other specific implementation blueprints. It is the authoritative source for all technical design.
+-   **`CLAUDE.md` (AI Architect Instructions):** This file guides the "Architect AI" (e.g., Claude) in its role. Its primary responsibilities include translating functional requirements from `docs/RDS.md` into detailed technical specifications in `docs/FRS.md`, and ensuring that `AGENTS.md` is correctly aligned to guide implementing AIs.
+-   **`AGENTS.md` (AI Agent Constitution):** This document provides direct, actionable instructions for AI agents performing implementation tasks. Crucially, it mandates that agents **MUST** refer to `docs/FRS.md` for all technical details and specifications when implementing features or components. *(Note: Due to technical issues during a recent update, AGENTS.md may not fully reflect this yet. The intention is for it to strictly enforce FRS.md adherence.)*
+
+This structure ensures a clear separation of concerns: functional requirements are distinct from technical specifications, and AI roles are clearly defined to maintain architectural integrity and accurate documentation.
 
 ## BDD Requirements Flow
 
-The design system follows a structured Behavior-Driven Development (BDD) approach where requirements flow from high-level specifications down to executable test cases:
+The design system follows a structured Behavior-Driven Development (BDD) approach. Functional requirements originate from `docs/RDS.md` and are then translated into detailed technical designs in `docs/FRS.md`. These technical designs then inform the BDD process:
 
 ```mermaid
 stateDiagram-v2
@@ -105,9 +110,10 @@ stateDiagram-v2
 
 ### BDD Methodology Implementation
 
-1. **Requirements Document Specification (RDS)**: Central source of truth defining all system requirements
-2. **Features**: High-level capabilities articulated from RDS requirements  
-3. **Scenarios**: Specific situations broken down from each feature
+1.  **`docs/RDS.md` (Requirements Document Specification)**: Central source of truth defining all **functional system requirements**.
+2.  **`docs/FRS.md` (Functional Requirements Specification)**: Detailed **technical specifications** derived from RDS, including UML diagrams, API designs, and component architecture. This is the blueprint for implementation.
+3.  **Features**: High-level capabilities articulated from RDS requirements and FRS technical designs.
+4.  **Scenarios**: Specific situations broken down from each feature.
 4. **Acceptance Criteria**: Gherkin notation (Given/When/Then) defining scenario success conditions
 5. **User Stories**: Each scenario converted to user story format with BDD structure
 6. **Test Cases**: Executable tests derived directly from acceptance criteria
