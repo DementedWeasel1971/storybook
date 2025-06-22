@@ -318,7 +318,7 @@ The AGENTS.md file contains the following elements:
 - **Folder Structure**: Complete directory tree with explanations
 - **Development Workflow**: Step-by-step setup and development processes
 - **Code Style & Conventions**: Formatting, linting, and structural requirements
-- **Testing Protocols**: Mandatory testing procedures and checklists
+- **Testing Protocols**: Mandatory testing procedures and checklists. These protocols **must** detail unit testing practices (e.g., using Jest + React Testing Library, aiming for high code coverage as specified in the Quality Assurance Architecture), integration testing, and accessibility testing expectations. Agents should be guided to write tests alongside components.
 - **Technology Stack Management**: Guidelines for dependencies and libraries
 - **Pull Request Instructions**: PR format and review requirements
 - **Security Requirements**: Security protocols and best practices

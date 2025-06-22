@@ -187,7 +187,17 @@ cd ../design-system && npm run lint
 
 ## Testing Protocols
 
-**All testing MUST follow the protocols and requirements outlined in `docs/FRS.md`.**
+**All testing MUST follow the protocols and requirements outlined in `docs/FRS.md`. The following expands on key testing expectations, particularly for unit testing, as mandated by `CLAUDE.md` and detailed in `docs/FRS.md`.**
+
+### Core Testing Principles
+- **Test-Driven Development (TDD) Approach**: Write tests alongside or even before component code. Components should be designed for testability.
+- **Comprehensive Coverage**: Aim for high test coverage for all components. Specific coverage targets (e.g., 95% for unit tests) are defined in `docs/FRS.md`.
+
+### Unit Testing
+- **Framework**: Utilize **Jest** and **React Testing Library (RTL)** for unit tests, as specified in `docs/FRS.md`.
+- **Focus**: Test individual components in isolation, covering their props, states, interactions, and basic accessibility.
+- **Requirement**: All new components and significant modifications to existing components **MUST** include comprehensive unit tests.
+- **Execution**: Unit tests are expected to be run locally during development and will be enforced by pre-commit hooks and CI pipeline checks (details in `docs/FRS.md`).
 
 ### Testing Requirements
 
